@@ -20,12 +20,23 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
                 Authenticate(client);
                 Get(customerId, client);
+                Get(client);
             }
         }
 
         private static void Get(string customerId, HttpClient client)
         {
             var response = client.GetAsync($"/episerverapi/commerce/cart/{customerId}").Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Get failed! Status: {response.StatusCode}");
+            }
+        }
+
+        private static void Get(HttpClient client)
+        {
+            var response = client.GetAsync("/episerverapi/commerce/cart").Result;
 
             if (!response.IsSuccessStatusCode)
             {

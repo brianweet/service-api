@@ -10,14 +10,17 @@ namespace Geta.ServiceApi.Commerce.Controllers
     [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), RequireHttps, RoutePrefix("episerverapi/commerce/order")]
     public class OrderApiController : ApiController
     {
+        [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{orderId}")]
+
         public virtual IHttpActionResult GetOrder(string orderId)
         {
             return Ok();
         }
 
+        [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{customerId}/all")]
         public virtual IHttpActionResult GetOrders(Guid customerId)
         {
-            var orders = OrderContext.Current.GetPurchaseOrders(customerId);
+            PurchaseOrder[] orders = OrderContext.Current.GetPurchaseOrders(customerId);
 
             return Ok(orders);
         }
@@ -25,8 +28,6 @@ namespace Geta.ServiceApi.Commerce.Controllers
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPut, Route("{Reference}")]
         public virtual IHttpActionResult PutOrder([FromBody] ExpandoObject Updated, EPiServer.DataAccess.SaveAction action = EPiServer.DataAccess.SaveAction.Save)
         {
-
-
             return Ok();
         }
 

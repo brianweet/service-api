@@ -19,6 +19,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
             this._cartHelper = cartHelper;
         }
 
+        [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{customerId}")]
         public virtual IHttpActionResult GetCart(string customerId)
         {
             // update to initialize cart with Guid user ID
@@ -27,6 +28,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(cart);
         }
 
+        [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route()]
         public virtual IHttpActionResult GetCarts()
         {
             return Ok();

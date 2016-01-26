@@ -12,7 +12,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
         {
             ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
 
-            string customerId = "customer guid";
+            string customerId = Guid.NewGuid().ToString();
 
             using (var client = new HttpClient())
             {

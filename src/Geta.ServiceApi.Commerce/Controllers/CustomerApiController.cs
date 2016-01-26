@@ -10,6 +10,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
     [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), RequireHttps, RoutePrefix("episerverapi/commerce/customer")]
     public class CustomerApiController : ApiController
     {
+        [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{customerId}")]
         public virtual IHttpActionResult GetCustomer(string customerId)
         {
             var customer = CustomerContext.Current.GetContactById(Guid.Parse(customerId));
@@ -17,6 +18,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(customer);
         }
 
+        [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route()]
         public virtual IHttpActionResult GetCustomers()
         {
             return Ok();
