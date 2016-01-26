@@ -100,6 +100,12 @@
     <Compile Include="Controllers\WarehouseInventoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Geta.ServiceApi.Commerce\Geta.ServiceApi.Commerce.csproj">
+      <Project>{470adb8e-5338-4665-89a3-0415a400703e}</Project>
+      <Name>Geta.ServiceApi.Commerce</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
