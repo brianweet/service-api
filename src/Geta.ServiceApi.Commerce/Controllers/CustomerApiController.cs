@@ -1,16 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Web.Http;
 using EPiServer.ServiceApi.Configuration;
+using Mediachase.Commerce.Customers;
 
 namespace Geta.ServiceApi.Commerce.Controllers
 {
-    [/*AuthorizePermission("EPiServerServiceApi", "WriteAccess"),*/ RequireHttps, RoutePrefix("episerverapi/customer")]
+    [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), RequireHttps, RoutePrefix("episerverapi/commerce/customer")]
     public class CustomerApiController : ApiController
     {
         public virtual IHttpActionResult GetCustomer(string customerId)
         {
-            return Ok();
+            var customer = CustomerContext.Current.GetContactById(Guid.Parse(customerId));
+
+            return Ok(customer);
         }
 
         public virtual IHttpActionResult GetCustomers()

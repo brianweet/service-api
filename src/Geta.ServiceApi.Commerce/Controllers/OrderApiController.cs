@@ -7,7 +7,7 @@ using Mediachase.Commerce.Orders;
 
 namespace Geta.ServiceApi.Commerce.Controllers
 {
-    [/*AuthorizePermission("EPiServerServiceApi", "WriteAccess"),*/ RequireHttps, RoutePrefix("episerverapi/order")]
+    [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), RequireHttps, RoutePrefix("episerverapi/commerce/order")]
     public class OrderApiController : ApiController
     {
         public virtual IHttpActionResult GetOrder(string orderId)

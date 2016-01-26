@@ -1,16 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Web.Http;
 using EPiServer.ServiceApi.Configuration;
+using Mediachase.Commerce.Website.Helpers;
 
 namespace Geta.ServiceApi.Commerce.Controllers
 {
-    [/*AuthorizePermission("EPiServerServiceApi", "WriteAccess"),*/ RequireHttps, RoutePrefix("episerverapi/cart")]
+    [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), RequireHttps, RoutePrefix("episerverapi/commerce/cart")]
     public class CartApiController : ApiController
     {
+        private readonly Func<string, CartHelper> _cartHelper;
+
+        private readonly string _cartName = Mediachase.Commerce.Orders.Cart.DefaultName;
+
+        public CartApiController(Func<string, CartHelper> cartHelper)
+        {
+            this._cartHelper = cartHelper;
+        }
+
         public virtual IHttpActionResult GetCart(string customerId)
         {
-            return Ok();
+            // update to initialize cart with Guid user ID
+            var cart = CartHelper.Cart;
+
+            return Ok(cart);
         }
 
         public virtual IHttpActionResult GetCarts()
@@ -36,6 +50,11 @@ namespace Geta.ServiceApi.Commerce.Controllers
             var properties = cart as IDictionary<string, object>;
 
             return Ok();
+        }
+
+        private CartHelper CartHelper
+        {
+            get { return _cartHelper(_cartName); }
         }
     }
 }
