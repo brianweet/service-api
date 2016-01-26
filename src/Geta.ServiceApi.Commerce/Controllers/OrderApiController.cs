@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Web.Http;
 using EPiServer.ServiceApi.Configuration;
+using EPiServer.ServiceApi.Util;
 using Mediachase.Commerce.Orders;
 
 namespace Geta.ServiceApi.Commerce.Controllers
@@ -10,6 +11,8 @@ namespace Geta.ServiceApi.Commerce.Controllers
     [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), RequireHttps, RoutePrefix("episerverapi/commerce/order")]
     public class OrderApiController : ApiController
     {
+        private static readonly ApiCallLogger Logger = new ApiCallLogger(typeof(OrderApiController));
+
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{orderId}")]
 
         public virtual IHttpActionResult GetOrder(string orderId)

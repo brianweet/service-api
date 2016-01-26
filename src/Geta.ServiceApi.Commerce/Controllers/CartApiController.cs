@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Web.Http;
 using EPiServer.ServiceApi.Configuration;
+using EPiServer.ServiceApi.Util;
 using Mediachase.Commerce.Website.Helpers;
 
 namespace Geta.ServiceApi.Commerce.Controllers
@@ -13,6 +14,9 @@ namespace Geta.ServiceApi.Commerce.Controllers
         private readonly Func<string, CartHelper> _cartHelper;
 
         private readonly string _cartName = Mediachase.Commerce.Orders.Cart.DefaultName;
+
+        private static readonly ApiCallLogger Logger = new ApiCallLogger(typeof(OrderApiController));
+
 
         public CartApiController(Func<string, CartHelper> cartHelper)
         {
