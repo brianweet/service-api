@@ -12,7 +12,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
         {
             ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
 
-            string orderId = "order id";
+            int orderId = 121121; // not valid order id
             var customerId = Guid.NewGuid();
 
             using (var client = new HttpClient())
@@ -25,13 +25,15 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private static void Get(string orderId, HttpClient client)
+        private static void Get(int orderId, HttpClient client)
         {
             var response = client.GetAsync($"/episerverapi/commerce/order/{orderId}").Result;
 
+            string message = response.Content.ReadAsStringAsync().Result;
+
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception($"Get failed! Status: {response.StatusCode}");
+                throw new Exception($"Get failed! Status: {response.StatusCode}. Message: {message}");
             }
         }
 
@@ -39,9 +41,11 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
         {
             var response = client.GetAsync($"/episerverapi/commerce/order/{customerId}/all").Result;
 
+            string message = response.Content.ReadAsStringAsync().Result;
+
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception($"Get failed! Status: {response.StatusCode}");
+                throw new Exception($"Get failed! Status: {response.StatusCode}. Message: {message}");
             }
         }
     }

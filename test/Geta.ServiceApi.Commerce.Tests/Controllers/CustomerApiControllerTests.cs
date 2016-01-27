@@ -36,22 +36,24 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             var userId = Guid.Parse("099E12F5-684C-4F34-A38B-CEBFC8E41816"); 
 
             var addresses = new List<Address>();
-            var address = new Address();
-            address.ShippingDefault = true;
-            address.PostalCode = "10012";
-            address.City = "New York";
-            address.CountryCode = "US";
-            address.CountryName = "United States";
-            address.Region = "NY";
-            address.Email = "frederik@geta.no";
-            address.FirstName = "Frederik";
-            address.LastName = "Vig";
-            address.Line1 = "379 West Broadway";
-            address.Line2 = "Suite 248";
-            address.DaytimePhoneNumber = "(347) 261-7408";
-            address.EveningPhoneNumber = "(347) 261-7408";
-            address.Name = "Shipping address";
-            address.Modified = DateTime.UtcNow;
+            var address = new Address
+            {
+                ShippingDefault = true,
+                PostalCode = "10012",
+                City = "New York",
+                CountryCode = "US",
+                CountryName = "United States",
+                Region = "NY",
+                Email = "frederik@geta.no",
+                FirstName = "Frederik",
+                LastName = "Vig",
+                Line1 = "379 West Broadway",
+                Line2 = "Suite 248",
+                DaytimePhoneNumber = "(347) 261-7408",
+                EveningPhoneNumber = "(347) 261-7408",
+                Name = "Shipping address",
+                Modified = DateTime.UtcNow
+            };
             addresses.Add(address);
 
             var model = new Contact
@@ -109,7 +111,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception($"Get failed! Status: {response.StatusCode}. Message: {message}");
+                throw new Exception($"Post failed! Status: {response.StatusCode}. Message: {message}");
             }
         }
 
@@ -117,9 +119,11 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
         {
             var response = client.DeleteAsync($"/episerverapi/commerce/customer/contact/{contactId}").Result;
 
+            string message = response.Content.ReadAsStringAsync().Result;
+
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception($"Get failed! Status: {response.StatusCode}");
+                throw new Exception($"Delete failed! Status: {response.StatusCode}. Message: {message}");
             }
         }
     }

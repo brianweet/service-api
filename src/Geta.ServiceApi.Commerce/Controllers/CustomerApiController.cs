@@ -56,11 +56,15 @@ namespace Geta.ServiceApi.Commerce.Controllers
 
             contact.DeleteWithAllDependents();
 
+            contact.DeleteCustomerContactOnly();
+
+            Mediachase.BusinessFoundation.Data.Business.BusinessManager.Delete(contact);
+
             return Ok();
         }
 
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route("contact/{userId}")]
-        public virtual IHttpActionResult CreateContact(Guid userId, [FromBody] Contact contact, EPiServer.DataAccess.SaveAction action = EPiServer.DataAccess.SaveAction.Save)
+        public virtual IHttpActionResult PostContact(Guid userId, [FromBody] Contact contact, EPiServer.DataAccess.SaveAction action = EPiServer.DataAccess.SaveAction.Save)
         {
             if (!ModelState.IsValid)
             {

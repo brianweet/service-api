@@ -12,7 +12,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
         {
             ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
 
-            string customerId = "customer guid";
+            var customerId = Guid.Parse("2A40754D-86D5-460B-A5A4-32BC87703567"); // admin contact;
 
             using (var client = new HttpClient())
             {
@@ -24,9 +24,9 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private static void Get(string customerId, HttpClient client)
+        private static void Get(Guid customerId, HttpClient client)
         {
-            var response = client.GetAsync($"/episerverapi/commerce/cart/{customerId}").Result;
+            var response = client.GetAsync($"/episerverapi/commerce/cart/{customerId}/default").Result;
 
             if (!response.IsSuccessStatusCode)
             {

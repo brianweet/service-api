@@ -79,7 +79,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
         }
 
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route("")]
-        public virtual IHttpActionResult CreateCart([FromBody] ExpandoObject cart, EPiServer.DataAccess.SaveAction action = EPiServer.DataAccess.SaveAction.Save)
+        public virtual IHttpActionResult PostCart([FromBody] ExpandoObject cart, EPiServer.DataAccess.SaveAction action = EPiServer.DataAccess.SaveAction.Save)
         {
             var properties = cart as IDictionary<string, object>;
 

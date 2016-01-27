@@ -26,7 +26,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{orderGroupId}")]
         public virtual IHttpActionResult GetOrder(int orderGroupId)
         {
-            var order = this._orderRepository.Load<OrderGroup>(orderGroupId);
+            var order = this._orderRepository.Load<PurchaseOrder>(orderGroupId);
 
             return Ok(order);
         }
@@ -63,7 +63,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
         }
 
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route()]
-        public virtual IHttpActionResult CreateOrder([FromBody] Cart cart, EPiServer.DataAccess.SaveAction action = EPiServer.DataAccess.SaveAction.Save)
+        public virtual IHttpActionResult PostOrder([FromBody] Cart cart, EPiServer.DataAccess.SaveAction action = EPiServer.DataAccess.SaveAction.Save)
         {
             var orderReference = this._orderRepository.SaveAsPurchaseOrder(cart);
 
