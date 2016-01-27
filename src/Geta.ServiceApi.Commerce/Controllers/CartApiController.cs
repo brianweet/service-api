@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Web.Http;
+using EPiServer.Commerce.Order;
 using EPiServer.ServiceApi.Configuration;
 using EPiServer.ServiceApi.Util;
+using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Website.Helpers;
 
 namespace Geta.ServiceApi.Commerce.Controllers
@@ -13,21 +15,31 @@ namespace Geta.ServiceApi.Commerce.Controllers
     {
         private readonly Func<string, CartHelper> _cartHelper;
 
-        private readonly string _cartName = Mediachase.Commerce.Orders.Cart.DefaultName;
+        private readonly string defaultName = Cart.DefaultName;
 
         private static readonly ApiCallLogger Logger = new ApiCallLogger(typeof(OrderApiController));
 
+        private readonly IOrderRepository _orderRepository;
+
+        public CartApiController(IOrderRepository orderRepository)
+        {
+            this._orderRepository = orderRepository;
+        }
 
         public CartApiController(Func<string, CartHelper> cartHelper)
         {
             this._cartHelper = cartHelper;
         }
 
-        [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{customerId}")]
-        public virtual IHttpActionResult GetCart(string customerId)
+        [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{customerId}/{name}")]
+        public virtual IHttpActionResult GetCart(Guid customerId, string name)
         {
-            // update to initialize cart with Guid user ID
-            var cart = CartHelper.Cart;
+            if (string.IsNullOrEmpty(name))
+            {
+                name = defaultName;
+            }
+
+            var cart = this._orderRepository.LoadOrCreate<Cart>(customerId, name);
 
             return Ok(cart);
         }
@@ -35,6 +47,8 @@ namespace Geta.ServiceApi.Commerce.Controllers
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route()]
         public virtual IHttpActionResult GetCarts()
         {
+            // load all carts
+
             return Ok();
         }
 
@@ -44,9 +58,23 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok();
         }
 
-        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpDelete, Route("{cartId}")]
-        public virtual IHttpActionResult DeleteCart(string cartId)
+        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpDelete, Route("{customerId}/{name}")]
+        public virtual IHttpActionResult DeleteCart(Guid customerId, string name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                name = defaultName;
+            }
+
+            var existingCart = this._orderRepository.LoadOrCreate<Cart>(customerId, name);
+
+            if (existingCart == null)
+            {
+                return NotFound();
+            }
+
+            this._orderRepository.Delete(existingCart.OrderLink);
+
             return Ok();
         }
 
@@ -60,7 +88,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
 
         private CartHelper CartHelper
         {
-            get { return _cartHelper(_cartName); }
+            get { return _cartHelper(defaultName); }
         }
     }
 }

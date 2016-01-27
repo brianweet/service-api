@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Web.Http;
+using EPiServer.Commerce.Order;
 using EPiServer.ServiceApi.Configuration;
 using EPiServer.ServiceApi.Util;
 using Mediachase.Commerce.Orders;
@@ -13,17 +14,27 @@ namespace Geta.ServiceApi.Commerce.Controllers
     {
         private static readonly ApiCallLogger Logger = new ApiCallLogger(typeof(OrderApiController));
 
-        [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{orderId}")]
+        private readonly IOrderRepository _orderRepository;
 
-        public virtual IHttpActionResult GetOrder(string orderId)
+        private readonly string defaultName = Cart.DefaultName;
+
+        public OrderApiController(IOrderRepository orderRepository)
         {
-            return Ok();
+            this._orderRepository = orderRepository;
+        }
+
+        [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{orderGroupId}")]
+        public virtual IHttpActionResult GetOrder(int orderGroupId)
+        {
+            var order = this._orderRepository.Load<OrderGroup>(orderGroupId);
+
+            return Ok(order);
         }
 
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{customerId}/all")]
         public virtual IHttpActionResult GetOrders(Guid customerId)
         {
-            PurchaseOrder[] orders = OrderContext.Current.GetPurchaseOrders(customerId);
+            IEnumerable<IOrderGroup> orders = this._orderRepository.Load(customerId, defaultName);
 
             return Ok(orders);
         }
@@ -34,18 +45,29 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok();
         }
 
-        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpDelete, Route("{orderId}")]
-        public virtual IHttpActionResult DeleteOrder(string orderId)
+        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpDelete, Route("{orderGroupId}")]
+        public virtual IHttpActionResult DeleteOrder(int orderGroupId)
         {
+            var existingOrder = this._orderRepository.Load<OrderGroup>(orderGroupId);
+
+            if (existingOrder == null)
+            {
+                return NotFound();
+            }
+
+            var orderReference = new OrderReference(orderGroupId, existingOrder.Name, existingOrder.CustomerId, typeof(PurchaseOrder));
+
+            this._orderRepository.Delete(orderReference);
+
             return Ok();
         }
 
-        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route("")]
-        public virtual IHttpActionResult CreateOrder([FromBody] ExpandoObject order, EPiServer.DataAccess.SaveAction action = EPiServer.DataAccess.SaveAction.Save)
+        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route()]
+        public virtual IHttpActionResult CreateOrder([FromBody] Cart cart, EPiServer.DataAccess.SaveAction action = EPiServer.DataAccess.SaveAction.Save)
         {
-            var properties = order as IDictionary<string, object>;
+            var orderReference = this._orderRepository.SaveAsPurchaseOrder(cart);
 
-            return Ok();
+            return Ok(orderReference);
         }
     }
 }
