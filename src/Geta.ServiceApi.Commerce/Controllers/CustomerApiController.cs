@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Script.Serialization;
 using EPiServer.ServiceApi.Configuration;
 using EPiServer.ServiceApi.Util;
+using Geta.ServiceApi.Commerce.Extensions;
 using Geta.ServiceApi.Commerce.Models;
 using Mediachase.Commerce.Customers;
 
@@ -45,8 +45,17 @@ namespace Geta.ServiceApi.Commerce.Controllers
         }
 
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpDelete, Route("contact/{contactId}")]
-        public virtual IHttpActionResult DeleteContact(string customerId)
+        public virtual IHttpActionResult DeleteContact(Guid contactId)
         {
+            CustomerContact contact = CustomerContext.Current.GetContactById(contactId);
+
+            if (contact == null)
+            {
+                return NotFound();
+            }
+
+            contact.DeleteWithAllDependents();
+
             return Ok();
         }
 
@@ -71,7 +80,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
             {
                 foreach (var address in contact.Addresses)
                 {
-                    customerContact.AddContactAddress(address);
+                    customerContact.AddContactAddress(address.ConvertToCustomerAddress(CustomerAddress.CreateInstance()));
                 }
             }
 

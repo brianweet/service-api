@@ -7,10 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.ServiceApi.Commerce", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.ServiceApi.Commerce.Tests", "test\Geta.ServiceApi.Commerce.Tests\Geta.ServiceApi.Commerce.Tests.csproj", "{969BDE96-5D58-4287-B75C-94F2654A0DA5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demo", "demo", "{C2B4A528-0A44-4C22-B59C-9CB7BA0D9861}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EPiServer.Reference.Commerce.Site", "demo\Sources\EPiServer.Reference.Commerce.Site\EPiServer.Reference.Commerce.Site.csproj", "{9AC1DC21-C56D-49EB-A264-9441D8602F1A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Daily site|Any CPU = Daily site|Any CPU
@@ -30,17 +26,8 @@ Global
 		{969BDE96-5D58-4287-B75C-94F2654A0DA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{969BDE96-5D58-4287-B75C-94F2654A0DA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{969BDE96-5D58-4287-B75C-94F2654A0DA5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9AC1DC21-C56D-49EB-A264-9441D8602F1A}.Daily site|Any CPU.ActiveCfg = Daily site|Any CPU
-		{9AC1DC21-C56D-49EB-A264-9441D8602F1A}.Daily site|Any CPU.Build.0 = Daily site|Any CPU
-		{9AC1DC21-C56D-49EB-A264-9441D8602F1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9AC1DC21-C56D-49EB-A264-9441D8602F1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9AC1DC21-C56D-49EB-A264-9441D8602F1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9AC1DC21-C56D-49EB-A264-9441D8602F1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{9AC1DC21-C56D-49EB-A264-9441D8602F1A} = {C2B4A528-0A44-4C22-B59C-9CB7BA0D9861}
 	EndGlobalSection
 EndGlobal

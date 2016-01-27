@@ -183,6 +183,10 @@
       <HintPath>..\..\packages\EPiServer.CMS.Core.9.6.1\lib\net45\EPiServer.XForms.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Geta.ServiceApi.Commerce, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\src\Geta.ServiceApi.Commerce\bin\Geta.ServiceApi.Commerce.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
@@ -984,10 +988,6 @@
     <Content Include="Views\Shared\_Facet.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Geta.ServiceApi.Commerce\Geta.ServiceApi.Commerce.csproj">
-      <Project>{470adb8e-5338-4665-89a3-0415a400703e}</Project>
-      <Name>Geta.ServiceApi.Commerce</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EPiServer.Reference.Commerce.Shared\EPiServer.Reference.Commerce.Shared.csproj">
       <Project>{341c8e14-4eae-4946-9841-45f9818265a8}</Project>
       <Name>EPiServer.Reference.Commerce.Shared</Name>
