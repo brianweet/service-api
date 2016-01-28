@@ -39,8 +39,16 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(orders);
         }
 
-        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPut, Route("{Reference}")]
-        public virtual IHttpActionResult PutOrder([FromBody] ExpandoObject Updated, EPiServer.DataAccess.SaveAction action = EPiServer.DataAccess.SaveAction.Save)
+        [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{ordersForm}/all")]
+        public virtual IHttpActionResult GetOrders(DateTime ordersFrom)
+        {
+            //IEnumerable<IOrderGroup> orders = this._orderRepository.Load(customerId, defaultName);
+
+            return Ok();
+        }
+
+        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPut, Route]
+        public virtual IHttpActionResult PutOrder([FromBody] PurchaseOrder order, EPiServer.DataAccess.SaveAction action = EPiServer.DataAccess.SaveAction.Save)
         {
             return Ok();
         }
@@ -48,7 +56,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpDelete, Route("{orderGroupId}")]
         public virtual IHttpActionResult DeleteOrder(int orderGroupId)
         {
-            var existingOrder = this._orderRepository.Load<OrderGroup>(orderGroupId);
+            var existingOrder = this._orderRepository.Load<PurchaseOrder>(orderGroupId);
 
             if (existingOrder == null)
             {
@@ -62,7 +70,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok();
         }
 
-        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route()]
+        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route]
         public virtual IHttpActionResult PostOrder([FromBody] Cart cart, EPiServer.DataAccess.SaveAction action = EPiServer.DataAccess.SaveAction.Save)
         {
             var orderReference = this._orderRepository.SaveAsPurchaseOrder(cart);

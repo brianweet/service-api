@@ -5,7 +5,7 @@ namespace Geta.ServiceApi.Commerce.Models
 {
     public class Contact
     {
-        //public Guid? PrimaryKeyId { get; set; }
+        public Guid? PrimaryKeyId { get; set; }
 
         public List<Address> Addresses { get; set; }
 

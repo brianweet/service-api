@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Dynamic;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Script.Serialization;
@@ -38,9 +37,57 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(serializer.Serialize(contacts));
         }
 
-        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPut, Route("{Reference}")]
-        public virtual IHttpActionResult PutCustomer([FromBody] ExpandoObject Updated, EPiServer.DataAccess.SaveAction action = EPiServer.DataAccess.SaveAction.Save)
+        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPut, Route]
+        public virtual IHttpActionResult PutCustomer([FromBody] Contact contact, EPiServer.DataAccess.SaveAction action = EPiServer.DataAccess.SaveAction.Save)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!contact.PrimaryKeyId.HasValue)
+            {
+                return NotFound();
+            }
+
+            CustomerContact customerContact = CustomerContext.Current.GetContactById(contact.PrimaryKeyId.Value);
+
+            if (customerContact == null)
+            {
+                return NotFound();
+            }
+
+            customerContact.FirstName = contact.FirstName;
+            customerContact.LastName = contact.LastName;
+            customerContact.Email = contact.Email;
+            customerContact.UserId = "String:" + contact.Email; // The UserId needs to be set in the format "String:{email}". Else a duplicate CustomerContact will be created later on.
+            customerContact.RegistrationSource = contact.RegistrationSource;
+
+            if (contact.Addresses != null)
+            {
+                foreach (var address in contact.Addresses)
+                {
+                    customerContact.AddContactAddress(address.ConvertToCustomerAddress(CustomerAddress.CreateInstance()));
+                }
+            }
+
+            // The contact, or more likely its related addresses, must be saved to the database before we can set the preferred
+            // shipping and billing addresses. Using an address id before its saved will throw an exception because its value
+            // will still be null.
+            customerContact.SaveChanges();
+
+            // Once the contact has been saved we can look for any existing addresses.
+            CustomerAddress defaultAddress = customerContact.ContactAddresses.FirstOrDefault();
+            if (defaultAddress != null)
+            {
+                // If an addresses was found, it will be used as default for shipping and billing.
+                customerContact.PreferredShippingAddress = defaultAddress;
+                customerContact.PreferredBillingAddress = defaultAddress;
+
+                // Save the address preferences also.
+                customerContact.SaveChanges();
+            }
+
             return Ok();
         }
 
@@ -56,9 +103,9 @@ namespace Geta.ServiceApi.Commerce.Controllers
 
             contact.DeleteWithAllDependents();
 
-            contact.DeleteCustomerContactOnly();
+            //contact.DeleteCustomerContactOnly();
 
-            Mediachase.BusinessFoundation.Data.Business.BusinessManager.Delete(contact);
+            //Mediachase.BusinessFoundation.Data.Business.BusinessManager.Delete(contact);
 
             return Ok();
         }
