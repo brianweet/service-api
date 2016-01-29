@@ -123,6 +123,11 @@ namespace Geta.ServiceApi.Commerce.Controllers
 
             // BUG reported to Episerver. Similar to this one: http://world.episerver.com/support/Bug-list/bug/122462
 
+            contact.PreferredBillingAddressId = null;
+            contact.PreferredShippingAddressId = null;
+
+            contact.SaveChanges();
+
             contact.DeleteWithAllDependents();
 
             //contact.DeleteCustomerContactOnly();
