@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Script.Serialization;
@@ -6,6 +7,7 @@ using EPiServer.ServiceApi.Configuration;
 using EPiServer.ServiceApi.Util;
 using Geta.ServiceApi.Commerce.Extensions;
 using Geta.ServiceApi.Commerce.Models;
+using Mediachase.BusinessFoundation.Data;
 using Mediachase.Commerce.Customers;
 
 namespace Geta.ServiceApi.Commerce.Controllers
@@ -37,58 +39,76 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(serializer.Serialize(contacts));
         }
 
-        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPut, Route]
-        public virtual IHttpActionResult PutCustomer([FromBody] Contact contact, EPiServer.DataAccess.SaveAction action = EPiServer.DataAccess.SaveAction.Save)
+        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPut, Route("contact/{contactId}")]
+        public virtual IHttpActionResult PutCustomer(Guid contactId, [FromBody] Contact contact, EPiServer.DataAccess.SaveAction action = EPiServer.DataAccess.SaveAction.Save)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            // check that it exists
+            var existingContact = CustomerContext.Current.GetContactById(contactId);
 
-            if (!contact.PrimaryKeyId.HasValue)
+            if (existingContact == null)
             {
                 return NotFound();
             }
 
-            CustomerContact customerContact = CustomerContext.Current.GetContactById(contact.PrimaryKeyId.Value);
-
-            if (customerContact == null)
-            {
-                return NotFound();
-            }
-
-            customerContact.FirstName = contact.FirstName;
-            customerContact.LastName = contact.LastName;
-            customerContact.Email = contact.Email;
-            customerContact.UserId = "String:" + contact.Email; // The UserId needs to be set in the format "String:{email}". Else a duplicate CustomerContact will be created later on.
-            customerContact.RegistrationSource = contact.RegistrationSource;
+            // map
+            existingContact.FirstName = contact.FirstName;
+            existingContact.LastName = contact.LastName;
+            existingContact.Email = contact.Email;
+            existingContact.UserId = "String:" + contact.Email; // The UserId needs to be set in the format "String:{email}". Else a duplicate CustomerContact will be created later on.
+            existingContact.RegistrationSource = contact.RegistrationSource;
 
             if (contact.Addresses != null)
             {
                 foreach (var address in contact.Addresses)
                 {
-                    customerContact.AddContactAddress(address.ConvertToCustomerAddress(CustomerAddress.CreateInstance()));
+                    CreateOrUpdateCustomerAddress(existingContact, address);
                 }
             }
 
-            // The contact, or more likely its related addresses, must be saved to the database before we can set the preferred
-            // shipping and billing addresses. Using an address id before its saved will throw an exception because its value
-            // will still be null.
-            customerContact.SaveChanges();
-
-            // Once the contact has been saved we can look for any existing addresses.
-            CustomerAddress defaultAddress = customerContact.ContactAddresses.FirstOrDefault();
-            if (defaultAddress != null)
-            {
-                // If an addresses was found, it will be used as default for shipping and billing.
-                customerContact.PreferredShippingAddress = defaultAddress;
-                customerContact.PreferredBillingAddress = defaultAddress;
-
-                // Save the address preferences also.
-                customerContact.SaveChanges();
-            }
+            existingContact.SaveChanges();
 
             return Ok();
+        }
+
+        private CustomerAddress CreateOrUpdateCustomerAddress(CustomerContact contact, Address address)
+        {
+            var customerAddress = GetAddress(contact, address.AddressId);
+            var isNew = customerAddress == null;
+            IEnumerable<PrimaryKeyId> existingId = contact.ContactAddresses.Select(a => a.AddressId).ToList();
+            if (isNew)
+            {
+                customerAddress = CustomerAddress.CreateInstance();
+            }
+
+            customerAddress = address.ConvertToCustomerAddress(customerAddress);
+
+            if (isNew)
+            {
+                contact.AddContactAddress(customerAddress);
+            }
+            else
+            {
+                contact.UpdateContactAddress(customerAddress);
+            }
+
+            contact.SaveChanges();
+            if (isNew)
+            {
+                customerAddress.AddressId = contact.ContactAddresses
+                    .Where(a => !existingId.Contains(a.AddressId))
+                    .Select(a => a.AddressId)
+                    .Single();
+                address.AddressId = customerAddress.AddressId;
+            }
+
+            return customerAddress;
+        }
+
+        private CustomerAddress GetAddress(CustomerContact contact, Guid? addressId)
+        {
+            return addressId.HasValue ?
+                contact.ContactAddresses.FirstOrDefault(x => x.AddressId == addressId.GetValueOrDefault()) :
+                null;
         }
 
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpDelete, Route("contact/{contactId}")]
@@ -100,6 +120,8 @@ namespace Geta.ServiceApi.Commerce.Controllers
             {
                 return NotFound();
             }
+
+            // BUG reported to Episerver. Similar to this one: http://world.episerver.com/support/Bug-list/bug/122462
 
             contact.DeleteWithAllDependents();
 

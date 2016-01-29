@@ -4,7 +4,7 @@ namespace Geta.ServiceApi.Commerce.Models
 {
     public class Address
     {
-        //public Guid? AddressId { get; set; }
+        public Guid? AddressId { get; set; }
 
         public DateTime? Modified { get; set; }
 
