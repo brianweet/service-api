@@ -1,0 +1,143 @@
+{
+    "__MetaClass": "ShoppingCart",
+    "CreatorId": null,
+    "ModifierId": null,
+    "Created": "2015-12-23T17:45:32.4734419Z",
+    "Modified": "2015-12-23T17:45:32.6484416Z",
+    "AddressId": "",
+    "CustomerId": "b0a082ed-ed1f-4fb0-8d59-e6230a7bf714",
+    "Owner": "",
+    "Name": "Default",
+    "CustomerName": "",
+    "BillingCurrency": "USD",
+    "MarketId": "DEFAULT",
+    "SubTotal": "45",
+    "HandlingTotal": "0",
+    "OwnerOrg": "",
+    "ShippingTotal": "10.000000000",
+    "TaxTotal": "0",
+    "Status": "",
+    "InstanceId": "957c4169-ba4c-4591-9930-ce4318eb0d40",
+    "Total": "55.000000000",
+    "OrderForms": [
+        {
+            "__MetaClass": "OrderFormEx",
+            "CreatorId": null,
+            "ModifierId": null,
+            "Created": "2015-12-23T17:45:32.4844427Z",
+            "Modified": "2015-12-23T17:45:32.6484416Z",
+            "RMANumber": "",
+            "SubTotal": "45",
+            "AuthorizedPaymentTotal": "0",
+            "DiscountAmount": "0",
+            "HandlingTotal": "0",
+            "TaxTotal": "0",
+            "ShippingTotal": "10.000000000",
+            "CapturedPaymentTotal": "0",
+            "Total": "55.000000000",
+            "Name": "Default",
+            "LineItems": [
+                {
+                    "__MetaClass": "LineItemEx",
+                    "CreatorId": null,
+                    "ModifierId": null,
+                    "Created": "2015-12-23T17:45:32.4954423Z",
+                    "Modified": "2015-12-23T17:45:32.6484416Z",
+                    "InStockQuantity": "0",
+                    "LineItemDiscountAmount": "0",
+                    "PlacedPrice": "45",
+                    "MaxQuantity": "100",
+                    "AllowBackordersAndPreorders": "False",
+                    "IsInventoryAllocated": "False",
+                    "Catalog": "",
+                    "DisplayName": "My variant test 1",
+                    "CatalogNode": "",
+                    "ListPrice": "45",
+                    "OrderLevelDiscountAmount": "0",
+                    "CatalogEntryId": "My variant test 1",
+                    "ReturnQuantity": "0",
+                    "ShippingAddressId": "",
+                    "OrderGroupId": "1",
+                    "Quantity": "1",
+                    "WarehouseCode": "",
+                    "PreorderQuantity": "0",
+                    "ExtendedPrice": "45",
+                    "BackorderQuantity": "0",
+                    "MinQuantity": "1",
+                    "ShippingMethodId": "00000000-0000-0000-0000-000000000000",
+                    "InventoryStatus": "0",
+                    "LineItemOrdering": "12/23/2015 5:45:32 PM",
+                    "Discounts": [ ]
+                }
+            ],
+            "Discounts": [ ],
+            "Shipments": [
+                {
+                    "__MetaClass": "ShipmentEx",
+                    "CreatorId": null,
+                    "ModifierId": null,
+                    "Created": "2015-12-23T17:45:32.4914414Z",
+                    "Modified": "2015-12-23T17:45:32.6484416Z",
+                    "PrevStatus": "",
+                    "Epi_ShippingTax": "0",
+                    "Status": "",
+                    "ShippingMethodId": "43cf66b4-8940-4c95-9b87-97ae8bf44cbd",
+                    "OperationKeys": "",
+                    "ShipmentTrackingNumber": "",
+                    "ShippingAddressId": "fake address",
+                    "SubTotal": "45.00",
+                    "ShippingMethodName": "Online Download",
+                    "ShippingDiscountAmount": "0",
+                    "LineItemIds": "0:1",
+                    "ShipmentTotal": "10.000000000",
+                    "WarehouseCode": "",
+                    "Discounts": [ ],
+                    "OperationKeyMaps": ""
+                }
+            ],
+            "Payments": [
+                {
+                    "__MetaClass": "OtherPayment",
+                    "CreatorId": null,
+                    "ModifierId": null,
+                    "Created": "2015-12-23T17:45:32.5224421Z",
+                    "Modified": "2015-12-23T17:45:32.6484416Z",
+                    "BillingAddressId": "fake address",
+                    "PaymentMethodId": "3b1cd10d-0c22-4bf4-9fba-563a9c27605c",
+                    "PaymentMethodName": "Pay By Phone",
+                    "PaymentType": "4",
+                    "Amount": "45",
+                    "ImplementationClass": "Mediachase.Commerce.Orders.OtherPayment, Mediachase.Commerce"
+                }
+            ],
+            "Promotions": [
+                {
+                    Description: "My little secret",
+                    PromotionLink: "54",
+                    ContentLink: "42",
+                    SavedAmount: 21,
+                    RewardType: 1,
+                    DiscountType: 1,
+                    AdditionalInformation:  "Hello"
+                }
+            ]
+        }
+    ],
+    "OrderAddresses": [
+        {
+            "__MetaClass": "OrderGroupAddressEx",
+            "CreatorId": null,
+            "ModifierId": "b0a082ed-ed1f-4fb0-8d59-e6230a7bf714",
+            "Created": "2015-12-23T17:45:32.5154419Z",
+            "Modified": "2015-12-23T17:45:32.6484416Z",
+            "State": "Illinois",
+            "LastName": "bar",
+            "FirstName": "foo",
+            "CountryCode": "USA",
+            "PostalCode": "60181",
+            "Name": "fake address",
+            "Email": "foo@bar"
+        }
+    ],
+    "OrderNotes": [ ]
+}

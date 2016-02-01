@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Web.Script.Serialization;
 using Mediachase.Commerce.Orders;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace Geta.ServiceApi.Commerce.Tests.Controllers
@@ -83,9 +84,11 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
         private static void Post(Cart model, HttpClient client)
         {
-            // Problems with using default JSON.NET (seems to be related to ScriptIgnoreAttribute)
+            // Problems with using JavaScript Serializer circular reference exception. Works with JSON.NET
             var serializer = new JavaScriptSerializer();
-            var json = serializer.Serialize(model);
+            //var json = serializer.Serialize(model);
+
+            var json = JsonConvert.SerializeObject(model);
 
             var response = client.PostAsync($"/episerverapi/commerce/order", new StringContent(json, Encoding.UTF8, "application/json")).Result;
 

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Cart xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <__MetaClass>ShoppingCart</__MetaClass>
+  <CreatorId />
+  <ModifierId />
+  <Created>2016-01-08T08:42:14.6121729Z</Created>
+  <Modified>2016-01-08T08:42:15.0302105Z</Modified>
+  <Owner />
+  <OwnerOrg />
+  <ProviderId />
+  <ShippingTotal>10.000000000</ShippingTotal>
+  <SiteId />
+  <Status />
+  <SubTotal>45</SubTotal>
+  <TaxTotal>0</TaxTotal>
+  <Total>55.000000000</Total>
+  <AddressId />
+  <AffiliateId />
+  <ApplicationId>31200e39-176a-45b0-9556-1eace5fc259d</ApplicationId>
+  <BillingCurrency>USD</BillingCurrency>
+  <CustomerId>c99c70e5-3229-4e64-a131-9db8883389ea</CustomerId>
+  <CustomerName />
+  <HandlingTotal>0</HandlingTotal>
+  <InstanceId>ef8b6bf9-2c39-470e-ae12-ee919a38b0f0</InstanceId>
+  <MarketId>DEFAULT</MarketId>
+  <Name>Default</Name>
+  <OrderForms>
+    <OrderForm>
+      <__MetaClass>OrderFormEx</__MetaClass>
+      <CreatorId />
+      <ModifierId />
+      <Created>2016-01-08T08:42:14.6251736Z</Created>
+      <Modified>2016-01-08T08:42:15.0302105Z</Modified>
+      <RMANumber />
+      <OrigOrderFormId />
+      <ProviderId />
+      <ReturnAuthCode />
+      <ReturnComment />
+      <ReturnType />
+      <ShippingTotal>10.000000000</ShippingTotal>
+      <Status />
+      <SubTotal>45</SubTotal>
+      <TaxTotal>0</TaxTotal>
+      <Total>55.000000000</Total>
+      <AuthorizedPaymentTotal>0</AuthorizedPaymentTotal>
+      <BillingAddressId />
+      <CapturedPaymentTotal>0</CapturedPaymentTotal>
+      <DiscountAmount>0</DiscountAmount>
+      <ExchangeOrderGroupId />
+      <HandlingTotal>0</HandlingTotal>
+      <Name>Default</Name>
+      <LineItems>
+        <LineItem>
+          <__MetaClass>LineItemEx</__MetaClass>
+          <CreatorId />
+          <ModifierId />
+          <Created>2016-01-08T08:42:14.6361729Z</Created>
+          <Modified>2016-01-08T08:42:15.0302105Z</Modified>
+          <LineItemOrdering>1/8/2016 8:42:14 AM</LineItemOrdering>
+          <ListPrice>45</ListPrice>
+          <MaxQuantity>100</MaxQuantity>
+          <MinQuantity>1</MinQuantity>
+          <OrderLevelDiscountAmount>0</OrderLevelDiscountAmount>
+          <OrigLineItemId />
+          <ParentCatalogEntryId />
+          <PlacedPrice>45</PlacedPrice>
+          <PreorderQuantity>0</PreorderQuantity>
+          <ProviderId />
+          <Quantity>1</Quantity>
+          <ReturnQuantity>0</ReturnQuantity>
+          <ReturnReason />
+          <ShippingAddressId />
+          <ShippingMethodId>00000000-0000-0000-0000-000000000000</ShippingMethodId>
+          <ShippingMethodName />
+          <Status />
+          <WarehouseCode />
+          <AllowBackordersAndPreorders>False</AllowBackordersAndPreorders>
+          <BackorderQuantity>0</BackorderQuantity>
+          <Catalog />
+          <CatalogEntryId>My variant test 1</CatalogEntryId>
+          <CatalogNode />
+          <ConfigurationId />
+          <Description />
+          <DisplayName>My variant test 1</DisplayName>
+          <ExtendedPrice>45</ExtendedPrice>
+          <InStockQuantity>0</InStockQuantity>
+          <InventoryStatus>0</InventoryStatus>
+          <IsInventoryAllocated>False</IsInventoryAllocated>
+          <LineItemDiscountAmount>0</LineItemDiscountAmount>
+          <Discounts />
+        </LineItem>
+      </LineItems>
+      <Shipments>
+        <Shipment>
+          <__MetaClass>ShipmentEx</__MetaClass>
+          <CreatorId />
+          <ModifierId />
+          <Created>2016-01-08T08:42:14.6321738Z</Created>
+          <Modified>2016-01-08T08:42:15.0302105Z</Modified>
+          <PrevStatus />
+          <ShipmentTotal>10.000000000</ShipmentTotal>
+          <ShipmentTrackingNumber />
+          <ShippingAddressId>fake address</ShippingAddressId>
+          <ShippingDiscountAmount>0</ShippingDiscountAmount>
+          <ShippingMethodId>43cf66b4-8940-4c95-9b87-97ae8bf44cbd</ShippingMethodId>
+          <ShippingMethodName>Online Download</ShippingMethodName>
+          <Status />
+          <SubTotal>45.00</SubTotal>
+          <WarehouseCode />
+          <Epi_ShippingTax>0</Epi_ShippingTax>
+          <LineItemIds>0:1</LineItemIds>
+          <OperationKeys />
+          <PickListId />
+          <Discounts />
+        </Shipment>
+      </Shipments>
+      <Payments>
+        <Payment xsi:type="OtherPayment">
+          <__MetaClass>OtherPayment</__MetaClass>
+          <CreatorId />
+          <ModifierId />
+          <Created>2016-01-08T08:42:14.6841733Z</Created>
+          <Modified>2016-01-08T08:42:15.0302105Z</Modified>
+          <PaymentMethodId>3b1cd10d-0c22-4bf4-9fba-563a9c27605c</PaymentMethodId>
+          <PaymentMethodName>Pay By Phone</PaymentMethodName>
+          <PaymentType>4</PaymentType>
+          <ProviderTransactionID />
+          <Status />
+          <TransactionID />
+          <TransactionType />
+          <ValidationCode />
+          <Amount>45</Amount>
+          <AuthorizationCode />
+          <BillingAddressId>fake address</BillingAddressId>
+          <CustomerName />
+          <ImplementationClass>Mediachase.Commerce.Orders.OtherPayment, Mediachase.Commerce</ImplementationClass>
+        </Payment>
+      </Payments>
+      <Discounts />
+      <Promotions>
+        <PromotionInformation>
+          <PromotionInformationId>25</PromotionInformationId>
+          <Description>Some silly description</Description>
+          <SavedAmount>10.5</SavedAmount>
+          <RewardType>Percentage</RewardType>
+          <DiscountType>LineItem</DiscountType>
+          <ContentLink>
+            <ID>42</ID>
+            <WorkID>0</WorkID>
+          </ContentLink>
+          <PromotionLink>
+            <ID>85</ID>
+            <WorkID>0</WorkID>
+          </PromotionLink>
+          <AdditionalInformation>A common mistake that people make when trying to design something completely foolproof is to underestimate the ingenuity of complete fools.</AdditionalInformation>
+        </PromotionInformation>
+      </Promotions>
+    </OrderForm>
+  </OrderForms>
+  <OrderAddresses>
+    <OrderAddress>
+      <__MetaClass>OrderGroupAddressEx</__MetaClass>
+      <CreatorId />
+      <ModifierId>c99c70e5-3229-4e64-a131-9db8883389ea</ModifierId>
+      <Created>2016-01-08T08:42:14.6671730Z</Created>
+      <Modified>2016-01-08T08:42:15.0302105Z</Modified>
+      <Organization />
+      <PostalCode>60181</PostalCode>
+      <RegionCode />
+      <RegionName />
+      <State>Illinois</State>
+      <City />
+      <CountryCode>USA</CountryCode>
+      <CountryName />
+      <DaytimePhoneNumber />
+      <Email>foo@bar</Email>
+      <EveningPhoneNumber />
+      <FaxNumber />
+      <FirstName>foo</FirstName>
+      <LastName>bar</LastName>
+      <Line1 />
+      <Line2 />
+      <Name>fake address</Name>
+    </OrderAddress>
+  </OrderAddresses>
+</Cart>
