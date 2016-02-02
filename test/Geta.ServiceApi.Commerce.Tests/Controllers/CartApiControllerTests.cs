@@ -43,5 +43,11 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
                 throw new Exception($"Get failed! Status: {response.StatusCode}");
             }
         }
+
+        // TODO delete
+
+        // TODO put
+
+        // TODO post
     }
 }

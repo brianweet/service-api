@@ -5,12 +5,16 @@ using System.Net.Http;
 using System.Text;
 using System.Web.Script.Serialization;
 using Geta.ServiceApi.Commerce.Models;
+using Mediachase.Commerce.Customers;
 using Xunit;
 
 namespace Geta.ServiceApi.Commerce.Tests.Controllers
 {
     public class CustomerApiControllerTests : ApiControllerBase
     {
+        // Problems with using default JSON.NET (seems to be related to ScriptIgnoreAttribute)
+        private static readonly JavaScriptSerializer Serializer = new JavaScriptSerializer();
+
         [Fact]
         public void get_returns_contact()
         {
@@ -101,9 +105,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
         private static void Post(Guid userId, Contact model, HttpClient client)
         {
-            // Problems with using default JSON.NET (seems to be related to ScriptIgnoreAttribute)
-            var serializer = new JavaScriptSerializer();
-            var json = serializer.Serialize(model);
+            var json = Serializer.Serialize(model);
 
             var response = client.PostAsync($"/episerverapi/commerce/customer/contact/{userId}", new StringContent(json, Encoding.UTF8, "application/json")).Result;
 
@@ -124,6 +126,84 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception($"Delete failed! Status: {response.StatusCode}. Message: {message}");
+            }
+        }
+
+        private static void PutCustomer(Guid contactId, Contact model, HttpClient client)
+        {
+            var json = Serializer.Serialize(model);
+
+            var response = client.PutAsync($"/episerverapi/commerce/customer/contact/{contactId}", new StringContent(json, Encoding.UTF8, "application/json")).Result;
+
+            string message = response.Content.ReadAsStringAsync().Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Put failed! Status: {response.StatusCode}. Message: {message}");
+            }
+        }
+
+        private static void Get(string orgId, HttpClient client)
+        {
+            var response = client.GetAsync($"/episerverapi/commerce/customer/organization/{orgId}").Result;
+
+            string message = response.Content.ReadAsStringAsync().Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Get failed! Status: {response.StatusCode}. Message: {message}");
+            }
+        }
+
+        private static void GetOrganization(HttpClient client)
+        {
+            var response = client.GetAsync($"/episerverapi/commerce/customer/organization").Result;
+
+            string message = response.Content.ReadAsStringAsync().Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Get failed! Status: {response.StatusCode}. Message: {message}");
+            }
+        }
+
+        private static void PostOrganization(Organization model, HttpClient client)
+        {
+            var json = Serializer.Serialize(model);
+
+            var response = client.PostAsync($"/episerverapi/commerce/customer/organization", new StringContent(json, Encoding.UTF8, "application/json")).Result;
+
+            string message = response.Content.ReadAsStringAsync().Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Post failed! Status: {response.StatusCode}. Message: {message}");
+            }
+        }
+
+        private static void DeleteOrganization(string orgId, HttpClient client)
+        {
+            var response = client.DeleteAsync($"/episerverapi/commerce/customer/organization/{orgId}").Result;
+
+            string message = response.Content.ReadAsStringAsync().Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Delete failed! Status: {response.StatusCode}. Message: {message}");
+            }
+        }
+
+        private static void PutOrganization(Organization model, HttpClient client)
+        {
+            var json = Serializer.Serialize(model);
+
+            var response = client.PutAsync($"/episerverapi/commerce/customer/organization", new StringContent(json, Encoding.UTF8, "application/json")).Result;
+
+            string message = response.Content.ReadAsStringAsync().Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Put failed! Status: {response.StatusCode}. Message: {message}");
             }
         }
     }

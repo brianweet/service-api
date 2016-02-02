@@ -53,8 +53,9 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
                 client.BaseAddress = new Uri(IntegrationUrl);
 
                 Authenticate(client);
+                // TODO fix configuration exception
                 Post(model, client);
-                //Delete(orderGroupId, client);
+                Delete(orderGroupId, client);
             }
         }
 
@@ -111,5 +112,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
                 throw new Exception($"Delete failed! Status: {response.StatusCode}. Message: {message}");
             }
         }
+
+        // TODO put
     }
 }

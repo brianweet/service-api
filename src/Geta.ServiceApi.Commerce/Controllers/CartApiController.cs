@@ -4,6 +4,7 @@ using EPiServer.Commerce.Order;
 using EPiServer.ServiceApi.Configuration;
 using EPiServer.ServiceApi.Util;
 using Mediachase.Commerce.Orders;
+using Mediachase.Commerce.Orders.Search;
 
 namespace Geta.ServiceApi.Commerce.Controllers
 {
@@ -46,13 +47,41 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(cart);
         }
 
-        [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route]
-        public virtual IHttpActionResult GetCarts()
+        [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{start}/{maxCount}")]
+        public virtual IHttpActionResult GetCarts(int start, int maxCount)
         {
-            Logger.LogGet("GetCarts", Request);
-            // load all carts
+            Logger.LogGet("GetCarts", Request, new []{start.ToString(), maxCount.ToString()});
 
-            return Ok();
+            if (maxCount < 1 || maxCount > 100)
+            {
+                maxCount = 10;
+            }
+
+            Cart[] carts;
+
+            try
+            {
+                // http://world.episerver.com/documentation/Items/Developers-Guide/EPiServer-Commerce/9/Orders/Searching-for-orders/
+                OrderSearchOptions searchOptions = new OrderSearchOptions
+                {
+                    CacheResults = false,
+                    StartingRecord = start,
+                    RecordsToRetrieve = maxCount,
+                    Namespace = "Mediachase.Commerce.Orders"
+                };
+
+                OrderSearchParameters parameters = new OrderSearchParameters();
+                searchOptions.Classes.Add("LineItemEx");
+                parameters.SqlWhereClause = "OrderGroupId IN (Select ObjectId FROM OrderGroup_ShoppingCart)";
+                carts = OrderContext.Current.FindCarts(parameters, searchOptions);
+            }
+            catch (Exception exception)
+            {
+                Logger.Error(exception.Message, exception);
+                return InternalServerError(exception);
+            }
+
+            return Ok(carts);
         }
 
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPut, Route]
@@ -60,7 +89,19 @@ namespace Geta.ServiceApi.Commerce.Controllers
         {
             Logger.LogPut("PutCart", Request);
 
-            return Ok();
+            OrderReference orderReference;
+
+            try
+            {
+                orderReference = _orderRepository.Save(cart);
+            }
+            catch (Exception exception)
+            {
+                Logger.Error(exception.Message, exception);
+                return InternalServerError(exception);
+            }
+
+            return Ok(orderReference);
         }
 
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpDelete, Route("{customerId}/{name}")]
@@ -98,7 +139,19 @@ namespace Geta.ServiceApi.Commerce.Controllers
         {
             Logger.LogPost("PostCart", Request);
 
-            return Ok();
+            OrderReference orderReference;
+
+            try
+            {
+                orderReference = _orderRepository.Save(cart);
+            }
+            catch (Exception exception)
+            {
+                Logger.Error(exception.Message, exception);
+                return InternalServerError(exception);
+            }
+
+            return Ok(orderReference);
         }
     }
 }
