@@ -64,6 +64,48 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(json);
         }
 
+        [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("organization/{orgId}")]
+        public virtual IHttpActionResult GetOrganization(string orgId)
+        {
+            Logger.LogGet("GetOrganization", Request, new []{orgId});
+
+            string json;
+
+            try
+            {
+                Organization organization = CustomerContext.Current.GetOrganizationById(orgId);
+                json = Serializer.Serialize(organization);
+            }
+            catch (Exception exception)
+            {
+                Logger.Error(exception.Message, exception);
+                return InternalServerError(exception);
+            }
+
+            return Ok(json);
+        }
+
+        [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("organization")]
+        public virtual IHttpActionResult GetOrganization()
+        {
+            Logger.LogGet("GetOrganization", Request);
+
+            string json;
+
+            try
+            {
+                var organizations = CustomerContext.Current.GetOrganizations();
+                json = Serializer.Serialize(organizations);
+            }
+            catch (Exception exception)
+            {
+                Logger.Error(exception.Message, exception);
+                return InternalServerError(exception);
+            }
+
+            return Ok(json);
+        }
+
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPut, Route("contact/{contactId}")]
         public virtual IHttpActionResult PutCustomer(Guid contactId, [FromBody] Contact contact)
         {
@@ -103,6 +145,24 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok();
         }
 
+        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPut, Route("organization")]
+        public virtual IHttpActionResult PutOrganization([FromBody] Organization organization)
+        {
+            Logger.LogPut("PutOrganization", Request);
+
+            try
+            {
+                organization.SaveChanges();
+            }
+            catch (Exception exception)
+            {
+                Logger.Error(exception.Message, exception);
+                return InternalServerError(exception);
+            }
+
+            return Ok();
+        }
+
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpDelete, Route("contact/{contactId}")]
         public virtual IHttpActionResult DeleteContact(Guid contactId)
         {
@@ -117,14 +177,38 @@ namespace Geta.ServiceApi.Commerce.Controllers
 
             try
             {
-                // BUG reported to Episerver. Similar to this one: http://world.episerver.com/support/Bug-list/bug/122462
-
+                // BUG reported to Episerver. #COM-956
                 contact.PreferredBillingAddressId = null;
                 contact.PreferredShippingAddressId = null;
 
                 contact.SaveChanges();
 
                 contact.DeleteWithAllDependents();
+            }
+            catch (Exception exception)
+            {
+                Logger.Error(exception.Message, exception);
+                return InternalServerError(exception);
+            }
+
+            return Ok();
+        }
+
+        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpDelete, Route("organization/{orgId}")]
+        public virtual IHttpActionResult DeleteOrganization(string orgId)
+        {
+            Logger.LogDelete("DeleteOrganization", Request, new[] { orgId });
+
+            var organization = CustomerContext.Current.GetOrganizationById(orgId);
+
+            if (organization == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                organization.DeleteWithAllDepends();
             }
             catch (Exception exception)
             {
@@ -180,6 +264,24 @@ namespace Geta.ServiceApi.Commerce.Controllers
                     // Save the address preferences also.
                     customerContact.SaveChanges();
                 }
+            }
+            catch (Exception exception)
+            {
+                Logger.Error(exception.Message, exception);
+                return InternalServerError(exception);
+            }
+
+            return Ok();
+        }
+
+        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route("organization")]
+        public virtual IHttpActionResult PostOrganization([FromBody] Organization organization)
+        {
+            Logger.LogPost("PostOrganization", Request);
+
+            try
+            {
+                organization.SaveChanges();
             }
             catch (Exception exception)
             {

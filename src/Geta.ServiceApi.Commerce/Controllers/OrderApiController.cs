@@ -103,9 +103,21 @@ namespace Geta.ServiceApi.Commerce.Controllers
         }
 
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPut, Route]
-        public virtual IHttpActionResult PutOrder([FromBody] PurchaseOrder order)
+        public virtual IHttpActionResult PutOrder([FromBody] OrderGroup order)
         {
-            return Ok();
+            OrderReference orderReference;
+
+            try
+            {
+                orderReference = this._orderRepository.Save(order);
+            }
+            catch (Exception exception)
+            {
+                Logger.Error(exception.Message, exception);
+                return InternalServerError(exception);
+            }
+
+            return Ok(orderReference);
         }
 
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpDelete, Route("{orderGroupId}")]
@@ -140,7 +152,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
         {
             Logger.LogPost("PostOrder", Request, new []{ isPaymentPlan.ToString() });
 
-            OrderReference orderReference = null;
+            OrderReference orderReference;
 
             try
             {
