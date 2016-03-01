@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Script.Serialization;
 using EPiServer.ServiceApi.Configuration;
 using EPiServer.ServiceApi.Util;
-using Geta.ServiceApi.Commerce.Extensions;
+using Geta.ServiceApi.Commerce.Mappings;
 using Geta.ServiceApi.Commerce.Models;
 using Mediachase.BusinessFoundation.Data;
 using Mediachase.Commerce.Customers;
+using Organization = Geta.ServiceApi.Commerce.Models.Organization;
 
 namespace Geta.ServiceApi.Commerce.Controllers
 {
@@ -73,7 +73,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
 
             try
             {
-                Organization organization = CustomerContext.Current.GetOrganizationById(orgId);
+                var organization = CustomerContext.Current.GetOrganizationById(orgId);
                 json = Serializer.Serialize(organization);
             }
             catch (Exception exception)
@@ -130,11 +130,13 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 {
                     foreach (var address in contact.Addresses)
                     {
-                        CreateOrUpdateCustomerAddress(existingContact, address);
+                        CustomerMappings.CreateOrUpdateCustomerAddress(existingContact, address);
                     }
                 }
 
                 existingContact.SaveChanges();
+
+                // default address
             }
             catch (Exception exception)
             {
@@ -152,7 +154,14 @@ namespace Geta.ServiceApi.Commerce.Controllers
 
             try
             {
-                organization.SaveChanges();
+                var newOrganization = Mediachase.Commerce.Customers.Organization.CreateInstance();
+                newOrganization.PrimaryKeyId = new PrimaryKeyId(organization.PrimaryKeyId);
+                //newOrganization.Addresses
+                newOrganization.OrgCustomerGroup = organization.OrgCustomerGroup;
+                newOrganization.OrganizationType = organization.OrganizationType;
+                //newOrganization.Contacts = 
+
+                newOrganization.SaveChanges();
             }
             catch (Exception exception)
             {
@@ -233,37 +242,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
             {
                 CustomerContact customerContact = CustomerContact.CreateInstance();
 
-                customerContact.PrimaryKeyId = new PrimaryKeyId(userId);
-                customerContact.FirstName = contact.FirstName;
-                customerContact.LastName = contact.LastName;
-                customerContact.Email = contact.Email;
-                customerContact.UserId = "String:" + contact.Email; // The UserId needs to be set in the format "String:{email}". Else a duplicate CustomerContact will be created later on.
-                customerContact.RegistrationSource = contact.RegistrationSource;
-
-                if (contact.Addresses != null)
-                {
-                    foreach (var address in contact.Addresses)
-                    {
-                        customerContact.AddContactAddress(address.ConvertToCustomerAddress(CustomerAddress.CreateInstance()));
-                    }
-                }
-
-                // The contact, or more likely its related addresses, must be saved to the database before we can set the preferred
-                // shipping and billing addresses. Using an address id before its saved will throw an exception because its value
-                // will still be null.
-                customerContact.SaveChanges();
-
-                // Once the contact has been saved we can look for any existing addresses.
-                CustomerAddress defaultAddress = customerContact.ContactAddresses.FirstOrDefault();
-                if (defaultAddress != null)
-                {
-                    // If an addresses was found, it will be used as default for shipping and billing.
-                    customerContact.PreferredShippingAddress = defaultAddress;
-                    customerContact.PreferredBillingAddress = defaultAddress;
-
-                    // Save the address preferences also.
-                    customerContact.SaveChanges();
-                }
+                CustomerMappings.CreateContact(customerContact, userId, contact);
             }
             catch (Exception exception)
             {
@@ -281,7 +260,14 @@ namespace Geta.ServiceApi.Commerce.Controllers
 
             try
             {
-                organization.SaveChanges();
+                var newOrganization = Mediachase.Commerce.Customers.Organization.CreateInstance();
+                newOrganization.PrimaryKeyId = new PrimaryKeyId(organization.PrimaryKeyId);
+                //newOrganization.Addresses
+                newOrganization.OrgCustomerGroup = organization.OrgCustomerGroup;
+                newOrganization.OrganizationType = organization.OrganizationType;
+                //newOrganization.Contacts = 
+
+                newOrganization.SaveChanges();
             }
             catch (Exception exception)
             {
@@ -290,47 +276,6 @@ namespace Geta.ServiceApi.Commerce.Controllers
             }
 
             return Ok();
-        }
-
-        private CustomerAddress CreateOrUpdateCustomerAddress(CustomerContact contact, Address address)
-        {
-            var customerAddress = GetAddress(contact, address.AddressId);
-            var isNew = customerAddress == null;
-            IEnumerable<PrimaryKeyId> existingId = contact.ContactAddresses.Select(a => a.AddressId).ToList();
-            if (isNew)
-            {
-                customerAddress = CustomerAddress.CreateInstance();
-            }
-
-            customerAddress = address.ConvertToCustomerAddress(customerAddress);
-
-            if (isNew)
-            {
-                contact.AddContactAddress(customerAddress);
-            }
-            else
-            {
-                contact.UpdateContactAddress(customerAddress);
-            }
-
-            contact.SaveChanges();
-            if (isNew)
-            {
-                customerAddress.AddressId = contact.ContactAddresses
-                    .Where(a => !existingId.Contains(a.AddressId))
-                    .Select(a => a.AddressId)
-                    .Single();
-                address.AddressId = customerAddress.AddressId;
-            }
-
-            return customerAddress;
-        }
-
-        private CustomerAddress GetAddress(CustomerContact contact, Guid? addressId)
-        {
-            return addressId.HasValue ?
-                contact.ContactAddresses.FirstOrDefault(x => x.AddressId == addressId.GetValueOrDefault()) :
-                null;
         }
     }
 }

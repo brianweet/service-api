@@ -676,6 +676,7 @@
     <Compile Include="Infrastructure\WebApi\StructureMapDependencyScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="TestController.cs" />
     <Content Include="Views\Search\QuickSearch.cshtml" />
     <Content Include="Views\OrderConfirmationMailPage\Index.cshtml" />
     <Content Include="Views\ResetPasswordMail\Index.cshtml" />

@@ -313,9 +313,13 @@
     <Compile Include="Controllers\CartApiController.cs" />
     <Compile Include="Controllers\CustomerApiController.cs" />
     <Compile Include="Controllers\OrderApiController.cs" />
-    <Compile Include="Extensions\AddressExtensions.cs" />
+    <Compile Include="Mappings\CustomerMappings.cs" />
+    <Compile Include="Mappings\OrderGroupMappings.cs" />
     <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Contact.cs" />
+    <Compile Include="Models\OrderGroup.cs" />
+    <Compile Include="Models\Organization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

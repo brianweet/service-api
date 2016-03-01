@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Web.Http;
+using EPiServer.Commerce.Marketing;
 using EPiServer.Commerce.Order;
 using EPiServer.ServiceApi.Configuration;
 using EPiServer.ServiceApi.Util;
+using Geta.ServiceApi.Commerce.Mappings;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Search;
+using OrderGroup = Geta.ServiceApi.Commerce.Models.OrderGroup;
 
 namespace Geta.ServiceApi.Commerce.Controllers
 {
@@ -16,10 +19,12 @@ namespace Geta.ServiceApi.Commerce.Controllers
         private static readonly ApiCallLogger Logger = new ApiCallLogger(typeof(OrderApiController));
 
         private readonly IOrderRepository _orderRepository;
+        private readonly IPromotionEngine _promotionEngine;
 
-        public CartApiController(IOrderRepository orderRepository)
+        public CartApiController(IOrderRepository orderRepository, IPromotionEngine promotionEngine)
         {
             this._orderRepository = orderRepository;
+            this._promotionEngine = promotionEngine;
         }
 
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{customerId}/{name}")]
@@ -47,7 +52,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(cart);
         }
 
-        [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{start}/{maxCount}")]
+        [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("search/{start}/{maxCount}")]
         public virtual IHttpActionResult GetCarts(int start, int maxCount)
         {
             Logger.LogGet("GetCarts", Request, new []{start.ToString(), maxCount.ToString()});
@@ -135,23 +140,36 @@ namespace Geta.ServiceApi.Commerce.Controllers
         }
 
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route]
-        public virtual IHttpActionResult PostCart([FromBody] Cart cart)
+        public virtual IHttpActionResult PostCart([FromBody] OrderGroup orderGroup)
         {
             Logger.LogPost("PostCart", Request);
 
-            OrderReference orderReference;
-
             try
             {
-                orderReference = _orderRepository.Save(cart);
+                if (string.IsNullOrEmpty(orderGroup.Name))
+                {
+                    throw new ArgumentNullException(nameof(orderGroup.Name));
+                }
+
+                if (orderGroup.CustomerId == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(orderGroup.CustomerId));
+                }
+
+                var cart = _orderRepository.Create<Cart>(orderGroup.CustomerId, orderGroup.Name);
+
+                cart = orderGroup.ConvertToCart(cart);
+
+                _promotionEngine.Run(cart);
+                cart.AcceptChanges();
+
+                return Ok(cart);
             }
             catch (Exception exception)
             {
                 Logger.Error(exception.Message, exception);
                 return InternalServerError(exception);
             }
-
-            return Ok(orderReference);
         }
     }
 }

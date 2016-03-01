@@ -4,6 +4,7 @@ using System.Web.Http;
 using EPiServer.Commerce.Order;
 using EPiServer.ServiceApi.Configuration;
 using EPiServer.ServiceApi.Util;
+using Geta.ServiceApi.Commerce.Mappings;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Search;
 
@@ -148,7 +149,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
         }
 
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route("{isPaymentPlan}")]
-        public virtual IHttpActionResult PostOrder(bool? isPaymentPlan, [FromBody] Cart cart)
+        public virtual IHttpActionResult PostOrder(bool? isPaymentPlan, [FromBody] Models.OrderGroup orderGroup)
         {
             Logger.LogPost("PostOrder", Request, new []{ isPaymentPlan.ToString() });
 
@@ -158,11 +159,19 @@ namespace Geta.ServiceApi.Commerce.Controllers
             {
                 if (isPaymentPlan.HasValue && isPaymentPlan.Value)
                 {
-                    orderReference = this._orderRepository.SaveAsPaymentPlan(cart);
+                    var paymentPlan = this._orderRepository.Create<PaymentPlan>(orderGroup.CustomerId, orderGroup.Name);
+
+                    paymentPlan = orderGroup.ConvertToPaymentPlan(paymentPlan);
+
+                    orderReference = this._orderRepository.SaveAsPaymentPlan(paymentPlan);
                 }
                 else
                 {
-                    orderReference = this._orderRepository.SaveAsPurchaseOrder(cart);
+                    var purchaseOrder = this._orderRepository.Create<PurchaseOrder>(orderGroup.CustomerId, orderGroup.Name);
+
+                    purchaseOrder = orderGroup.ConvertToPurchaseOrder(purchaseOrder);
+
+                    orderReference = this._orderRepository.SaveAsPurchaseOrder(purchaseOrder);
                 }
             }
             catch(Exception exception)

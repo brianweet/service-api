@@ -7,6 +7,7 @@ using System.Web.Script.Serialization;
 using Geta.ServiceApi.Commerce.Models;
 using Mediachase.Commerce.Customers;
 using Xunit;
+using Organization = Geta.ServiceApi.Commerce.Models.Organization;
 
 namespace Geta.ServiceApi.Commerce.Tests.Controllers
 {
@@ -76,6 +77,25 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
                 Authenticate(client);
                 Post(userId, model, client);
                 Delete(userId, client);
+            }
+        }
+
+        [Fact]
+        public void post_creates_new_organization()
+        {
+            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+
+            var model = new Organization();
+
+            string orgId = string.Empty;
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(IntegrationUrl);
+
+                Authenticate(client);
+                PostOrganization(model, client);
+                //DeleteOrganization(orgId, client);
             }
         }
 

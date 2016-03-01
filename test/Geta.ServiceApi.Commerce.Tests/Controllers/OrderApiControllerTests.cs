@@ -6,6 +6,7 @@ using System.Web.Script.Serialization;
 using Mediachase.Commerce.Orders;
 using Newtonsoft.Json;
 using Xunit;
+using OrderGroup = Geta.ServiceApi.Commerce.Models.OrderGroup;
 
 namespace Geta.ServiceApi.Commerce.Tests.Controllers
 {
@@ -38,12 +39,10 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             var contactId = Guid.Parse("2A40754D-86D5-460B-A5A4-32BC87703567"); // admin contact
             string cartName = Cart.DefaultName;
 
-            var model = new Cart(cartName, contactId);
-            {
-            };
+            var model = new OrderGroup();
 
-            // Add customer
             model.CustomerId = contactId;
+            model.Name = cartName;
 
             // Add address info
             // Add LineItems
@@ -53,9 +52,8 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
                 client.BaseAddress = new Uri(IntegrationUrl);
 
                 Authenticate(client);
-                // TODO fix configuration exception
-                Post(model, client);
-                Delete(orderGroupId, client);
+                OrderReference orderReference = Post(model, client);
+                Delete(orderReference.OrderGroupId, client);
             }
         }
 
@@ -83,7 +81,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private static void Post(Cart model, HttpClient client)
+        private static OrderReference Post(OrderGroup model, HttpClient client)
         {
             // Problems with using JavaScript Serializer circular reference exception. Works with JSON.NET
             var serializer = new JavaScriptSerializer();
@@ -91,7 +89,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
             var json = JsonConvert.SerializeObject(model);
 
-            var response = client.PostAsync($"/episerverapi/commerce/order", new StringContent(json, Encoding.UTF8, "application/json")).Result;
+            var response = client.PostAsync($"/episerverapi/commerce/order/isPaymentPlan=false", new StringContent(json, Encoding.UTF8, "application/json")).Result;
 
             string message = response.Content.ReadAsStringAsync().Result;
 
@@ -99,6 +97,8 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             {
                 throw new Exception($"Post failed! Status: {response.StatusCode}. Message: {message}");
             }
+
+            return JsonConvert.DeserializeObject<OrderReference>(message);
         }
 
         private static void Delete(int orderGroupId, HttpClient client)
