@@ -64,6 +64,45 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(orders);
         }
 
+        [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{start}/{maxCount}/search/{orderShipmentStatus}/{shippingMethodId}")]
+        public virtual IHttpActionResult SearchOrders(int start, int maxCount, OrderShipmentStatus orderShipmentStatus, Guid shippingMethodId)
+        {
+            Logger.LogGet("GetOrders", Request, new[] {start.ToString(), maxCount.ToString(), orderShipmentStatus.ToString(), shippingMethodId.ToString()});
+
+            if (maxCount < 1 || maxCount > 100)
+            {
+                maxCount = 10;
+            }
+
+            PurchaseOrder[] orders;
+
+            try
+            {
+                var searchOptions = new OrderSearchOptions
+                {
+                    CacheResults = false,
+                    StartingRecord = start,
+                    RecordsToRetrieve = maxCount,
+                    Namespace = "Mediachase.Commerce.Orders"
+                };
+
+                var parameters = new OrderSearchParameters();
+                searchOptions.Classes.Add("PurchaseOrder");
+                parameters.SqlMetaWhereClause = string.Empty;
+                parameters.SqlWhereClause =
+                    $"[OrderGroupId] IN (SELECT [OrderGroupId] FROM [Shipment] WHERE [Status] = '{orderShipmentStatus}' AND [ShippingMethodId] = '{shippingMethodId}')";
+
+                orders = OrderContext.Current.FindPurchaseOrders(parameters, searchOptions);
+            }
+            catch (Exception exception)
+            {
+                Logger.Error(exception.Message, exception);
+                return InternalServerError(exception);
+            }
+
+            return Ok(orders);
+        }
+
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{start}/{maxCount}/all")]
         public virtual IHttpActionResult GetOrders(int start, int maxCount)
         {

@@ -57,6 +57,33 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
+        [Fact]
+        public void post_creates_new_order_and_searches_it()
+        {
+            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+
+            var orderGroupId = 66666;
+            var contactId = Guid.Parse("2A40754D-86D5-460B-A5A4-32BC87703567"); // admin contact
+            var cartName = Cart.DefaultName;
+
+            var model = new OrderGroup();
+
+            model.CustomerId = contactId;
+            model.Name = cartName;
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(IntegrationUrl);
+
+                Authenticate(client);
+                var orderReference = Post(model, client);
+
+                Search(OrderShipmentStatus.Packing, Guid.Empty, client);
+
+                Delete(orderReference.OrderGroupId, client);
+            }
+        }
+
         private static void Get(int orderId, HttpClient client)
         {
             var response = client.GetAsync($"/episerverapi/commerce/order/{orderId}").Result;
@@ -74,6 +101,18 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             var response = client.GetAsync($"/episerverapi/commerce/order/{customerId}/all").Result;
 
             string message = response.Content.ReadAsStringAsync().Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Get failed! Status: {response.StatusCode}. Message: {message}");
+            }
+        }
+
+        private static void Search(OrderShipmentStatus orderShipmentStatus, Guid shippingMethodId, HttpClient client)
+        {
+            var response = client.GetAsync($"/episerverapi/commerce/order/0/100/search/{orderShipmentStatus}/{shippingMethodId}").Result;
+
+            var message = response.Content.ReadAsStringAsync().Result;
 
             if (!response.IsSuccessStatusCode)
             {
