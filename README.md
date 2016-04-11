@@ -13,7 +13,7 @@ Quicksilver is being used for the demo playground and needs to be setup in order
 1. Open demo\Quicksilver.sln
 2. Built and restore packages
 3. Run demo\Setup\SetupDatabases.cmd
-4. run update-epidatabase in Package Manager console
+4. run update-epidatabase in Package Manager console(This is not just for db update, but for setting up service API permissions correctly as well)
 5. In IIS install a self signed certificate
 6. In IIS add serviceapi.localtest.me (point it to C:\Projects\service-api\demo\Sources\EPiServer.Reference.Commerce.Site). Binding should be https (choose the certificate from step 5).
 7. Navigate to https://serviceapi.localtest.me admin/store
