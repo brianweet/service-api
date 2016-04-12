@@ -128,7 +128,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
 
             try
             {
-                this._orderRepository.Delete(existingCart.OrderLink);
+                this._orderRepository.Delete(new OrderReference(existingCart.OrderGroupId, name, customerId, typeof(Cart)));
             }
             catch (Exception exception)
             {

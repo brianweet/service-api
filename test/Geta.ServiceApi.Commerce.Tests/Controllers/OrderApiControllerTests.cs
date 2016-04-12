@@ -5,8 +5,8 @@ using System.Text;
 using System.Web.Script.Serialization;
 using Mediachase.Commerce.Orders;
 using Newtonsoft.Json;
-using Xunit;
 using OrderGroup = Geta.ServiceApi.Commerce.Models.OrderGroup;
+using Xunit;
 
 namespace Geta.ServiceApi.Commerce.Tests.Controllers
 {

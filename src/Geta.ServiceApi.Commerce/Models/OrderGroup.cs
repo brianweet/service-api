@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mediachase.Commerce;
+using Mediachase.Commerce.Marketing;
 using Mediachase.Commerce.Orders;
 
 namespace Geta.ServiceApi.Commerce.Models
