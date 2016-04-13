@@ -5,8 +5,11 @@ using EPiServer.Commerce.Order;
 using EPiServer.ServiceApi.Configuration;
 using EPiServer.ServiceApi.Util;
 using Geta.ServiceApi.Commerce.Mappings;
+using Geta.ServiceApi.Commerce.Models;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Search;
+using Cart = Mediachase.Commerce.Orders.Cart;
+using OrderGroup = Mediachase.Commerce.Orders.OrderGroup;
 
 namespace Geta.ServiceApi.Commerce.Controllers
 {
@@ -64,10 +67,10 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(orders);
         }
 
-        [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{start}/{maxCount}/search/{orderShipmentStatus}/{shippingMethodId}")]
-        public virtual IHttpActionResult SearchOrders(int start, int maxCount, OrderShipmentStatus orderShipmentStatus, Guid shippingMethodId)
+        [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{start}/{maxCount}/search")]
+        public virtual IHttpActionResult SearchOrders(int start, int maxCount, [FromUri] SearchOrdersRequest request)
         {
-            Logger.LogGet("GetOrders", Request, new[] {start.ToString(), maxCount.ToString(), orderShipmentStatus.ToString(), shippingMethodId.ToString()});
+            Logger.LogGet("GetOrders", Request, new[] {start.ToString(), maxCount.ToString(), $"{request?.OrderShipmentStatus}", $"{request?.ShippingMethodId}"});
 
             if (maxCount < 1 || maxCount > 100)
             {
@@ -89,8 +92,20 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 var parameters = new OrderSearchParameters();
                 searchOptions.Classes.Add("PurchaseOrder");
                 parameters.SqlMetaWhereClause = string.Empty;
-                parameters.SqlWhereClause =
-                    $"[OrderGroupId] IN (SELECT [OrderGroupId] FROM [Shipment] WHERE [Status] = '{orderShipmentStatus}' AND [ShippingMethodId] = '{shippingMethodId}')";
+
+                if (request?.OrderShipmentStatus != null && request.ShippingMethodId != null && request.ShippingMethodId != Guid.Empty)
+                {
+                    parameters.SqlWhereClause =
+                        $"[OrderGroupId] IN (SELECT [OrderGroupId] FROM [Shipment] WHERE [Status] = '{request.OrderShipmentStatus}' AND [ShippingMethodId] = '{request.ShippingMethodId}')";
+                }
+                else if (request?.OrderShipmentStatus != null)
+                {
+                    parameters.SqlWhereClause = $"[OrderGroupId] IN (SELECT [OrderGroupId] FROM [Shipment] WHERE [Status] = '{request.OrderShipmentStatus}')";
+                }
+                else if (request?.ShippingMethodId != null && request.ShippingMethodId != Guid.Empty)
+                {
+                    parameters.SqlWhereClause = $"[OrderGroupId] IN (SELECT [OrderGroupId] FROM [Shipment] WHERE [ShippingMethodId] = '{request.ShippingMethodId}')";
+                }
 
                 orders = OrderContext.Current.FindPurchaseOrders(parameters, searchOptions);
             }

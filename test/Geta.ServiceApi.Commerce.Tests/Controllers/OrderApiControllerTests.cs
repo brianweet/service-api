@@ -78,7 +78,10 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
                 Authenticate(client);
                 var orderReference = Post(model, client);
 
-                Search(OrderShipmentStatus.Packing, Guid.Empty, client);
+                Search(OrderShipmentStatus.Packing, Guid.NewGuid(), client);
+                Search(OrderShipmentStatus.AwaitingInventory, null, client);
+                Search(null, Guid.NewGuid(), client);
+                Search(null, null, client);
 
                 Delete(orderReference.OrderGroupId, client);
             }
@@ -108,9 +111,25 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private static void Search(OrderShipmentStatus orderShipmentStatus, Guid shippingMethodId, HttpClient client)
+        private static void Search(OrderShipmentStatus? orderShipmentStatus, Guid? shippingMethodId, HttpClient client)
         {
-            var response = client.GetAsync($"/episerverapi/commerce/order/0/100/search/{orderShipmentStatus}/{shippingMethodId}").Result;
+            HttpResponseMessage response;
+            if (orderShipmentStatus != null && shippingMethodId != null)
+            {
+                response = client.GetAsync($"/episerverapi/commerce/order/0/100/search/?OrderShipmentStatus={orderShipmentStatus}&ShippingMethodId={shippingMethodId}").Result;
+            }
+            else if (orderShipmentStatus != null)
+            {
+                response = client.GetAsync($"/episerverapi/commerce/order/0/100/search/?OrderShipmentStatus={orderShipmentStatus}").Result;
+            }
+            else if (shippingMethodId != null)
+            {
+                response = client.GetAsync($"/episerverapi/commerce/order/0/100/search/?ShippingMethodId={shippingMethodId}").Result;
+            }
+            else
+            {
+                response = client.GetAsync($"/episerverapi/commerce/order/0/100/search/").Result;
+            }
 
             var message = response.Content.ReadAsStringAsync().Result;
 
