@@ -1,5 +1,7 @@
 # Geta Service API
 
+![](http://tc.geta.no/app/rest/builds/buildType:(id:TeamFrederik_ServiceApi_EPiBlogCreateAndPublishNuGetPackage)/statusIcon)
+
 ## Geta.ServiceApi.Commerce
 
 * Orders
