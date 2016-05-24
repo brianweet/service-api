@@ -8,6 +8,11 @@
 * Customers
 * Carts
 
+## Installation
+
+```
+Install-Package Geta.ServiceApi.Commerce -Prerelease
+```
 
 ## Demo
 Quicksilver is being used for the demo playground and needs to be setup in order to run the integration tests.
