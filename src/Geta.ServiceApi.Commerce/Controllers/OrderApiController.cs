@@ -9,7 +9,6 @@ using Geta.ServiceApi.Commerce.Models;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Search;
 using Cart = Mediachase.Commerce.Orders.Cart;
-using OrderGroup = Mediachase.Commerce.Orders.OrderGroup;
 
 namespace Geta.ServiceApi.Commerce.Controllers
 {
@@ -157,14 +156,16 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(orders);
         }
 
-        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPut, Route]
-        public virtual IHttpActionResult PutOrder([FromBody] OrderGroup order)
+        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPut, Route("{orderGroupId}")]
+        public virtual IHttpActionResult PutOrder(int orderGroupId, [FromBody] Models.OrderGroup orderGroup)
         {
             OrderReference orderReference;
 
             try
             {
-                orderReference = this._orderRepository.Save(order);
+                var order = _orderRepository.Load<PurchaseOrder>(orderGroupId);
+                order = orderGroup.ConvertToPurchaseOrder(order);
+                orderReference = _orderRepository.Save(order);
             }
             catch (Exception exception)
             {
