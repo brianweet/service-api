@@ -24,7 +24,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
 
         public OrderApiController(IOrderRepository orderRepository)
         {
-            this._orderRepository = orderRepository;
+            _orderRepository = orderRepository;
         }
 
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{orderGroupId}")]
@@ -36,7 +36,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
 
             try
             {
-                order = this._orderRepository.Load<PurchaseOrder>(orderGroupId);
+                order = _orderRepository.Load<PurchaseOrder>(orderGroupId);
             }
             catch (Exception exception)
             {
@@ -56,7 +56,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
 
             try
             {
-                orders = this._orderRepository.Load(customerId, _defaultName);
+                orders = _orderRepository.Load(customerId, _defaultName);
             }
             catch (Exception exception)
             {
@@ -180,7 +180,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
         {
             Logger.LogDelete("DeleteOrder", Request, new[] {orderGroupId.ToString()});
 
-            var existingOrder = this._orderRepository.Load<PurchaseOrder>(orderGroupId);
+            var existingOrder = _orderRepository.Load<PurchaseOrder>(orderGroupId);
 
             if (existingOrder == null)
             {
@@ -191,7 +191,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
             {
                 var orderReference = new OrderReference(orderGroupId, existingOrder.Name, existingOrder.CustomerId, typeof (PurchaseOrder));
 
-                this._orderRepository.Delete(orderReference);
+                _orderRepository.Delete(orderReference);
             }
             catch (Exception exception)
             {
@@ -213,19 +213,15 @@ namespace Geta.ServiceApi.Commerce.Controllers
             {
                 if (isPaymentPlan.HasValue && isPaymentPlan.Value)
                 {
-                    var paymentPlan = this._orderRepository.Create<PaymentPlan>(orderGroup.CustomerId, orderGroup.Name);
-
+                    var paymentPlan = _orderRepository.Create<PaymentPlan>(orderGroup.CustomerId, orderGroup.Name);
                     paymentPlan = orderGroup.ConvertToPaymentPlan(paymentPlan);
-
-                    orderReference = this._orderRepository.SaveAsPaymentPlan(paymentPlan);
+                    orderReference = _orderRepository.SaveAsPaymentPlan(paymentPlan);
                 }
                 else
                 {
-                    var purchaseOrder = this._orderRepository.Create<PurchaseOrder>(orderGroup.CustomerId, orderGroup.Name);
-
+                    var purchaseOrder = _orderRepository.Create<PurchaseOrder>(orderGroup.CustomerId, orderGroup.Name);
                     purchaseOrder = orderGroup.ConvertToPurchaseOrder(purchaseOrder);
-
-                    orderReference = this._orderRepository.SaveAsPurchaseOrder(purchaseOrder);
+                    orderReference = _orderRepository.SaveAsPurchaseOrder(purchaseOrder);
                 }
             }
             catch(Exception exception)
