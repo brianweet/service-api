@@ -5,39 +5,37 @@ using System.Net.Http;
 using System.Text;
 using System.Web.Script.Serialization;
 using Geta.ServiceApi.Commerce.Models;
-using Mediachase.Commerce.Customers;
 using Xunit;
 using Organization = Geta.ServiceApi.Commerce.Models.Organization;
 
 namespace Geta.ServiceApi.Commerce.Tests.Controllers
 {
-    public class CustomerApiControllerTests : ApiControllerBase
+    public sealed class CustomerApiControllerTests : ApiControllerBase
     {
         // Problems with using default JSON.NET (seems to be related to ScriptIgnoreAttribute)
         private static readonly JavaScriptSerializer Serializer = new JavaScriptSerializer();
 
+        private readonly HttpClient _client;
+
+        public CustomerApiControllerTests()
+        {
+            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+            _client = new HttpClient {BaseAddress = new Uri(IntegrationUrl)};
+            Authenticate(_client);
+        }
+
         [Fact]
         public void get_returns_contact()
         {
-            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
-
             var contactId = Guid.Parse("2A40754D-86D5-460B-A5A4-32BC87703567"); // admin contact
 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(IntegrationUrl);
-
-                Authenticate(client);
-                Get(client);
-                Get(contactId, client);
-            }
+            Get();
+            Get(contactId);
         }
 
         [Fact]
         public void post_creates_new_contact()
         {
-            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
-
             var userId = Guid.Parse("099E12F5-684C-4F34-A38B-CEBFC8E41816"); 
 
             var addresses = new List<Address>();
@@ -70,14 +68,8 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
                 Addresses = addresses
             };
 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(IntegrationUrl);
-
-                Authenticate(client);
-                Post(userId, model, client);
-                Delete(userId, client);
-            }
+            Post(userId, model);
+            Delete(userId);
         }
 
         [Fact]
@@ -87,23 +79,17 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
             var model = new Organization();
 
-            string orgId = string.Empty;
+            var orgId = string.Empty;
 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(IntegrationUrl);
-
-                Authenticate(client);
-                PostOrganization(model, client);
-                //DeleteOrganization(orgId, client);
-            }
+            PostOrganization(model);
+            //DeleteOrganization(orgId, client);
         }
 
-        private static void Get(Guid contactId, HttpClient client)
+        private void Get(Guid contactId)
         {
-            var response = client.GetAsync($"/episerverapi/commerce/customer/contact/{contactId}").Result;
+            var response = _client.GetAsync($"/episerverapi/commerce/customer/contact/{contactId}").Result;
 
-            string message = response.Content.ReadAsStringAsync().Result;
+            var message = response.Content.ReadAsStringAsync().Result;
 
             if (!response.IsSuccessStatusCode)
             {
@@ -111,11 +97,11 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private static void Get(HttpClient client)
+        private void Get()
         {
-            var response = client.GetAsync($"/episerverapi/commerce/customer/contact").Result;
+            var response = _client.GetAsync($"/episerverapi/commerce/customer/contact").Result;
 
-            string message = response.Content.ReadAsStringAsync().Result;
+            var message = response.Content.ReadAsStringAsync().Result;
 
             if (!response.IsSuccessStatusCode)
             {
@@ -123,13 +109,13 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private static void Post(Guid userId, Contact model, HttpClient client)
+        private void Post(Guid userId, Contact model)
         {
             var json = Serializer.Serialize(model);
 
-            var response = client.PostAsync($"/episerverapi/commerce/customer/contact/{userId}", new StringContent(json, Encoding.UTF8, "application/json")).Result;
+            var response = _client.PostAsync($"/episerverapi/commerce/customer/contact/{userId}", new StringContent(json, Encoding.UTF8, "application/json")).Result;
 
-            string message = response.Content.ReadAsStringAsync().Result;
+            var message = response.Content.ReadAsStringAsync().Result;
 
             if (!response.IsSuccessStatusCode)
             {
@@ -137,11 +123,11 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private static void Delete(Guid contactId, HttpClient client)
+        private void Delete(Guid contactId)
         {
-            var response = client.DeleteAsync($"/episerverapi/commerce/customer/contact/{contactId}").Result;
+            var response = _client.DeleteAsync($"/episerverapi/commerce/customer/contact/{contactId}").Result;
 
-            string message = response.Content.ReadAsStringAsync().Result;
+            var message = response.Content.ReadAsStringAsync().Result;
 
             if (!response.IsSuccessStatusCode)
             {
@@ -149,13 +135,13 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private static void PutCustomer(Guid contactId, Contact model, HttpClient client)
+        private void PutCustomer(Guid contactId, Contact model)
         {
             var json = Serializer.Serialize(model);
 
-            var response = client.PutAsync($"/episerverapi/commerce/customer/contact/{contactId}", new StringContent(json, Encoding.UTF8, "application/json")).Result;
+            var response = _client.PutAsync($"/episerverapi/commerce/customer/contact/{contactId}", new StringContent(json, Encoding.UTF8, "application/json")).Result;
 
-            string message = response.Content.ReadAsStringAsync().Result;
+            var message = response.Content.ReadAsStringAsync().Result;
 
             if (!response.IsSuccessStatusCode)
             {
@@ -163,11 +149,11 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private static void Get(string orgId, HttpClient client)
+        private void Get(string orgId)
         {
-            var response = client.GetAsync($"/episerverapi/commerce/customer/organization/{orgId}").Result;
+            var response = _client.GetAsync($"/episerverapi/commerce/customer/organization/{orgId}").Result;
 
-            string message = response.Content.ReadAsStringAsync().Result;
+            var message = response.Content.ReadAsStringAsync().Result;
 
             if (!response.IsSuccessStatusCode)
             {
@@ -175,11 +161,11 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private static void GetOrganization(HttpClient client)
+        private void GetOrganization()
         {
-            var response = client.GetAsync($"/episerverapi/commerce/customer/organization").Result;
+            var response = _client.GetAsync($"/episerverapi/commerce/customer/organization").Result;
 
-            string message = response.Content.ReadAsStringAsync().Result;
+            var message = response.Content.ReadAsStringAsync().Result;
 
             if (!response.IsSuccessStatusCode)
             {
@@ -187,13 +173,13 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private static void PostOrganization(Organization model, HttpClient client)
+        private void PostOrganization(Organization model)
         {
             var json = Serializer.Serialize(model);
 
-            var response = client.PostAsync($"/episerverapi/commerce/customer/organization", new StringContent(json, Encoding.UTF8, "application/json")).Result;
+            var response = _client.PostAsync($"/episerverapi/commerce/customer/organization", new StringContent(json, Encoding.UTF8, "application/json")).Result;
 
-            string message = response.Content.ReadAsStringAsync().Result;
+            var message = response.Content.ReadAsStringAsync().Result;
 
             if (!response.IsSuccessStatusCode)
             {
@@ -201,11 +187,11 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private static void DeleteOrganization(string orgId, HttpClient client)
+        private void DeleteOrganization(string orgId)
         {
-            var response = client.DeleteAsync($"/episerverapi/commerce/customer/organization/{orgId}").Result;
+            var response = _client.DeleteAsync($"/episerverapi/commerce/customer/organization/{orgId}").Result;
 
-            string message = response.Content.ReadAsStringAsync().Result;
+            var message = response.Content.ReadAsStringAsync().Result;
 
             if (!response.IsSuccessStatusCode)
             {
@@ -213,13 +199,13 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private static void PutOrganization(Organization model, HttpClient client)
+        private void PutOrganization(Organization model)
         {
             var json = Serializer.Serialize(model);
 
-            var response = client.PutAsync($"/episerverapi/commerce/customer/organization", new StringContent(json, Encoding.UTF8, "application/json")).Result;
+            var response = _client.PutAsync($"/episerverapi/commerce/customer/organization", new StringContent(json, Encoding.UTF8, "application/json")).Result;
 
-            string message = response.Content.ReadAsStringAsync().Result;
+            var message = response.Content.ReadAsStringAsync().Result;
 
             if (!response.IsSuccessStatusCode)
             {
