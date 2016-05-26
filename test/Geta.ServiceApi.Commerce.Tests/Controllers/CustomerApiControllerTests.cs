@@ -75,14 +75,15 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
         [Fact]
         public void post_creates_new_organization()
         {
-            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
-
-            var model = new Organization();
+            var model = new Organization
+            {
+                PrimaryKeyId = Guid.NewGuid()
+            };
 
             var orgId = string.Empty;
 
             PostOrganization(model);
-            //DeleteOrganization(orgId, client);
+            DeleteOrganization(model.PrimaryKeyId.ToString());
         }
 
         private void Get(Guid contactId)
