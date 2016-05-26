@@ -80,8 +80,6 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
                 PrimaryKeyId = Guid.NewGuid()
             };
 
-            var orgId = string.Empty;
-
             PostOrganization(model);
             DeleteOrganization(model.PrimaryKeyId.ToString());
         }
