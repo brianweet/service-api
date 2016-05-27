@@ -39,10 +39,11 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
             
             GlobalFilters.Filters.Add(new HandleErrorAttribute());
 
-            context.Locate.DisplayChannelService().RegisterDisplayMode(new DefaultDisplayMode(RenderingTags.Mobile)
-            {
-                ContextCondition = r => r.GetOverriddenBrowser().IsMobileDevice
-            });
+            // TODO: Fix for latest version.
+            //context.Locate.DisplayChannelService().RegisterDisplayMode(new DefaultDisplayMode(RenderingTags.Mobile)
+            //{
+            //    ContextCondition = r => r.GetOverriddenBrowser().IsMobileDevice
+            //});
             
             AreaRegistration.RegisterAllAreas();
             
