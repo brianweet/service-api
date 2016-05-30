@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Web.Script.Serialization;
 using Geta.ServiceApi.Commerce.Models;
@@ -29,6 +30,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
         {
             var contactId = Guid.Parse("2A40754D-86D5-460B-A5A4-32BC87703567"); // admin contact
 
+            GetXml();
             Get();
             Get(contactId);
         }
@@ -98,6 +100,20 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
         private void Get()
         {
+            var response = _client.GetAsync($"/episerverapi/commerce/customer/contact").Result;
+
+            var message = response.Content.ReadAsStringAsync().Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Get failed! Status: {response.StatusCode}. Message: {message}");
+            }
+        }
+
+        private void GetXml()
+        {
+            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
+
             var response = _client.GetAsync($"/episerverapi/commerce/customer/contact").Result;
 
             var message = response.Content.ReadAsStringAsync().Result;

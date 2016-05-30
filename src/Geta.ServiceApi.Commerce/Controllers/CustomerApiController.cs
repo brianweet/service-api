@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
-using System.Web.Script.Serialization;
 using EPiServer.ServiceApi.Configuration;
 using EPiServer.ServiceApi.Util;
 using Geta.ServiceApi.Commerce.Mappings;
@@ -16,21 +17,16 @@ namespace Geta.ServiceApi.Commerce.Controllers
     {
         private static readonly ApiCallLogger Logger = new ApiCallLogger(typeof(OrderApiController));
 
-        // Problems with using default JSON.NET (seems to be related to ScriptIgnoreAttribute)
-        private static readonly JavaScriptSerializer Serializer = new JavaScriptSerializer();
-
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("contact/{contactId}")]
         public virtual IHttpActionResult GetContact(Guid contactId)
         {
             Logger.LogGet("GetContact", Request, new[] { contactId.ToString()});
 
-            string json;
+            Contact contact;
 
             try
             {
-                CustomerContact contact = CustomerContext.Current.GetContactById(contactId);
-                
-                json = Serializer.Serialize(contact);
+                contact = CustomerContext.Current.GetContactById(contactId).ConvertToContact();
             }
             catch (Exception exception)
             {
@@ -38,7 +34,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 return InternalServerError(exception);
             }
 
-            return Ok(json);
+            return Ok(contact);
         }
 
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("contact")]
@@ -46,13 +42,11 @@ namespace Geta.ServiceApi.Commerce.Controllers
         {
             Logger.LogGet("GetContact", Request);
 
-            string json;
+            IEnumerable<Contact>  contacts;
 
             try
             {
-                var contacts = CustomerContext.Current.GetContacts();
-
-                json = Serializer.Serialize(contacts);
+                contacts = CustomerContext.Current.GetContacts().Select(c => c.ConvertToContact());
             }
             catch (Exception exception)
             {
@@ -60,7 +54,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 return InternalServerError(exception);
             }
 
-            return Ok(json);
+            return Ok(contacts);
         }
 
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("organization/{orgId}")]
@@ -68,12 +62,11 @@ namespace Geta.ServiceApi.Commerce.Controllers
         {
             Logger.LogGet("GetOrganization", Request, new []{orgId});
 
-            string json;
+            Organization organization;
 
             try
             {
-                var organization = CustomerContext.Current.GetOrganizationById(orgId);
-                json = Serializer.Serialize(organization);
+                organization = CustomerContext.Current.GetOrganizationById(orgId).ConvertToOrganization();
             }
             catch (Exception exception)
             {
@@ -81,7 +74,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 return InternalServerError(exception);
             }
 
-            return Ok(json);
+            return Ok(organization);
         }
 
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("organization")]
@@ -89,12 +82,11 @@ namespace Geta.ServiceApi.Commerce.Controllers
         {
             Logger.LogGet("GetOrganization", Request);
 
-            string json;
+            IEnumerable<Organization> organizations;
 
             try
             {
-                var organizations = CustomerContext.Current.GetOrganizations();
-                json = Serializer.Serialize(organizations);
+                organizations = CustomerContext.Current.GetOrganizations().Select(o => o.ConvertToOrganization());
             }
             catch (Exception exception)
             {
@@ -102,7 +94,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 return InternalServerError(exception);
             }
 
-            return Ok(json);
+            return Ok(organizations);
         }
 
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPut, Route("contact/{contactId}")]

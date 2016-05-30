@@ -11,7 +11,7 @@ namespace Geta.ServiceApi.Commerce.Models
 
         public List<Organization> ChildOrganizations { get; set; }
         
-        public List<Contact> Contacts { get; set; }
+        public IEnumerable<Contact> Contacts { get; set; }
         
         public string OrganizationType { get; set; }
         

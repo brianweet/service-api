@@ -6,11 +6,56 @@ using Mediachase.BusinessFoundation.Data;
 using Mediachase.Commerce.Customers;
 using Mediachase.Commerce.Orders.Dto;
 using Mediachase.Commerce.Orders.Managers;
+using Organization = Mediachase.Commerce.Customers.Organization;
 
 namespace Geta.ServiceApi.Commerce.Mappings
 {
     public static class CustomerMappings
     {
+        public static Contact ConvertToContact(this CustomerContact customerContact)
+        {
+            if (customerContact == null)
+            {
+                return null;
+            }
+
+            return new Contact
+            {
+                PrimaryKeyId = customerContact.PrimaryKeyId,
+                //Addresses = customerContact.
+                FirstName = customerContact.FirstName,
+                LastName = customerContact.LastName,
+                Email = customerContact.Email,
+                RegistrationSource = customerContact.RegistrationSource
+            };
+        }
+
+        public static Models.Organization ConvertToOrganization(this Organization organization)
+        {
+            if (organization == null)
+            {
+                return null;
+            }
+
+            var organizationModel = new Models.Organization
+            {
+                OrganizationType = organization.OrganizationType,
+                OrgCustomerGroup = organization.OrgCustomerGroup,
+                Contacts = organization.Contacts.Select(c => c.ConvertToContact())
+                //public List<Address> Addresses { get; set; }
+
+                //public List<Organization> ChildOrganizations { get; set; }
+            };
+
+            if (organization.PrimaryKeyId.HasValue)
+            {
+                organizationModel.PrimaryKeyId = organization.PrimaryKeyId.Value;
+            }
+
+            return organizationModel;
+        }
+
+
         public static void CreateContact(CustomerContact customerContact, Guid userId, Contact contact)
         {
             customerContact.PrimaryKeyId = new PrimaryKeyId(userId);
