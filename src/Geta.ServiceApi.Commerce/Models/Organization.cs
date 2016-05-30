@@ -7,9 +7,9 @@ namespace Geta.ServiceApi.Commerce.Models
     {
         public Guid PrimaryKeyId { get; set; }
 
-        public List<Address> Addresses { get; set; }
+        public IEnumerable<Address> Addresses { get; set; }
 
-        public List<Organization> ChildOrganizations { get; set; }
+        public IEnumerable<Organization> ChildOrganizations { get; set; }
         
         public IEnumerable<Contact> Contacts { get; set; }
         

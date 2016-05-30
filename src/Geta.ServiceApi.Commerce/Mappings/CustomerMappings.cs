@@ -22,7 +22,7 @@ namespace Geta.ServiceApi.Commerce.Mappings
             return new Contact
             {
                 PrimaryKeyId = customerContact.PrimaryKeyId,
-                //Addresses = customerContact.
+                Addresses = customerContact.ContactAddresses.Select(a => a.ConvertToAddress()),
                 FirstName = customerContact.FirstName,
                 LastName = customerContact.LastName,
                 Email = customerContact.Email,
@@ -41,10 +41,9 @@ namespace Geta.ServiceApi.Commerce.Mappings
             {
                 OrganizationType = organization.OrganizationType,
                 OrgCustomerGroup = organization.OrgCustomerGroup,
-                Contacts = organization.Contacts.Select(c => c.ConvertToContact())
-                //public List<Address> Addresses { get; set; }
-
-                //public List<Organization> ChildOrganizations { get; set; }
+                Contacts = organization.Contacts.Select(c => c.ConvertToContact()),
+                Addresses = organization.Addresses.Select(a => a.ConvertToAddress()),
+                ChildOrganizations = organization.ChildOrganizations.Select(o => o.ConvertToOrganization())
             };
 
             if (organization.PrimaryKeyId.HasValue)
@@ -146,6 +145,32 @@ namespace Geta.ServiceApi.Commerce.Mappings
             customerAddress.AddressType = CustomerAddressTypeEnum.Public | (address.ShippingDefault ? CustomerAddressTypeEnum.Shipping : 0) | (address.BillingDefault ? CustomerAddressTypeEnum.Billing : 0);
 
             return customerAddress;
+        }
+
+        public static Address ConvertToAddress(this CustomerAddress address)
+        {
+            if (address == null)
+            {
+                return null;
+            }
+
+            return new Address
+            {
+                Name = address.Name,
+                City = address.City,
+                CountryCode = address.CountryCode,
+                CountryName = address.CountryName,
+                FirstName = address.FirstName,
+                LastName = address.LastName,
+                Line1 = address.Line1,
+                Line2 = address.Line2,
+                DaytimePhoneNumber = address.DaytimePhoneNumber,
+                EveningPhoneNumber = address.EveningPhoneNumber,
+                PostalCode = address.PostalCode,
+                Region = address.RegionName,
+                Email = address.Email,
+                AddressId = address.AddressId
+            };
         }
 
         private static List<CountryDto.CountryRow> GetAllCountries()

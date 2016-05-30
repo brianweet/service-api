@@ -7,7 +7,7 @@ namespace Geta.ServiceApi.Commerce.Models
     {
         public Guid? PrimaryKeyId { get; set; }
 
-        public List<Address> Addresses { get; set; }
+        public IEnumerable<Address> Addresses { get; set; }
 
         public string FirstName { get; set; }
 
