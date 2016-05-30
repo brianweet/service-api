@@ -33,7 +33,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             var orderId = 121121; // not valid order id
             var customerId = Guid.NewGuid();
 
-            Get(orderId);
+            GetNotFound(orderId);
             Get(customerId);
         }
 
@@ -152,6 +152,18 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
 
             return JObject.Parse(message);
+        }
+
+        private void GetNotFound(int orderId)
+        {
+            var response = _client.GetAsync($"/episerverapi/commerce/order/{orderId}").Result;
+
+            var message = response.Content.ReadAsStringAsync().Result;
+
+            if (response.StatusCode != HttpStatusCode.NotFound)
+            {
+                throw new Exception($"Get failed! Status: {response.StatusCode}. Message: {message}");
+            }
         }
 
         private void Get(Guid customerId)

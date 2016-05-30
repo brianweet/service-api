@@ -43,6 +43,11 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 return InternalServerError(exception);
             }
 
+            if (order == null)
+            {
+                return NotFound();
+            }
+
             return Ok(order);
         }
 
