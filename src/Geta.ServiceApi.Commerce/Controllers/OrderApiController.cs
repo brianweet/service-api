@@ -208,29 +208,42 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok();
         }
 
-        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route("{isPaymentPlan}")]
-        public virtual IHttpActionResult PostOrder(bool? isPaymentPlan, [FromBody] Models.OrderGroup orderGroup)
+        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route]
+        public virtual IHttpActionResult PostOrder([FromBody] Models.OrderGroup orderGroup)
         {
-            Logger.LogPost("PostOrder", Request, new []{ isPaymentPlan.ToString() });
+            Logger.LogPost("PostOrder", Request);
 
             OrderReference orderReference;
 
             try
             {
-                if (isPaymentPlan.HasValue && isPaymentPlan.Value)
-                {
-                    var paymentPlan = _orderRepository.Create<PaymentPlan>(orderGroup.CustomerId, orderGroup.Name);
-                    paymentPlan = orderGroup.ConvertToPaymentPlan(paymentPlan);
-                    orderReference = _orderRepository.SaveAsPaymentPlan(paymentPlan);
-                }
-                else
-                {
-                    var purchaseOrder = _orderRepository.Create<PurchaseOrder>(orderGroup.CustomerId, orderGroup.Name);
-                    purchaseOrder = orderGroup.ConvertToPurchaseOrder(purchaseOrder);
-                    orderReference = _orderRepository.SaveAsPurchaseOrder(purchaseOrder);
-                }
+                var purchaseOrder = _orderRepository.Create<PurchaseOrder>(orderGroup.CustomerId, orderGroup.Name);
+                purchaseOrder = orderGroup.ConvertToPurchaseOrder(purchaseOrder);
+                orderReference = _orderRepository.SaveAsPurchaseOrder(purchaseOrder);
             }
             catch(Exception exception)
+            {
+                Logger.Error(exception.Message, exception);
+                return InternalServerError(exception);
+            }
+
+            return Ok(orderReference);
+        }
+
+        [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route("PaymentPlan")]
+        public virtual IHttpActionResult PostPaymentPlan([FromBody] Models.OrderGroup orderGroup)
+        {
+            Logger.LogPost("PostPaymentPlan", Request);
+
+            OrderReference orderReference;
+
+            try
+            {
+                var paymentPlan = _orderRepository.Create<PaymentPlan>(orderGroup.CustomerId, orderGroup.Name);
+                paymentPlan = orderGroup.ConvertToPaymentPlan(paymentPlan);
+                orderReference = _orderRepository.SaveAsPaymentPlan(paymentPlan);
+            }
+            catch (Exception exception)
             {
                 Logger.Error(exception.Message, exception);
                 return InternalServerError(exception);

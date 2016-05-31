@@ -218,7 +218,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             var json = JsonConvert.SerializeObject(model);
 
             var response =
-                _client.PostAsync($"/episerverapi/commerce/order/isPaymentPlan=false",
+                _client.PostAsync($"/episerverapi/commerce/order",
                     new StringContent(json, Encoding.UTF8, "application/json")).Result;
 
             var message = response.Content.ReadAsStringAsync().Result;
