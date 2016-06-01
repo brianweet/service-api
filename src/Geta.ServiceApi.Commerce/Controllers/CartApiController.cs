@@ -94,11 +94,9 @@ namespace Geta.ServiceApi.Commerce.Controllers
         {
             Logger.LogPut("PutCart", Request);
 
-            OrderReference orderReference;
-
             try
             {
-                orderReference = _orderRepository.Save(cart);
+                _orderRepository.Save(cart);
             }
             catch (Exception exception)
             {
@@ -106,7 +104,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 return InternalServerError(exception);
             }
 
-            return Ok(orderReference);
+            return Ok();
         }
 
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpDelete, Route("{customerId}/{name}")]

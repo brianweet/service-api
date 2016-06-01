@@ -4,6 +4,7 @@ using System.Text;
 using Geta.ServiceApi.Commerce.Models;
 using Geta.ServiceApi.Commerce.Tests.Base;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Xunit;
 using Cart = Mediachase.Commerce.Orders.Cart;
 
@@ -23,7 +24,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
         [Fact]
         public void post_creates_new_cart()
         {
-            var contactId = Guid.Parse("2A40754D-86D5-460B-A5A4-32BC87703567"); // admin contact
+            var contactId = Guid.Parse("6F1640B8-6DD2-4B36-8C87-BDC2A9C29580"); // admin contact
 
             var model = new OrderGroup
             {
@@ -34,7 +35,8 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             // Add address info
             // Add LineItems
 
-            Post(model);
+            var cart = Post(model);
+            Delete((Guid)cart.CustomerId, Cart.DefaultName);
         }
 
         private void Get(Guid customerId)
@@ -65,7 +67,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
         // TODO put
 
-        private void Post(OrderGroup model)
+        private dynamic Post(OrderGroup model)
         {
             var json = JsonConvert.SerializeObject(model);
 
@@ -76,6 +78,20 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception($"Post failed! Status: {response.StatusCode}. Message: {message}");
+            }
+
+            return JObject.Parse(message);
+        }
+
+        private void Delete(Guid customerId, string defaultName)
+        {
+            var response = Client.DeleteAsync($"/episerverapi/commerce/cart/{customerId}/{defaultName}").Result;
+
+            var message = response.Content.ReadAsStringAsync().Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Delete failed! Status: {response.StatusCode}. Message: {message}");
             }
         }
     }
