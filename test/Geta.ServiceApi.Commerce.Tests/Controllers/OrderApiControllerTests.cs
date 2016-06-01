@@ -39,8 +39,8 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             // Add address info
             // Add LineItems
 
-            var orderReference = Post(model);
-            Delete(orderReference.OrderGroupId);
+            var order = Post(model);
+            Delete((int)order.OrderGroupId);
         }
 
         [Fact]
@@ -55,14 +55,14 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
                 Name = cartName
             };
 
-            var orderReference = Post(model);
+            var order = Post(model);
 
             Search(OrderShipmentStatus.Packing, Guid.NewGuid());
             Search(OrderShipmentStatus.AwaitingInventory, null);
             Search(null, Guid.NewGuid());
             Search(null, null);
 
-            Delete(orderReference.OrderGroupId);
+            Delete((int)order.OrderGroupId);
         }
 
         [Fact]
@@ -77,17 +77,18 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
                 Name = cartName
             };
 
-            var orderReference = Post(postModel);
-            var order = Get(orderReference.OrderGroupId);
+            var newOrder = Post(postModel);
+            int orderGroupId = newOrder.OrderGroupId;
+            var order = Get(orderGroupId);
             var orderGroup = ToOrderGroup(order);
             var expectedStatus = "New status";
 
             orderGroup.Status = expectedStatus;
-            Put(orderReference.OrderGroupId, orderGroup);
+            Put(orderGroupId, orderGroup);
 
-            var savedOrder = Get(orderReference.OrderGroupId);
+            var savedOrder = Get(orderGroupId);
 
-            Delete(orderReference.OrderGroupId);
+            Delete(orderGroupId);
 
             Assert.Equal(expectedStatus, savedOrder.Status.ToString());
         }
@@ -200,7 +201,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private OrderReference Post(OrderGroup model)
+        private dynamic Post(OrderGroup model)
         {
             var json = JsonConvert.SerializeObject(model);
 
@@ -215,7 +216,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
                 throw new Exception($"Post failed! Status: {response.StatusCode}. Message: {message}");
             }
 
-            return JsonConvert.DeserializeObject<OrderReference>(message);
+            return JObject.Parse(message);
         }
 
         private void Put(int orderId, OrderGroup model)
