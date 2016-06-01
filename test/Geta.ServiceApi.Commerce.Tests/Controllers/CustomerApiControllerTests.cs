@@ -1,30 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Web.Script.Serialization;
 using Geta.ServiceApi.Commerce.Models;
+using Geta.ServiceApi.Commerce.Tests.Base;
+using Newtonsoft.Json;
 using Xunit;
 using Organization = Geta.ServiceApi.Commerce.Models.Organization;
 
 namespace Geta.ServiceApi.Commerce.Tests.Controllers
 {
-    public sealed class CustomerApiControllerTests : ApiControllerBase
+    public sealed class CustomerApiControllerTests : ApiTestsBase
     {
-        // Problems with using default JSON.NET (seems to be related to ScriptIgnoreAttribute)
-        private static readonly JavaScriptSerializer Serializer = new JavaScriptSerializer();
-
-        private readonly HttpClient _client;
-
-        public CustomerApiControllerTests()
-        {
-            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
-            _client = new HttpClient {BaseAddress = new Uri(IntegrationUrl)};
-            Authenticate(_client);
-        }
-
         [Fact]
         public void get_returns_contact()
         {
@@ -88,7 +76,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
         private void Get(Guid contactId)
         {
-            var response = _client.GetAsync($"/episerverapi/commerce/customer/contact/{contactId}").Result;
+            var response = Client.GetAsync($"/episerverapi/commerce/customer/contact/{contactId}").Result;
 
             var message = response.Content.ReadAsStringAsync().Result;
 
@@ -100,7 +88,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
         private void Get()
         {
-            var response = _client.GetAsync($"/episerverapi/commerce/customer/contact").Result;
+            var response = Client.GetAsync($"/episerverapi/commerce/customer/contact").Result;
 
             var message = response.Content.ReadAsStringAsync().Result;
 
@@ -112,9 +100,9 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
         private void GetXml()
         {
-            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
+            Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
 
-            var response = _client.GetAsync($"/episerverapi/commerce/customer/contact").Result;
+            var response = Client.GetAsync($"/episerverapi/commerce/customer/contact").Result;
 
             var message = response.Content.ReadAsStringAsync().Result;
 
@@ -126,9 +114,9 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
         private void Post(Guid userId, Contact model)
         {
-            var json = Serializer.Serialize(model);
+            var json = JsonConvert.SerializeObject(model);
 
-            var response = _client.PostAsync($"/episerverapi/commerce/customer/contact/{userId}", new StringContent(json, Encoding.UTF8, "application/json")).Result;
+            var response = Client.PostAsync($"/episerverapi/commerce/customer/contact/{userId}", new StringContent(json, Encoding.UTF8, "application/json")).Result;
 
             var message = response.Content.ReadAsStringAsync().Result;
 
@@ -140,7 +128,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
         private void Delete(Guid contactId)
         {
-            var response = _client.DeleteAsync($"/episerverapi/commerce/customer/contact/{contactId}").Result;
+            var response = Client.DeleteAsync($"/episerverapi/commerce/customer/contact/{contactId}").Result;
 
             var message = response.Content.ReadAsStringAsync().Result;
 
@@ -152,9 +140,9 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
         private void PutCustomer(Guid contactId, Contact model)
         {
-            var json = Serializer.Serialize(model);
+            var json = JsonConvert.SerializeObject(model);
 
-            var response = _client.PutAsync($"/episerverapi/commerce/customer/contact/{contactId}", new StringContent(json, Encoding.UTF8, "application/json")).Result;
+            var response = Client.PutAsync($"/episerverapi/commerce/customer/contact/{contactId}", new StringContent(json, Encoding.UTF8, "application/json")).Result;
 
             var message = response.Content.ReadAsStringAsync().Result;
 
@@ -166,7 +154,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
         private void Get(string orgId)
         {
-            var response = _client.GetAsync($"/episerverapi/commerce/customer/organization/{orgId}").Result;
+            var response = Client.GetAsync($"/episerverapi/commerce/customer/organization/{orgId}").Result;
 
             var message = response.Content.ReadAsStringAsync().Result;
 
@@ -178,7 +166,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
         private void GetOrganization()
         {
-            var response = _client.GetAsync($"/episerverapi/commerce/customer/organization").Result;
+            var response = Client.GetAsync($"/episerverapi/commerce/customer/organization").Result;
 
             var message = response.Content.ReadAsStringAsync().Result;
 
@@ -190,9 +178,9 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
         private void PostOrganization(Organization model)
         {
-            var json = Serializer.Serialize(model);
+            var json = JsonConvert.SerializeObject(model);
 
-            var response = _client.PostAsync($"/episerverapi/commerce/customer/organization", new StringContent(json, Encoding.UTF8, "application/json")).Result;
+            var response = Client.PostAsync($"/episerverapi/commerce/customer/organization", new StringContent(json, Encoding.UTF8, "application/json")).Result;
 
             var message = response.Content.ReadAsStringAsync().Result;
 
@@ -204,7 +192,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
         private void DeleteOrganization(string orgId)
         {
-            var response = _client.DeleteAsync($"/episerverapi/commerce/customer/organization/{orgId}").Result;
+            var response = Client.DeleteAsync($"/episerverapi/commerce/customer/organization/{orgId}").Result;
 
             var message = response.Content.ReadAsStringAsync().Result;
 
@@ -216,9 +204,9 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
         private void PutOrganization(Organization model)
         {
-            var json = Serializer.Serialize(model);
+            var json = JsonConvert.SerializeObject(model);
 
-            var response = _client.PutAsync($"/episerverapi/commerce/customer/organization", new StringContent(json, Encoding.UTF8, "application/json")).Result;
+            var response = Client.PutAsync($"/episerverapi/commerce/customer/organization", new StringContent(json, Encoding.UTF8, "application/json")).Result;
 
             var message = response.Content.ReadAsStringAsync().Result;
 

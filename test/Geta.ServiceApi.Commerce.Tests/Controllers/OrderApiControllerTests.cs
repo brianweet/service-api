@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using Geta.ServiceApi.Commerce.Tests.Base;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Orders;
 using Newtonsoft.Json;
@@ -11,22 +12,8 @@ using Xunit;
 
 namespace Geta.ServiceApi.Commerce.Tests.Controllers
 {
-    public sealed class OrderApiControllerTests : ApiControllerBase, IDisposable
+    public sealed class OrderApiControllerTests : ApiTestsBase, IDisposable
     {
-        private readonly HttpClient _client;
-
-        public OrderApiControllerTests()
-        {
-            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
-            _client = new HttpClient {BaseAddress = new Uri(IntegrationUrl)};
-            Authenticate(_client);
-        }
-
-        public void Dispose()
-        {
-            _client.Dispose();
-        }
-
         [Fact]
         public void get_returns_order()
         {
@@ -142,7 +129,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
         private dynamic Get(int orderId)
         {
-            var response = _client.GetAsync($"/episerverapi/commerce/order/{orderId}").Result;
+            var response = Client.GetAsync($"/episerverapi/commerce/order/{orderId}").Result;
 
             var message = response.Content.ReadAsStringAsync().Result;
 
@@ -156,7 +143,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
         private void GetNotFound(int orderId)
         {
-            var response = _client.GetAsync($"/episerverapi/commerce/order/{orderId}").Result;
+            var response = Client.GetAsync($"/episerverapi/commerce/order/{orderId}").Result;
 
             var message = response.Content.ReadAsStringAsync().Result;
 
@@ -168,7 +155,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
         private void Get(Guid customerId)
         {
-            var response = _client.GetAsync($"/episerverapi/commerce/order/{customerId}/all").Result;
+            var response = Client.GetAsync($"/episerverapi/commerce/order/{customerId}/all").Result;
 
             var message = response.Content.ReadAsStringAsync().Result;
 
@@ -184,25 +171,25 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             if (orderShipmentStatus != null && shippingMethodId != null)
             {
                 response =
-                    _client.GetAsync(
+                    Client.GetAsync(
                         $"/episerverapi/commerce/order/0/100/search/?OrderShipmentStatus={orderShipmentStatus}&ShippingMethodId={shippingMethodId}")
                         .Result;
             }
             else if (orderShipmentStatus != null)
             {
                 response =
-                    _client.GetAsync(
+                    Client.GetAsync(
                         $"/episerverapi/commerce/order/0/100/search/?OrderShipmentStatus={orderShipmentStatus}").Result;
             }
             else if (shippingMethodId != null)
             {
                 response =
-                    _client.GetAsync($"/episerverapi/commerce/order/0/100/search/?ShippingMethodId={shippingMethodId}")
+                    Client.GetAsync($"/episerverapi/commerce/order/0/100/search/?ShippingMethodId={shippingMethodId}")
                         .Result;
             }
             else
             {
-                response = _client.GetAsync($"/episerverapi/commerce/order/0/100/search/").Result;
+                response = Client.GetAsync($"/episerverapi/commerce/order/0/100/search/").Result;
             }
 
             var message = response.Content.ReadAsStringAsync().Result;
@@ -218,7 +205,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             var json = JsonConvert.SerializeObject(model);
 
             var response =
-                _client.PostAsync($"/episerverapi/commerce/order",
+                Client.PostAsync($"/episerverapi/commerce/order",
                     new StringContent(json, Encoding.UTF8, "application/json")).Result;
 
             var message = response.Content.ReadAsStringAsync().Result;
@@ -236,7 +223,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             var json = JsonConvert.SerializeObject(model);
 
             var response =
-                _client.PutAsync($"/episerverapi/commerce/order/{orderId}",
+                Client.PutAsync($"/episerverapi/commerce/order/{orderId}",
                     new StringContent(json, Encoding.UTF8, "application/json")).Result;
 
             var message = response.Content.ReadAsStringAsync().Result;
@@ -249,7 +236,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
         private void Delete(int orderGroupId)
         {
-            var response = _client.DeleteAsync($"/episerverapi/commerce/order/{orderGroupId}").Result;
+            var response = Client.DeleteAsync($"/episerverapi/commerce/order/{orderGroupId}").Result;
 
             var message = response.Content.ReadAsStringAsync().Result;
 

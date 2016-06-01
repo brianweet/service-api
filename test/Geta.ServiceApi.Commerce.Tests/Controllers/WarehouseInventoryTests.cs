@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Net;
 using System.Net.Http;
 using System.Text;
+using Geta.ServiceApi.Commerce.Tests.Base;
 using Newtonsoft.Json;
 using Xunit;
 
 namespace Geta.ServiceApi.Commerce.Tests.Controllers
 {
-    public class WarehouseInventoryTests : ApiControllerBase
+    public class WarehouseInventoryTests : ApiTestsBase
     {
         [Fact]
         public void post_adds_inventory_item()
         {
-            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
-
             var warehouseCode = "default";
             var entryCode = "SKU-35278811";
 
@@ -33,24 +31,18 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
                 WarehouseCode = warehouseCode
             };
 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(IntegrationUrl);
-
-                Authenticate(client);
-                GetCatalogs(client);
-                GetFirst10Entries(client);
-                GetEntry(entryCode, client);
-                Post(model, client);
-                Get(model, client);
-                Delete(model, client);
-            }
+            GetCatalogs();
+            GetFirst10Entries();
+            GetEntry(entryCode);
+            Post(model);
+            Get(model);
+            Delete(model);
         }
 
-        private void GetCatalogs(HttpClient client)
+        private void GetCatalogs()
         {
             var response =
-                client.GetAsync("/episerverapi/commerce/catalogs")
+                Client.GetAsync("/episerverapi/commerce/catalogs")
                     .Result;
             if (!response.IsSuccessStatusCode)
             {
@@ -58,10 +50,10 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private void GetFirst10Entries(HttpClient client)
+        private void GetFirst10Entries()
         {
             var response =
-                client.GetAsync("/episerverapi/commerce/entries/1/10")
+                Client.GetAsync("/episerverapi/commerce/entries/1/10")
                     .Result;
             if (!response.IsSuccessStatusCode)
             {
@@ -69,10 +61,10 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private static void GetEntry(string catalogEntryCode, HttpClient client)
+        private void GetEntry(string catalogEntryCode)
         {
             var response =
-                client.GetAsync($"/episerverapi/commerce/entries/{catalogEntryCode}")
+                Client.GetAsync($"/episerverapi/commerce/entries/{catalogEntryCode}")
                     .Result;
             if (!response.IsSuccessStatusCode)
             {
@@ -80,10 +72,10 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private static void Get(WarehouseInventory model, HttpClient client)
+        private void Get(WarehouseInventory model)
         {
             var response =
-                client.GetAsync($"/episerverapi/commerce/entries/{model.CatalogEntryCode}/inventories")
+                Client.GetAsync($"/episerverapi/commerce/entries/{model.CatalogEntryCode}/inventories")
                     .Result;
             if (!response.IsSuccessStatusCode)
             {
@@ -91,10 +83,10 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private static void Delete(WarehouseInventory model, HttpClient client)
+        private void Delete(WarehouseInventory model)
         {
             var response =
-                client.DeleteAsync($"/episerverapi/commerce/entries/{model.CatalogEntryCode}/inventories/{model.WarehouseCode}")
+                Client.DeleteAsync($"/episerverapi/commerce/entries/{model.CatalogEntryCode}/inventories/{model.WarehouseCode}")
                     .Result;
             if (!response.IsSuccessStatusCode)
             {
@@ -102,11 +94,11 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private static void Post(WarehouseInventory model, HttpClient client)
+        private void Post(WarehouseInventory model)
         {
             var json = JsonConvert.SerializeObject(model);
             var response =
-                client.PostAsync($"/episerverapi/commerce/entries/{model.CatalogEntryCode}/inventories",
+                Client.PostAsync($"/episerverapi/commerce/entries/{model.CatalogEntryCode}/inventories",
                     new StringContent(json, Encoding.UTF8, "application/json"))
                     .Result;
 
