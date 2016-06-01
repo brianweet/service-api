@@ -337,7 +337,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\ApiControllerBase.cs" />
+    <Compile Include="Base\ApiTestsBase.cs" />
     <Compile Include="Controllers\CartApiControllerTests.cs" />
     <Compile Include="Controllers\CustomerApiControllerTests.cs" />
     <Compile Include="Controllers\OrderApiControllerTests.cs" />

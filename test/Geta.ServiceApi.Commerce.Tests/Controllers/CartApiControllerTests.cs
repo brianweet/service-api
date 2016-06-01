@@ -1,66 +1,47 @@
 ﻿using System;
-using System.Net;
 using System.Net.Http;
 using System.Text;
-using System.Web.Script.Serialization;
 using Geta.ServiceApi.Commerce.Models;
-using Mediachase.Commerce;
+using Geta.ServiceApi.Commerce.Tests.Base;
 using Newtonsoft.Json;
 using Xunit;
 using Cart = Mediachase.Commerce.Orders.Cart;
 
 namespace Geta.ServiceApi.Commerce.Tests.Controllers
 {
-    public class CartApiControllerTests : ApiControllerBase
+    public class CartApiControllerTests : ApiTestsBase
     {
         [Fact]
         public void get_returns_cart()
         {
-            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
-
             var customerId = Guid.Parse("2A40754D-86D5-460B-A5A4-32BC87703567"); // admin contact;
 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(IntegrationUrl);
-
-                Authenticate(client);
-                Get(customerId, client);
-                Get(client);
-            }
+            Get(customerId);
+            Get();
         }
 
         [Fact]
         public void post_creates_new_cart()
         {
-            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
-
-            int orderGroupId = 12345;
             var contactId = Guid.Parse("2A40754D-86D5-460B-A5A4-32BC87703567"); // admin contact
-            string cartName = Cart.DefaultName;
 
-            var model = new OrderGroup();
-            model.Name = cartName;
-
-            model.CustomerId = contactId;
+            var model = new OrderGroup
+            {
+                Name = Cart.DefaultName,
+                CustomerId = contactId
+            };
 
             // Add address info
             // Add LineItems
 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(IntegrationUrl);
-
-                Authenticate(client);
-                Post(model, client);
-            }
+            Post(model);
         }
 
-        private static void Get(Guid customerId, HttpClient client)
+        private void Get(Guid customerId)
         {
-            var response = client.GetAsync($"/episerverapi/commerce/cart/{customerId}/default").Result;
+            var response = Client.GetAsync($"/episerverapi/commerce/cart/{customerId}/default").Result;
 
-            string message = response.Content.ReadAsStringAsync().Result;
+            var message = response.Content.ReadAsStringAsync().Result;
 
             if (!response.IsSuccessStatusCode)
             {
@@ -68,11 +49,11 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private static void Get(HttpClient client)
+        private void Get()
         {
-            var response = client.GetAsync("/episerverapi/commerce/cart/search/1/10").Result;
+            var response = Client.GetAsync("/episerverapi/commerce/cart/search/1/10").Result;
 
-            string message = response.Content.ReadAsStringAsync().Result;
+            var message = response.Content.ReadAsStringAsync().Result;
 
             if (!response.IsSuccessStatusCode)
             {
@@ -84,17 +65,13 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
         // TODO put
 
-        private static void Post(OrderGroup model, HttpClient client)
+        private void Post(OrderGroup model)
         {
-            // Problems with using JavaScript Serializer circular reference exception. Works with JSON.NET
-            var serializer = new JavaScriptSerializer();
-            //var json = serializer.Serialize(model);
-
             var json = JsonConvert.SerializeObject(model);
 
-            var response = client.PostAsync($"/episerverapi/commerce/cart", new StringContent(json, Encoding.UTF8, "application/json")).Result;
+            var response = Client.PostAsync($"/episerverapi/commerce/cart", new StringContent(json, Encoding.UTF8, "application/json")).Result;
 
-            string message = response.Content.ReadAsStringAsync().Result;
+            var message = response.Content.ReadAsStringAsync().Result;
 
             if (!response.IsSuccessStatusCode)
             {
