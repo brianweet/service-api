@@ -164,13 +164,11 @@ namespace Geta.ServiceApi.Commerce.Controllers
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPut, Route("{orderGroupId}")]
         public virtual IHttpActionResult PutOrder(int orderGroupId, [FromBody] Models.OrderGroup orderGroup)
         {
-            OrderReference orderReference;
-
             try
             {
                 var order = _orderRepository.Load<PurchaseOrder>(orderGroupId);
                 order = orderGroup.ConvertToPurchaseOrder(order);
-                orderReference = _orderRepository.Save(order);
+                _orderRepository.Save(order);
             }
             catch (Exception exception)
             {
@@ -178,7 +176,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 return InternalServerError(exception);
             }
 
-            return Ok(orderReference);
+            return Ok();
         }
 
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpDelete, Route("{orderGroupId}")]
@@ -213,21 +211,19 @@ namespace Geta.ServiceApi.Commerce.Controllers
         {
             Logger.LogPost("PostOrder", Request);
 
-            OrderReference orderReference;
-
             try
             {
                 var purchaseOrder = _orderRepository.Create<PurchaseOrder>(orderGroup.CustomerId, orderGroup.Name);
                 purchaseOrder = orderGroup.ConvertToPurchaseOrder(purchaseOrder);
-                orderReference = _orderRepository.SaveAsPurchaseOrder(purchaseOrder);
+                _orderRepository.SaveAsPurchaseOrder(purchaseOrder);
+
+                return Ok(purchaseOrder);
             }
             catch(Exception exception)
             {
                 Logger.Error(exception.Message, exception);
                 return InternalServerError(exception);
             }
-
-            return Ok(orderReference);
         }
 
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route("PaymentPlan")]
@@ -235,21 +231,18 @@ namespace Geta.ServiceApi.Commerce.Controllers
         {
             Logger.LogPost("PostPaymentPlan", Request);
 
-            OrderReference orderReference;
-
             try
             {
                 var paymentPlan = _orderRepository.Create<PaymentPlan>(orderGroup.CustomerId, orderGroup.Name);
                 paymentPlan = orderGroup.ConvertToPaymentPlan(paymentPlan);
-                orderReference = _orderRepository.SaveAsPaymentPlan(paymentPlan);
+
+                return Ok(paymentPlan);
             }
             catch (Exception exception)
             {
                 Logger.Error(exception.Message, exception);
                 return InternalServerError(exception);
             }
-
-            return Ok(orderReference);
         }
     }
 }
