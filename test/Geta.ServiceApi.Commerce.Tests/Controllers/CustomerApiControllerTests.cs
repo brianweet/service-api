@@ -112,7 +112,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private void Post(Guid userId, Contact model)
+        private Contact Post(Guid userId, Contact model)
         {
             var json = JsonConvert.SerializeObject(model);
 
@@ -124,6 +124,8 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             {
                 throw new Exception($"Post failed! Status: {response.StatusCode}. Message: {message}");
             }
+
+            return JsonConvert.DeserializeObject<Contact>(message);
         }
 
         private void Delete(Guid contactId)
@@ -176,7 +178,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private void PostOrganization(Organization model)
+        private Organization PostOrganization(Organization model)
         {
             var json = JsonConvert.SerializeObject(model);
 
@@ -188,6 +190,8 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             {
                 throw new Exception($"Post failed! Status: {response.StatusCode}. Message: {message}");
             }
+
+            return JsonConvert.DeserializeObject<Organization>(message);
         }
 
         private void DeleteOrganization(string orgId)
