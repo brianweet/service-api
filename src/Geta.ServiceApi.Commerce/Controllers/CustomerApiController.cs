@@ -231,9 +231,11 @@ namespace Geta.ServiceApi.Commerce.Controllers
 
             try
             {
-                CustomerContact customerContact = CustomerContact.CreateInstance();
+                var customerContact = CustomerContact.CreateInstance();
 
                 CustomerMappings.CreateContact(customerContact, userId, contact);
+
+                contact = customerContact.ConvertToContact();
             }
             catch (Exception exception)
             {
@@ -241,7 +243,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 return InternalServerError(exception);
             }
 
-            return Ok();
+            return Ok(contact);
         }
 
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route("organization")]
@@ -259,6 +261,8 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 //newOrganization.Contacts = 
 
                 newOrganization.SaveChanges();
+
+                organization = newOrganization.ConvertToOrganization();
             }
             catch (Exception exception)
             {
@@ -266,7 +270,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 return InternalServerError(exception);
             }
 
-            return Ok();
+            return Ok(organization);
         }
     }
 }
