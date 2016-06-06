@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -91,6 +92,30 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             Delete(orderGroupId);
 
             Assert.Equal(expectedStatus, savedOrder.Status.ToString());
+        }
+
+        [Fact]
+        public void it_searches_since_modified_date()
+        {
+            var contactId = Guid.Parse("2A40754D-86D5-460B-A5A4-32BC87703567"); // admin contact
+            var cartName = Cart.DefaultName;
+
+            var postModel = new OrderGroup
+            {
+                CustomerId = contactId,
+                Name = cartName
+            };
+
+            var newOrder = Post(postModel);
+            int orderGroupId = newOrder.OrderGroupId;
+
+            var updatedSince = DateTime.UtcNow.AddMinutes(-1);
+            var orders = Search(updatedSince);
+
+            Delete(orderGroupId);
+
+            Assert.True(orders.Any(x => (DateTime) x["Modified"] >= updatedSince));
+            Assert.False(orders.Any(x => (DateTime) x["Modified"] < updatedSince));
         }
 
         private OrderGroup ToOrderGroup(dynamic order)
@@ -199,6 +224,20 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             {
                 throw new Exception($"Get failed! Status: {response.StatusCode}. Message: {message}");
             }
+        }
+
+        private JArray Search(DateTime modifiedFrom)
+        {
+            var response = Client.GetAsync($"/episerverapi/commerce/order/0/100/search/?modifiedFrom={modifiedFrom}").Result;
+
+            var message = response.Content.ReadAsStringAsync().Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Get failed! Status: {response.StatusCode}. Message: {message}");
+            }
+
+            return JArray.Parse(message);
         }
 
         private dynamic Post(OrderGroup model)

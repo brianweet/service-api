@@ -97,6 +97,11 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 searchOptions.Classes.Add("PurchaseOrder");
                 parameters.SqlMetaWhereClause = string.Empty;
 
+                if (request?.ModifiedFrom.HasValue ?? false)
+                {
+                    parameters.SqlMetaWhereClause = $"META.Modified >= '{request.ModifiedFrom}'";
+                }
+
                 if (request?.OrderShipmentStatus != null && request.ShippingMethodId != null && request.ShippingMethodId != Guid.Empty)
                 {
                     parameters.SqlWhereClause =
