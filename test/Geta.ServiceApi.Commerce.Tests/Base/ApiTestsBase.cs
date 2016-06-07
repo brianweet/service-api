@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 using Newtonsoft.Json.Linq;
 
 namespace Geta.ServiceApi.Commerce.Tests.Base
@@ -28,6 +31,50 @@ namespace Geta.ServiceApi.Commerce.Tests.Base
         public void Dispose()
         {
             Client.Dispose();
+        }
+
+        protected void AcceptXml()
+        {
+            Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/xml"));
+        }
+
+        protected void RemoveAcceptXml()
+        {
+            Client.DefaultRequestHeaders.Accept.Remove(new MediaTypeWithQualityHeaderValue("text/xml"));
+        }
+
+        protected static bool IsXml(string xmlString)
+        {
+            try
+            {
+                // ReSharper disable once UnusedVariable
+                var doc = XDocument.Parse(xmlString);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        protected string SerializeXml<T>(T toSerialize)
+        {
+            var xmlSerializer = new XmlSerializer(toSerialize.GetType());
+
+            using (var textWriter = new StringWriter())
+            {
+                xmlSerializer.Serialize(textWriter, toSerialize);
+                return textWriter.ToString();
+            }
+        }
+
+        protected T DeserizalizeXml<T>(string xml)
+        {
+            var serializer = new XmlSerializer(typeof(T));
+            using (TextReader reader = new StringReader(xml))
+            {
+                return (T)serializer.Deserialize(reader);
+            }
         }
 
         private void Authenticate(HttpClient client)
