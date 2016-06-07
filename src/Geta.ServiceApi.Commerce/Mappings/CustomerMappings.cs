@@ -22,7 +22,7 @@ namespace Geta.ServiceApi.Commerce.Mappings
             return new Contact
             {
                 PrimaryKeyId = customerContact.PrimaryKeyId,
-                Addresses = customerContact.ContactAddresses.Select(a => a.ConvertToAddress()),
+                Addresses = customerContact.ContactAddresses.Select(a => a.ConvertToAddress()).ToArray(),
                 FirstName = customerContact.FirstName,
                 LastName = customerContact.LastName,
                 Email = customerContact.Email,

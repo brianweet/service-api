@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using Geta.ServiceApi.Commerce.Models;
 using Geta.ServiceApi.Commerce.Tests.Base;
@@ -18,9 +17,12 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
         {
             var contactId = Guid.Parse("2A40754D-86D5-460B-A5A4-32BC87703567"); // admin contact
 
-            GetXml();
+            var xmlString = GetXml();
+
             Get();
             Get(contactId);
+
+            Assert.True(IsXml(xmlString));
         }
 
         [Fact]
@@ -55,7 +57,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
                 LastName = "Vig",
                 Email = "frederik@geta.no",
                 RegistrationSource = "Geta.ServiceApi.Commerce integration tests",
-                Addresses = addresses
+                Addresses = addresses.ToArray()
             };
 
             Post(userId, model);
@@ -98,11 +100,11 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
-        private void GetXml()
+        private string GetXml()
         {
-            Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
-
+            AcceptXml();
             var response = Client.GetAsync($"/episerverapi/commerce/customer/contact").Result;
+            RemoveAcceptXml();
 
             var message = response.Content.ReadAsStringAsync().Result;
 
@@ -110,6 +112,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             {
                 throw new Exception($"Get failed! Status: {response.StatusCode}. Message: {message}");
             }
+            return message;
         }
 
         private Contact Post(Guid userId, Contact model)
