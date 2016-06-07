@@ -34,6 +34,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             GetCatalogs();
             GetFirst10Entries();
             GetEntry(entryCode);
+            PostXml(model);
             Post(model);
             Get(model);
             Delete(model);
@@ -105,6 +106,24 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception($"Post failed! Status: {response.StatusCode}");
+            }
+        }
+
+        private void PostXml(WarehouseInventory model)
+        {
+            var xml = SerializeXml(model);
+            AcceptXml();
+            var response =
+                Client.PostAsync($"/episerverapi/commerce/entries/{model.CatalogEntryCode}/inventories",
+                    new StringContent(xml, Encoding.Unicode, "application/xml"))
+                    .Result;
+            RemoveAcceptXml();
+
+            var message = response.Content.ReadAsStringAsync().Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Post failed! Status: {response.StatusCode}. Message: {message}");
             }
         }
     }
