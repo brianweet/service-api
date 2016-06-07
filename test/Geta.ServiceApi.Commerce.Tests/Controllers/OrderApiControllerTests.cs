@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Xml.Linq;
 using Geta.ServiceApi.Commerce.Tests.Base;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Orders;
@@ -118,6 +119,27 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             Assert.False(orders.Any(x => (DateTime) x["Modified"] < updatedSince));
         }
 
+        [Fact]
+        public void it_posts_and_searches_with_accept_xml()
+        {
+            var contactId = Guid.Parse("2A40754D-86D5-460B-A5A4-32BC87703567"); // admin contact
+            var cartName = "default";
+
+            var postModel = new OrderGroup
+            {
+                CustomerId = contactId,
+                Name = cartName
+            };
+
+            var orderGroupId = PostXml(postModel);
+
+            var xmlString = SearchXml();
+
+            Delete(orderGroupId);
+
+            Assert.True(IsXml(xmlString));
+        }
+
         private OrderGroup ToOrderGroup(dynamic order)
         {
             Func<object, Guid> toGuid = x =>
@@ -226,6 +248,22 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
         }
 
+        private string SearchXml()
+        {
+            AcceptXml();
+            var response = Client.GetAsync($"/episerverapi/commerce/order/0/100/search").Result;
+            RemoveAcceptXml();
+
+            var message = response.Content.ReadAsStringAsync().Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Get failed! Status: {response.StatusCode}. Message: {message}");
+            }
+
+            return message;
+        }
+
         private JArray Search(DateTime modifiedFrom)
         {
             var response = Client.GetAsync($"/episerverapi/commerce/order/0/100/search/?modifiedFrom={modifiedFrom}").Result;
@@ -238,6 +276,31 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             }
 
             return JArray.Parse(message);
+        }
+
+        private int PostXml(OrderGroup model)
+        {
+            var xml = SerializeXml(model);
+
+            AcceptXml();
+            var response =
+                Client.PostAsync($"/episerverapi/commerce/order",
+                    new StringContent(xml, Encoding.Unicode, "application/xml")).Result;
+            RemoveAcceptXml();
+
+            var message = response.Content.ReadAsStringAsync().Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Post failed! Status: {response.StatusCode}. Message: {message}");
+            }
+
+            var document = XDocument.Parse(message);
+            var str = document.Descendants(XName.Get("OrderGroupId")).First().Value;
+            int orderGroupId;
+            int.TryParse(str, out orderGroupId);
+
+            return orderGroupId;
         }
 
         private dynamic Post(OrderGroup model)

@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Marketing;
 using Mediachase.Commerce.Orders;
 
 namespace Geta.ServiceApi.Commerce.Models
 {
+    [Serializable]
     public class OrderGroup
     {
         public string AddressId { get; set; }
@@ -24,9 +24,7 @@ namespace Geta.ServiceApi.Commerce.Models
 
         public MarketId MarketId { get; set; }
 
-        public IList<PromotionInformation> Promotions { get; set; }
-
-        public IMarket Market { get; set; }
+        public PromotionInformation[] Promotions { get; set; }
 
         public string Name { get; set; }
 
