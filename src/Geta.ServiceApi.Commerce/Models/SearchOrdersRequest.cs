@@ -8,5 +8,6 @@ namespace Geta.ServiceApi.Commerce.Models
         public OrderShipmentStatus? OrderShipmentStatus { get; set; }
         public Guid? ShippingMethodId { get; set; }
         public DateTime? ModifiedFrom { get; set; }
+        public string[] Status { get; set; }
     }
 }

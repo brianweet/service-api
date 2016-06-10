@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -117,6 +118,38 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
 
             Assert.True(orders.Any(x => (DateTime) x["Modified"] >= updatedSince));
             Assert.False(orders.Any(x => (DateTime) x["Modified"] < updatedSince));
+        }
+
+        [Fact]
+        public void it_searches_by_statuses()
+        {
+            var contactId = Guid.Parse("2A40754D-86D5-460B-A5A4-32BC87703567"); // admin contact
+            var cartName = Cart.DefaultName;
+
+            var statuses = new[] {"InProgress", "Completed", "OnHold", "PartiallyShipped"};
+            var orderIds = new List<int>();
+            foreach (var status in statuses)
+            {
+                var postModel = new OrderGroup
+                {
+                    CustomerId = contactId,
+                    Name = cartName,
+                    Status = status
+                };
+
+                var newOrder = Post(postModel);
+                orderIds.Add((int)newOrder.OrderGroupId);
+            }
+
+            var expectedStatuses = new[] {"InProgress", "OnHold"};
+            var orders = Search(expectedStatuses);
+
+            foreach (var orderId in orderIds)
+            {
+                Delete(orderId);
+            }
+
+            Assert.True(orders.All(x => expectedStatuses.Contains((string) x["Status"])));
         }
 
         [Fact]
@@ -267,6 +300,21 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
         private JArray Search(DateTime modifiedFrom)
         {
             var response = Client.GetAsync($"/episerverapi/commerce/order/0/100/search/?modifiedFrom={modifiedFrom}").Result;
+
+            var message = response.Content.ReadAsStringAsync().Result;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Get failed! Status: {response.StatusCode}. Message: {message}");
+            }
+
+            return JArray.Parse(message);
+        }
+
+        private JArray Search(string[] statuses)
+        {
+            var statusParam = string.Join("&", statuses.Select(x => $"status={x}"));
+            var response = Client.GetAsync($"/episerverapi/commerce/order/0/100/search/?{statusParam}").Result;
 
             var message = response.Content.ReadAsStringAsync().Result;
 

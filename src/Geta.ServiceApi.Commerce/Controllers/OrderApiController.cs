@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 using EPiServer.Commerce.Order;
 using EPiServer.ServiceApi.Configuration;
@@ -114,6 +115,17 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 else if (request?.ShippingMethodId != null && request.ShippingMethodId != Guid.Empty)
                 {
                     parameters.SqlWhereClause = $"[OrderGroupId] IN (SELECT [OrderGroupId] FROM [Shipment] WHERE [ShippingMethodId] = '{request.ShippingMethodId}')";
+                }
+
+                if (request != null && request.Status.Length > 0)
+                {
+                    if (!string.IsNullOrEmpty(parameters.SqlWhereClause))
+                    {
+                        parameters.SqlWhereClause += " AND ";
+                    }
+
+                    var statusesParam = string.Join(",", request.Status.Select(x => $"'{x}'"));
+                    parameters.SqlWhereClause += $"Status IN ({statusesParam})";
                 }
 
                 orders = OrderContext.Current.FindPurchaseOrders(parameters, searchOptions);
