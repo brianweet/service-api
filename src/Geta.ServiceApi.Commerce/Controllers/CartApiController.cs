@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Http;
+using System.Web.Http.Description;
 using EPiServer.Commerce.Marketing;
 using EPiServer.Commerce.Order;
 using EPiServer.ServiceApi.Configuration;
@@ -42,6 +43,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
         /// <param name="name">Cart name - usually "default"</param>
         /// <returns>Customer's cart</returns>
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{customerId}/{name}")]
+        [ResponseType(typeof(Cart))]
         public virtual IHttpActionResult GetCart(Guid customerId, string name)
         {
             Logger.LogGet("GetCart", Request, new []{ customerId .ToString(), name});
@@ -72,6 +74,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
         /// <param name="maxCount">Max number of records to return</param>
         /// <returns>Array of carts</returns>
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("search/{start}/{maxCount}")]
+        [ResponseType(typeof(Cart[]))]
         public virtual IHttpActionResult GetCarts(int start, int maxCount)
         {
             Logger.LogGet("GetCarts", Request, new []{start.ToString(), maxCount.ToString()});
@@ -172,6 +175,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
         /// <param name="orderGroup">Cart's order group model</param>
         /// <returns>Customer's cart</returns>
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route]
+        [ResponseType(typeof(Cart))]
         public virtual IHttpActionResult PostCart([FromBody] OrderGroup orderGroup)
         {
             Logger.LogPost("PostCart", Request);

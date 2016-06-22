@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Description;
 using EPiServer.Commerce.Order;
 using EPiServer.ServiceApi.Configuration;
 using EPiServer.ServiceApi.Util;
@@ -40,6 +41,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
         /// <param name="orderGroupId">Order group ID</param>
         /// <returns>Order</returns>
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{orderGroupId}")]
+        [ResponseType(typeof(PurchaseOrder))]
         public virtual IHttpActionResult GetOrder(int orderGroupId)
         {
             Logger.LogGet("GetOrders", Request, new[] { orderGroupId.ToString() });
@@ -70,6 +72,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
         /// <param name="customerId">Customer ID (GUID)</param>
         /// <returns>Array of orders</returns>
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{customerId}/all")]
+        [ResponseType(typeof(IEnumerable<IOrderGroup>))]
         public virtual IHttpActionResult GetOrders(Guid customerId)
         {
             Logger.LogGet("GetOrders", Request, new[] { customerId.ToString() });
@@ -97,6 +100,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
         /// <param name="request">Orders search parameters model</param>
         /// <returns>Array of orders</returns>
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{start}/{maxCount}/search")]
+        [ResponseType(typeof(PurchaseOrder[]))]
         public virtual IHttpActionResult SearchOrders(int start, int maxCount, [FromUri] SearchOrdersRequest request)
         {
             Logger.LogGet("GetOrders", Request, new[] {start.ToString(), maxCount.ToString(), $"{request?.OrderShipmentStatus}", $"{request?.ShippingMethodId}"});
@@ -170,6 +174,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
         /// <param name="maxCount">Max number of records to return</param>
         /// <returns>Array of orders</returns>
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{start}/{maxCount}/all")]
+        [ResponseType(typeof(PurchaseOrder[]))]
         public virtual IHttpActionResult GetOrders(int start, int maxCount)
         {
             Logger.LogGet("GetOrders", Request, new []{start.ToString(), maxCount.ToString()});
@@ -269,6 +274,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
         /// <param name="orderGroup">Order group model</param>
         /// <returns>Order</returns>
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route]
+        [ResponseType(typeof(PurchaseOrder))]
         public virtual IHttpActionResult PostOrder([FromBody] Models.OrderGroup orderGroup)
         {
             Logger.LogPost("PostOrder", Request);
@@ -294,6 +300,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
         /// <param name="orderGroup">Order group model</param>
         /// <returns>Payment plan</returns>
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route("PaymentPlan")]
+        [ResponseType(typeof(PaymentPlan))]
         public virtual IHttpActionResult PostPaymentPlan([FromBody] Models.OrderGroup orderGroup)
         {
             Logger.LogPost("PostPaymentPlan", Request);
