@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Http;
+using System.Web.Http.Description;
 using EPiServer.Commerce.Marketing;
 using EPiServer.Commerce.Order;
 using EPiServer.ServiceApi.Configuration;
@@ -11,6 +12,9 @@ using OrderGroup = Geta.ServiceApi.Commerce.Models.OrderGroup;
 
 namespace Geta.ServiceApi.Commerce.Controllers
 {
+    /// <summary>
+    /// Cart API controller.
+    /// </summary>
     [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), RequireHttps, RoutePrefix("episerverapi/commerce/cart")]
     public class CartApiController : ApiController
     {
@@ -21,17 +25,28 @@ namespace Geta.ServiceApi.Commerce.Controllers
         private readonly IOrderRepository _orderRepository;
         private readonly IPromotionEngine _promotionEngine;
 
+        /// <summary>
+        /// Initializes a new instance of the CartApiController.
+        /// </summary>
+        /// <param name="orderRepository"></param>
+        /// <param name="promotionEngine"></param>
         public CartApiController(IOrderRepository orderRepository, IPromotionEngine promotionEngine)
         {
-            this._orderRepository = orderRepository;
-            this._promotionEngine = promotionEngine;
+            _orderRepository = orderRepository;
+            _promotionEngine = promotionEngine;
         }
 
+        /// <summary>
+        /// Returns customer's cart.
+        /// </summary>
+        /// <param name="customerId">Customer ID</param>
+        /// <param name="name">Cart name - usually "default"</param>
+        /// <returns>Customer's cart</returns>
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{customerId}/{name}")]
+        [ResponseType(typeof(Cart))]
         public virtual IHttpActionResult GetCart(Guid customerId, string name)
         {
             Logger.LogGet("GetCart", Request, new []{ customerId .ToString(), name});
-
             if (string.IsNullOrEmpty(name))
             {
                 name = _defaultName;
@@ -41,7 +56,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
 
             try
             {
-                cart = this._orderRepository.LoadOrCreate<Cart>(customerId, name);
+                cart = _orderRepository.LoadOrCreate<Cart>(customerId, name);
             }
             catch (Exception exception)
             {
@@ -52,7 +67,14 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(cart);
         }
 
+        /// <summary>
+        /// Returns carts.
+        /// </summary>
+        /// <param name="start">Start record index</param>
+        /// <param name="maxCount">Max number of records to return</param>
+        /// <returns>Array of carts</returns>
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("search/{start}/{maxCount}")]
+        [ResponseType(typeof(Cart[]))]
         public virtual IHttpActionResult GetCarts(int start, int maxCount)
         {
             Logger.LogGet("GetCarts", Request, new []{start.ToString(), maxCount.ToString()});
@@ -89,6 +111,10 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(carts);
         }
 
+        /// <summary>
+        /// Updates existing cart.
+        /// </summary>
+        /// <param name="cart">Cart model</param>
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPut, Route]
         public virtual IHttpActionResult PutCart([FromBody] Cart cart)
         {
@@ -107,6 +133,12 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Delete cart.
+        /// </summary>
+        /// <param name="customerId">Customer ID</param>
+        /// <param name="name">Cart name - usually "default"</param>
+        /// <response code="404">Cart not found</response>
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpDelete, Route("{customerId}/{name}")]
         public virtual IHttpActionResult DeleteCart(Guid customerId, string name)
         {
@@ -117,7 +149,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 name = _defaultName;
             }
 
-            var existingCart = this._orderRepository.LoadOrCreate<Cart>(customerId, name);
+            var existingCart = _orderRepository.LoadOrCreate<Cart>(customerId, name);
 
             if (existingCart == null)
             {
@@ -126,7 +158,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
 
             try
             {
-                this._orderRepository.Delete(new OrderReference(existingCart.OrderGroupId, name, customerId, typeof(Cart)));
+                _orderRepository.Delete(new OrderReference(existingCart.OrderGroupId, name, customerId, typeof(Cart)));
             }
             catch (Exception exception)
             {
@@ -137,7 +169,13 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Creates new cart.
+        /// </summary>
+        /// <param name="orderGroup">Cart's order group model</param>
+        /// <returns>Customer's cart</returns>
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route]
+        [ResponseType(typeof(Cart))]
         public virtual IHttpActionResult PostCart([FromBody] OrderGroup orderGroup)
         {
             Logger.LogPost("PostCart", Request);

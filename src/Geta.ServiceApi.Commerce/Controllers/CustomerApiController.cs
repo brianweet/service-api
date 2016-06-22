@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Description;
 using EPiServer.ServiceApi.Configuration;
 using EPiServer.ServiceApi.Util;
 using Geta.ServiceApi.Commerce.Mappings;
@@ -12,12 +13,21 @@ using Organization = Geta.ServiceApi.Commerce.Models.Organization;
 
 namespace Geta.ServiceApi.Commerce.Controllers
 {
+    /// <summary>
+    /// Customer API controller.
+    /// </summary>
     [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), RequireHttps, RoutePrefix("episerverapi/commerce/customer")]
     public class CustomerApiController : ApiController
     {
         private static readonly ApiCallLogger Logger = new ApiCallLogger(typeof(OrderApiController));
 
+        /// <summary>
+        /// Returns contact.
+        /// </summary>
+        /// <param name="contactId">Contact ID (GUID)</param>
+        /// <returns>Contact</returns>
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("contact/{contactId}")]
+        [ResponseType(typeof(Contact))]
         public virtual IHttpActionResult GetContact(Guid contactId)
         {
             Logger.LogGet("GetContact", Request, new[] { contactId.ToString()});
@@ -37,7 +47,12 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(contact);
         }
 
+        /// <summary>
+        /// Returns contacts.
+        /// </summary>
+        /// <returns>Array of contacts</returns>
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("contact")]
+        [ResponseType(typeof(IEnumerable<Contact>))]
         public virtual IHttpActionResult GetContact()
         {
             Logger.LogGet("GetContact", Request);
@@ -57,7 +72,13 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(contacts);
         }
 
+        /// <summary>
+        /// Returns organization.
+        /// </summary>
+        /// <param name="orgId">Organization ID</param>
+        /// <returns>Organization</returns>
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("organization/{orgId}")]
+        [ResponseType(typeof(Organization))]
         public virtual IHttpActionResult GetOrganization(string orgId)
         {
             Logger.LogGet("GetOrganization", Request, new []{orgId});
@@ -77,7 +98,12 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(organization);
         }
 
+        /// <summary>
+        /// Returns organizations.
+        /// </summary>
+        /// <returns>Array of organizations</returns>
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("organization")]
+        [ResponseType(typeof(IEnumerable<Organization>))]
         public virtual IHttpActionResult GetOrganization()
         {
             Logger.LogGet("GetOrganization", Request);
@@ -97,6 +123,11 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(organizations);
         }
 
+        /// <summary>
+        /// Updates contact.
+        /// </summary>
+        /// <param name="contactId">Contact ID</param>
+        /// <param name="contact">Contact model</param>
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPut, Route("contact/{contactId}")]
         public virtual IHttpActionResult PutCustomer(Guid contactId, [FromBody] Contact contact)
         {
@@ -138,6 +169,10 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Updates organization.
+        /// </summary>
+        /// <param name="organization">Organization model</param>
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPut, Route("organization")]
         public virtual IHttpActionResult PutOrganization([FromBody] Organization organization)
         {
@@ -163,6 +198,11 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Deletes contact.
+        /// </summary>
+        /// <param name="contactId">Contact ID (GUID)</param>
+        /// <response code="404">Contact not found</response>
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpDelete, Route("contact/{contactId}")]
         public virtual IHttpActionResult DeleteContact(Guid contactId)
         {
@@ -194,6 +234,11 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Deletes organization.
+        /// </summary>
+        /// <param name="orgId">Organization ID</param>
+        /// <response code="404">Organization not found</response>
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpDelete, Route("organization/{orgId}")]
         public virtual IHttpActionResult DeleteOrganization(string orgId)
         {
@@ -219,7 +264,14 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Creates contact.
+        /// </summary>
+        /// <param name="userId">User ID (GUID)</param>
+        /// <param name="contact">Contact model</param>
+        /// <returns>Contact</returns>
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route("contact/{userId}")]
+        [ResponseType(typeof(Contact))]
         public virtual IHttpActionResult PostContact(Guid userId, [FromBody] Contact contact)
         {
             Logger.LogPost("PostContact", Request, new []{userId.ToString()});
@@ -246,7 +298,13 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(contact);
         }
 
+        /// <summary>
+        /// Creates organization.
+        /// </summary>
+        /// <param name="organization">Organization model</param>
+        /// <returns>Organization</returns>
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route("organization")]
+        [ResponseType(typeof(Organization))]
         public virtual IHttpActionResult PostOrganization([FromBody] Organization organization)
         {
             Logger.LogPost("PostOrganization", Request);
