@@ -58,6 +58,6 @@ private static string GetServiceApiXmlCommentsPath()
 }
 ```
 
-### Order API documentation
+### Service API documentation
 
 [JSON](docs/service-api.md) and [XML](docs/service-api-xml.md) version of documentation.
