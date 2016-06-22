@@ -30,3 +30,34 @@ Quicksilver is being used for the demo playground and needs to be setup in order
 
 1. Make sure the demo environment is setup (default is https://serviceapi.localtest.me)
 2. Right click Geta.ServiceApi.Commerce.Tests and choose Run Units Tests
+
+## Documentation
+
+### Swagger documentation
+
+_Swagger_ documentation is set up on demo environment project:
+https://serviceapi.localtest.me/swagger
+
+### Swagger documentation in your project
+
+To include _Swagger_ documentation into your project, install [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle) _NuGet_ package:
+```
+Install-Package Swashbuckle
+```
+
+Configure XML Comments in _SwaggerConfig.cs_ in _EnableSwagger_ method:
+```
+c.IncludeXmlComments(GetServiceApiXmlCommentsPath());
+```
+
+And create _GetServiceApiXmlCommentsPath_ method to resolve XML documentation:
+```
+private static string GetServiceApiXmlCommentsPath()
+{
+    return $@"{System.AppDomain.CurrentDomain.BaseDirectory}\bin\Geta.ServiceApi.Commerce.xml";
+}
+```
+
+### Order API documentation
+
+[JSON](docs/service-api.md) and [XML](docs/service-api-xml.md) version of documentation.
