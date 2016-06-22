@@ -13,6 +13,9 @@ using Cart = Mediachase.Commerce.Orders.Cart;
 
 namespace Geta.ServiceApi.Commerce.Controllers
 {
+    /// <summary>
+    /// Order API controller.
+    /// </summary>
     [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), RequireHttps, RoutePrefix("episerverapi/commerce/order")]
     public class OrderApiController : ApiController
     {
@@ -22,11 +25,20 @@ namespace Geta.ServiceApi.Commerce.Controllers
 
         private readonly string _defaultName = Cart.DefaultName;
 
+        /// <summary>
+        /// Initializes a new instance of the OrderApiController.
+        /// </summary>
+        /// <param name="orderRepository"></param>
         public OrderApiController(IOrderRepository orderRepository)
         {
             _orderRepository = orderRepository;
         }
 
+        /// <summary>
+        /// Returns order.
+        /// </summary>
+        /// <param name="orderGroupId">Order group ID</param>
+        /// <returns>Order</returns>
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{orderGroupId}")]
         public virtual IHttpActionResult GetOrder(int orderGroupId)
         {
@@ -52,6 +64,11 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(order);
         }
 
+        /// <summary>
+        /// Returns customer's orders.
+        /// </summary>
+        /// <param name="customerId">Customer ID (GUID)</param>
+        /// <returns>Array of orders</returns>
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{customerId}/all")]
         public virtual IHttpActionResult GetOrders(Guid customerId)
         {
@@ -72,6 +89,13 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(orders);
         }
 
+        /// <summary>
+        /// Searches orders.
+        /// </summary>
+        /// <param name="start">Start record index</param>
+        /// <param name="maxCount">Max number of records to return</param>
+        /// <param name="request">Orders search parameters model</param>
+        /// <returns>Array of orders</returns>
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{start}/{maxCount}/search")]
         public virtual IHttpActionResult SearchOrders(int start, int maxCount, [FromUri] SearchOrdersRequest request)
         {
@@ -139,6 +163,12 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(orders);
         }
 
+        /// <summary>
+        /// Returns orders with tracking number containing 'PO'.
+        /// </summary>
+        /// <param name="start">Start record index</param>
+        /// <param name="maxCount">Max number of records to return</param>
+        /// <returns>Array of orders</returns>
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{start}/{maxCount}/all")]
         public virtual IHttpActionResult GetOrders(int start, int maxCount)
         {
@@ -178,6 +208,11 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok(orders);
         }
 
+        /// <summary>
+        /// Updates order.
+        /// </summary>
+        /// <param name="orderGroupId">Order group ID</param>
+        /// <param name="orderGroup">Order group model</param>
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPut, Route("{orderGroupId}")]
         public virtual IHttpActionResult PutOrder(int orderGroupId, [FromBody] Models.OrderGroup orderGroup)
         {
@@ -196,6 +231,11 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Deletes order.
+        /// </summary>
+        /// <param name="orderGroupId">Order group ID</param>
+        /// <response code="404">Order not found</response>
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpDelete, Route("{orderGroupId}")]
         public virtual IHttpActionResult DeleteOrder(int orderGroupId)
         {
@@ -223,6 +263,11 @@ namespace Geta.ServiceApi.Commerce.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Creates order.
+        /// </summary>
+        /// <param name="orderGroup">Order group model</param>
+        /// <returns>Order</returns>
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route]
         public virtual IHttpActionResult PostOrder([FromBody] Models.OrderGroup orderGroup)
         {
@@ -243,6 +288,11 @@ namespace Geta.ServiceApi.Commerce.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates payment plan.
+        /// </summary>
+        /// <param name="orderGroup">Order group model</param>
+        /// <returns>Payment plan</returns>
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route("PaymentPlan")]
         public virtual IHttpActionResult PostPaymentPlan([FromBody] Models.OrderGroup orderGroup)
         {
