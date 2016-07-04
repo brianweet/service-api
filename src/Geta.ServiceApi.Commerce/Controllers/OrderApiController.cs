@@ -145,7 +145,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
                     parameters.SqlWhereClause = $"[OrderGroupId] IN (SELECT [OrderGroupId] FROM [Shipment] WHERE [ShippingMethodId] = '{request.ShippingMethodId}')";
                 }
 
-                if (request != null && request.Status.Length > 0)
+                if (request != null &&  request.Status?.Length > 0)
                 {
                     if (!string.IsNullOrEmpty(parameters.SqlWhereClause))
                     {
