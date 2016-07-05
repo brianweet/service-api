@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.ServiceApi.Commerce", "src\Geta.ServiceApi.Commerce\Geta.ServiceApi.Commerce.csproj", "{470ADB8E-5338-4665-89A3-0415A400703E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.ServiceApi.Commerce.Tests", "test\Geta.ServiceApi.Commerce.Tests\Geta.ServiceApi.Commerce.Tests.csproj", "{969BDE96-5D58-4287-B75C-94F2654A0DA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geta.ServiceApi.Commerce.WebHooks", "src\Geta.ServiceApi.Commerce.WebHooks\Geta.ServiceApi.Commerce.WebHooks.csproj", "{7A3A05FD-095E-46D7-93B9-80845A58E0C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +28,12 @@ Global
 		{969BDE96-5D58-4287-B75C-94F2654A0DA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{969BDE96-5D58-4287-B75C-94F2654A0DA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{969BDE96-5D58-4287-B75C-94F2654A0DA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A3A05FD-095E-46D7-93B9-80845A58E0C3}.Daily site|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A3A05FD-095E-46D7-93B9-80845A58E0C3}.Daily site|Any CPU.Build.0 = Debug|Any CPU
+		{7A3A05FD-095E-46D7-93B9-80845A58E0C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A3A05FD-095E-46D7-93B9-80845A58E0C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A3A05FD-095E-46D7-93B9-80845A58E0C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A3A05FD-095E-46D7-93B9-80845A58E0C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
