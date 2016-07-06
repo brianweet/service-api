@@ -15,5 +15,17 @@ namespace Geta.ServiceApi.Commerce.Mappings
 
             return orderNote;
         }
+
+        public static Models.OrderNote ConvertToOrderNote(this OrderNote orderNote)
+        {
+            return new Models.OrderNote
+            {
+                CustomerId = orderNote.CustomerId,
+                Detail = orderNote.Detail,
+                Title = orderNote.Title,
+                Type = orderNote.Type,
+                LineItemId = orderNote.LineItemId
+            };
+        }
     }
 }

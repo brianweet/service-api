@@ -259,6 +259,49 @@ namespace Geta.ServiceApi.Commerce.Mappings
             return purchaseOrder;
         }
 
+        public static T ConvertToOrderGroup<T>(
+            this Mediachase.Commerce.Orders.OrderGroup orderGroup, T outOrderGroup)
+            where T : OrderGroup
+        {
+            outOrderGroup.OrderForms = orderGroup.OrderForms.Select(x => x.ConvertToOrderForm()).ToArray();
+            outOrderGroup.OrderAddresses = orderGroup.OrderAddresses.Select(x => x.ConvertToOrderAddress()).ToArray();
+            outOrderGroup.OrderNotes = orderGroup.OrderNotes.Select(x => x.ConvertToOrderNote()).ToArray();
+            outOrderGroup.Status = orderGroup.Status;
+            outOrderGroup.OrderGroupId = orderGroup.OrderGroupId;
+            outOrderGroup.CustomerId = orderGroup.CustomerId;
+            outOrderGroup.ShippingTotal = orderGroup.ShippingTotal;
+            outOrderGroup.SubTotal = orderGroup.SubTotal;
+            outOrderGroup.Total = orderGroup.Total;
+            outOrderGroup.HandlingTotal = orderGroup.HandlingTotal;
+            outOrderGroup.TaxTotal = orderGroup.TaxTotal;
+            outOrderGroup.Name = orderGroup.Name;
+            outOrderGroup.AddressId = orderGroup.AddressId;
+            outOrderGroup.AffiliateId = orderGroup.AffiliateId;
+            outOrderGroup.BillingCurrency = orderGroup.BillingCurrency;
+            outOrderGroup.CustomerName = orderGroup.CustomerName;
+            outOrderGroup.InstanceId = orderGroup.InstanceId;
+            outOrderGroup.MarketId = orderGroup.MarketId;
+            outOrderGroup.Owner = orderGroup.Owner;
+            outOrderGroup.OwnerOrg = orderGroup.OwnerOrg;
+            outOrderGroup.ProviderId = orderGroup.ProviderId;
+            outOrderGroup.Modified = orderGroup.Modified;
+            outOrderGroup.Created = orderGroup.Created;
+
+            return outOrderGroup;
+        }
+
+        public static Models.PurchaseOrder ConvertToPurchaseOrder(this PurchaseOrder purchaseOrder)
+        {
+            var po = new Models.PurchaseOrder();
+            return purchaseOrder.ConvertToOrderGroup(po);
+        }
+
+        public static Models.PaymentPlan ConvertToPaymentPlan(this PaymentPlan paymentPlan)
+        {
+            var pp = new Models.PaymentPlan();
+            return paymentPlan.ConvertToOrderGroup(pp);
+        }
+
         private static void MapOrderAddresses(
             OrderGroup orderGroupDto, Mediachase.Commerce.Orders.OrderGroup orderGroup)
         {

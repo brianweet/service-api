@@ -130,5 +130,15 @@ namespace Geta.ServiceApi.Commerce.Models
         /// Total.
         /// </summary>
         public decimal Total { get; set; }
+
+        /// <summary>
+        /// Modified date.
+        /// </summary>
+        public DateTime Modified { get; set; }
+
+        /// <summary>
+        /// Created date.
+        /// </summary>
+        public DateTime Created { get; set; }
     }
 }

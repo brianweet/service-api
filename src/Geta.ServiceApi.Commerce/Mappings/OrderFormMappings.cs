@@ -1,4 +1,7 @@
-﻿using Mediachase.Commerce.Orders;
+﻿using System.Linq;
+using Mediachase.Commerce.Orders;
+using OrderForm = Mediachase.Commerce.Orders.OrderForm;
+using Shipment = Mediachase.Commerce.Orders.Shipment;
 
 namespace Geta.ServiceApi.Commerce.Mappings
 {
@@ -24,6 +27,83 @@ namespace Geta.ServiceApi.Commerce.Mappings
             orderForm.CapturedPaymentTotal = orderFormDto.CapturedPaymentTotal;
 
             return orderForm;
+        }
+
+        public static Models.OrderForm ConvertToOrderForm(this OrderForm orderForm)
+        {
+            return new Models.OrderForm
+            {
+                ReturnComment = orderForm.ReturnComment,
+                ReturnType = orderForm.ReturnType,
+                ReturnAuthCode = orderForm.ReturnAuthCode,
+                Name = orderForm.Name,
+                BillingAddressId = orderForm.BillingAddressId,
+                ShippingTotal = orderForm.ShippingTotal,
+                HandlingTotal = orderForm.HandlingTotal,
+                TaxTotal = orderForm.TaxTotal,
+                DiscountAmount = orderForm.DiscountAmount,
+                SubTotal = orderForm.SubTotal,
+                Total = orderForm.Total,
+                Status = orderForm.Status,
+                RmaNumber = orderForm.RMANumber,
+                AuthorizedPaymentTotal = orderForm.AuthorizedPaymentTotal,
+                CapturedPaymentTotal = orderForm.CapturedPaymentTotal,
+
+                Shipments = orderForm.Shipments.Select(ConvertToShipment).ToArray(),
+                LineItems = orderForm.LineItems.Select(ConvertToLineItem).ToArray(),
+                Discounts = orderForm.Discounts.Select(ConvertToDiscount).ToArray(),
+
+                OrderFormId = orderForm.OrderFormId
+            };
+        }
+
+        private static Models.Discount ConvertToDiscount(Discount discount)
+        {
+            return new Models.Discount
+            {
+                DiscountAmount = discount.DiscountAmount,
+                DiscountCode = discount.DiscountCode,
+                DiscountId = discount.DiscountId,
+                DiscountName = discount.DiscountName,
+                DiscountValue = discount.DiscountValue,
+                DisplayMessage = discount.DisplayMessage
+            };
+        }
+
+        private static Models.LineItem ConvertToLineItem(ILineItem lineItem)
+        {
+            return new Models.LineItem
+            {
+                LineItemId = lineItem.LineItemId,
+                Code = lineItem.Code,
+                LineItemDiscountAmount = lineItem.LineItemDiscountAmount,
+                OrderLevelDiscountAmount = lineItem.OrderLevelDiscountAmount,
+                PlacedPrice = lineItem.PlacedPrice,
+                Quantity = lineItem.Quantity
+            };
+        }
+
+        private static Models.Shipment ConvertToShipment(Shipment shipment)
+        {
+            return new Models.Shipment
+            {
+                LineItems = shipment.LineItems.Select(ConvertToLineItem).ToArray(),
+                Discounts = shipment.Discounts.Select(ConvertToDiscount).ToArray(),
+                ShipmentId = shipment.ShipmentId,
+                Status = shipment.Status,
+                ShippingSubTotal = shipment.ShippingSubTotal,
+                ShippingTotal = shipment.ShippingTotal,
+                ShippingMethodId = shipment.ShippingMethodId,
+                SubTotal = shipment.SubTotal,
+                ShippingTax = shipment.ShippingTax,
+                ShippingDiscountAmount = shipment.ShippingDiscountAmount,
+                ShipmentTrackingNumber = shipment.ShipmentTrackingNumber,
+                WarehouseCode = shipment.WarehouseCode,
+                ShippingAddressId = shipment.ShippingAddressId,
+                ShippingMethodName = shipment.ShippingMethodName,
+                PrevStatus = shipment.PrevStatus,
+                PickListId = shipment.PickListId
+            };
         }
     }
 }

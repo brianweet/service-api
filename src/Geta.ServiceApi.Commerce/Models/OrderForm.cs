@@ -6,6 +6,28 @@ namespace Geta.ServiceApi.Commerce.Models
     [Serializable]
     public class OrderForm
     {
+        /// <summary>
+        /// Initializes new instance of the OrderForm class.
+        /// </summary>
+        public OrderForm()
+        {
+            Shipments = new Shipment[0];
+            LineItems = new LineItem[0];
+            Discounts = new Discount[0];
+        }
+
+        /// <summary>Gets the shipments.</summary>
+        /// <value>The shipments.</value>
+        public Shipment[] Shipments { get; set; }
+
+        /// <summary>Gets the line items.</summary>
+        /// <value>The line items.</value>
+        public LineItem[] LineItems { get; set; }
+
+        /// <summary>Gets the discounts.</summary>
+        /// <value>The discounts.</value>
+        public Discount[] Discounts { get; set; }
+
         /// <summary>Gets or sets the rma comment.</summary>
         /// <value>The rma comment.</value>
         public string ReturnComment { get; set; }

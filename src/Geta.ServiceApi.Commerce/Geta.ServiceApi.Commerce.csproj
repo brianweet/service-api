@@ -324,12 +324,18 @@
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Contact.cs" />
+    <Compile Include="Models\Discount.cs" />
+    <Compile Include="Models\LineItem.cs" />
     <Compile Include="Models\OrderAddress.cs" />
     <Compile Include="Models\OrderForm.cs" />
     <Compile Include="Models\OrderGroup.cs" />
     <Compile Include="Models\OrderNote.cs" />
     <Compile Include="Models\Organization.cs" />
+    <Compile Include="Models\Payment.cs" />
+    <Compile Include="Models\PaymentPlan.cs" />
+    <Compile Include="Models\PurchaseOrder.cs" />
     <Compile Include="Models\SearchOrdersRequest.cs" />
+    <Compile Include="Models\Shipment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
