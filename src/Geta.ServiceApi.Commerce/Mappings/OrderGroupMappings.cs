@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Linq;
 using Mediachase.Commerce.Orders;
 using OrderGroup = Geta.ServiceApi.Commerce.Models.OrderGroup;
 
 namespace Geta.ServiceApi.Commerce.Mappings
 {
-    public static class OrderGroupMappings
+    internal static class OrderGroupMappings
     {
         public static Cart ConvertToCart(this OrderGroup orderGroup, Cart cart)
         {
@@ -41,19 +42,6 @@ namespace Geta.ServiceApi.Commerce.Mappings
             if (orderGroup.MarketId != null)
             {
                 cart.MarketId = orderGroup.MarketId;
-            }
-
-            //public IList<PromotionInformation> Promotions { get; set; }
-
-            //public OrderAddressCollection OrderAddresses { get; set; }
-
-            //public OrderFormCollection OrderForms { get; set; }
-
-            //public int OrderGroupId { get; set; }
-
-            if (orderGroup.OrderNotes != null)
-            {
-                cart.OrderNotes = orderGroup.OrderNotes;
             }
 
             if (!string.IsNullOrEmpty(orderGroup.Owner))
@@ -96,6 +84,10 @@ namespace Geta.ServiceApi.Commerce.Mappings
                 cart.Total = orderGroup.Total;
             }
 
+            MapOrderAddresses(orderGroup, cart);
+            MapOrderNotes(orderGroup, cart);
+            MapOrderForms(orderGroup, cart);
+
             return cart;
         }
 
@@ -134,19 +126,6 @@ namespace Geta.ServiceApi.Commerce.Mappings
             if (orderGroup.MarketId != null)
             {
                 paymentPlan.MarketId = orderGroup.MarketId;
-            }
-
-            //public IList<PromotionInformation> Promotions { get; set; }
-
-            //public OrderAddressCollection OrderAddresses { get; set; }
-
-            //public OrderFormCollection OrderForms { get; set; }
-
-            //public int OrderGroupId { get; set; }
-
-            if (orderGroup.OrderNotes != null)
-            {
-                paymentPlan.OrderNotes = orderGroup.OrderNotes;
             }
 
             if (!string.IsNullOrEmpty(orderGroup.Owner))
@@ -189,6 +168,10 @@ namespace Geta.ServiceApi.Commerce.Mappings
                 paymentPlan.Total = orderGroup.Total;
             }
 
+            MapOrderAddresses(orderGroup, paymentPlan);
+            MapOrderNotes(orderGroup, paymentPlan);
+            MapOrderForms(orderGroup, paymentPlan);
+
             return paymentPlan;
         }
 
@@ -227,19 +210,6 @@ namespace Geta.ServiceApi.Commerce.Mappings
             if (orderGroup.MarketId != null)
             {
                 purchaseOrder.MarketId = orderGroup.MarketId;
-            }
-
-            //public IList<PromotionInformation> Promotions { get; set; }
-
-            //public OrderAddressCollection OrderAddresses { get; set; }
-
-            //public OrderFormCollection OrderForms { get; set; }
-
-            //public int OrderGroupId { get; set; }
-
-            if (orderGroup.OrderNotes != null)
-            {
-                purchaseOrder.OrderNotes = orderGroup.OrderNotes;
             }
 
             if (!string.IsNullOrEmpty(orderGroup.Owner))
@@ -282,7 +252,47 @@ namespace Geta.ServiceApi.Commerce.Mappings
                 purchaseOrder.Total = orderGroup.Total;
             }
 
+            MapOrderAddresses(orderGroup, purchaseOrder);
+            MapOrderNotes(orderGroup, purchaseOrder);
+            MapOrderForms(orderGroup, purchaseOrder);
+
             return purchaseOrder;
+        }
+
+        private static void MapOrderAddresses(
+            OrderGroup orderGroupDto, Mediachase.Commerce.Orders.OrderGroup orderGroup)
+        {
+            foreach (var orderAddress in orderGroupDto.OrderAddresses)
+            {
+                var address = orderGroup.OrderAddresses
+                    .FirstOrDefault(x => x.OrderGroupAddressId == orderAddress.OrderGroupAddressId)
+                              ?? orderGroup.OrderAddresses.AddNew();
+                orderAddress.ConvertToOrderAddress(address);
+            }
+        }
+
+        private static void MapOrderNotes(
+            OrderGroup orderGroupDto, Mediachase.Commerce.Orders.OrderGroup orderGroup)
+        {
+            foreach (var orderNote in orderGroupDto.OrderNotes)
+            {
+                var note = orderGroup.OrderNotes
+                    .FirstOrDefault(x => x.OrderNoteId == orderNote.OrderNoteId)
+                              ?? orderGroup.OrderNotes.AddNew();
+                orderNote.ConvertToOrderNote(note);
+            }
+        }
+
+        private static void MapOrderForms(
+            OrderGroup orderGroupDto, Mediachase.Commerce.Orders.OrderGroup orderGroup)
+        {
+            if (orderGroupDto.OrderForms.Length == 0)
+            {
+                return;
+            }
+            var orderForm = orderGroupDto.OrderForms.First();
+            var form = orderGroup.OrderForms.First();
+            orderForm.ConvertToOrderForm(form);
         }
     }
 }

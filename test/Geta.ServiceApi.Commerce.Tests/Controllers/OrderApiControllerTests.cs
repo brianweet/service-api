@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OrderGroup = Geta.ServiceApi.Commerce.Models.OrderGroup;
 using Xunit;
+using Cart = Mediachase.Commerce.Orders.Cart;
 
 namespace Geta.ServiceApi.Commerce.Tests.Controllers
 {
@@ -36,13 +37,43 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             var model = new OrderGroup
             {
                 CustomerId = contactId,
-                Name = cartName
+                Name = cartName,
+                OrderForms = new[]
+                {
+                    new Models.OrderForm
+                    {
+                        Name = "Default",
+                        Total = 500
+                    }
+                },
+                OrderAddresses = new[]
+                {
+                    new Models.OrderAddress
+                    {
+                        FirstName = "Antony",
+                        LastName = "Hopkins"
+                    }
+                },
+                OrderNotes = new[]
+                {
+                    new Models.OrderNote
+                    {
+                        Title = "The note",
+                        Detail = "There are some notes."
+                    }
+                }
             };
 
-            // Add address info
-            // Add LineItems
-
             var order = Post(model);
+
+            Assert.NotNull(order);
+            Assert.NotNull(order.OrderForms);
+            Assert.Equal(1, order.OrderForms.Count);
+            Assert.NotNull(order.OrderAddresses);
+            Assert.Equal(1, order.OrderAddresses.Count);
+            Assert.NotNull(order.OrderNotes);
+            Assert.Equal(1, order.OrderNotes.Count);
+
             Delete((int)order.OrderGroupId);
         }
 

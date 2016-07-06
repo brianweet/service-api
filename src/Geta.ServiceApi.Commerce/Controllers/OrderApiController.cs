@@ -189,7 +189,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
             try
             {
                 // http://world.episerver.com/documentation/Items/Developers-Guide/EPiServer-Commerce/9/Orders/Searching-for-orders/
-                OrderSearchOptions searchOptions = new OrderSearchOptions
+                var searchOptions = new OrderSearchOptions
                 {
                     CacheResults = false,
                     StartingRecord = start,

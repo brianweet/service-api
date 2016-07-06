@@ -10,7 +10,7 @@ using Organization = Mediachase.Commerce.Customers.Organization;
 
 namespace Geta.ServiceApi.Commerce.Mappings
 {
-    public static class CustomerMappings
+    internal static class CustomerMappings
     {
         public static Contact ConvertToContact(this CustomerContact customerContact)
         {
