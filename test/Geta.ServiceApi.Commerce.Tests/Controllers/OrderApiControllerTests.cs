@@ -192,7 +192,23 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             var postModel = new OrderGroup
             {
                 CustomerId = contactId,
-                Name = cartName
+                Name = cartName,
+                OrderAddresses = new []
+                {
+                    new Models.OrderAddress
+                    {
+                        FirstName = "Lara",
+                        LastName = "Olson"
+                    }
+                },
+                OrderNotes = new[]
+                {
+                    new Models.OrderNote
+                    {
+                        Title = "The note",
+                        Detail = "There are some details."
+                    }
+                }
             };
 
             var orderGroupId = PostXml(postModel);
