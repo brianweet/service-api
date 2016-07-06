@@ -26,191 +26,141 @@ Server: Microsoft-IIS/8.0
 X-UA-Compatible: IE=Edge,chrome=1
 Date: Tue, 07 Jun 2016 13:32:31 GMT
 
-<ArrayOfPurchaseOrder xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <PurchaseOrder xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-        <__MetaClass>PurchaseOrder</__MetaClass><CreatorId/><ModifierId/>
-        <Created>2016-06-10T13:29:34.1270000Z</Created>
-        <Modified>2016-06-10T13:29:34.1630000Z</Modified>
-        <AdditionalDiscountPercent>0</AdditionalDiscountPercent><ExpirationDate/>
-        <ParentOrderGroupId>0</ParentOrderGroupId>
-        <TrackingNumber>PO4034942</TrackingNumber>
-        <OrderGroupId>4035</OrderGroupId><Owner/><OwnerOrg/><ProviderId/>
-        <ShippingTotal>0.000000000</ShippingTotal><SiteId/>
-        <Status>InProgress</Status>
-        <SubTotal>500.000000000</SubTotal>
-        <TaxTotal>0.000000000</TaxTotal>
-        <Total>500.000000000</Total><AddressId/>
-        <AffiliateId>00000000-0000-0000-0000-000000000000</AffiliateId>
-        <ApplicationId>201490ff-22cc-436a-bc37-750e7393a803</ApplicationId>
-        <BillingCurrency>USD</BillingCurrency>
-        <CustomerId>c5840afe-b159-4fc8-8aab-ea4b475ef49a</CustomerId>
-        <CustomerName>sisajusak@sample.com</CustomerName>
-        <HandlingTotal>0.000000000</HandlingTotal>
-        <InstanceId>9bff9123-8e80-47c6-85ad-e721e9d05376</InstanceId>
-        <MarketId>DEFAULT</MarketId>
-        <Name>Default</Name>
-        <OrderForms>
-            <OrderForm>
-                <__MetaClass>OrderFormEx</__MetaClass><CreatorId/><ModifierId/>
-                <Created>2016-06-10T13:28:58.8570000Z</Created>
-                <Modified>2016-06-10T13:29:34.1630000Z</Modified><Epi_CouponCodes/><RMANumber/>
-                <OrderFormId>4035</OrderFormId>
-                <OrderGroupId>4035</OrderGroupId><OrigOrderFormId/><ProviderId/><ReturnAuthCode/><ReturnComment/><ReturnType/>
-                <ShippingTotal>0.000000000</ShippingTotal><Status/>
-                <SubTotal>500.000000000</SubTotal>
-                <TaxTotal>0.000000000</TaxTotal>
-                <Total>500.000000000</Total>
-                <AuthorizedPaymentTotal>0.000000000</AuthorizedPaymentTotal>
-                <BillingAddressId>b963f88a-9827-410b-a345-d30f8ba91803</BillingAddressId>
-                <CapturedPaymentTotal>0.000000000</CapturedPaymentTotal>
-                <DiscountAmount>0.000000000</DiscountAmount><ExchangeOrderGroupId/>
-                <HandlingTotal>0.000000000</HandlingTotal>
-                <Name>Default</Name>
-                <LineItems>
-                    <LineItem>
-                        <__MetaClass>LineItemEx</__MetaClass><CreatorId/><ModifierId/>
-                        <Created>2016-06-10T13:28:27.9870000Z</Created>
-                        <Modified>2016-06-10T13:29:34.1630000Z</Modified>
-                        <Epi_FreeQuantity>0</Epi_FreeQuantity>
-                        <LineItemId>3022</LineItemId>
-                        <LineItemOrdering>6/10/2016 1:28:27 PM</LineItemOrdering>
-                        <ListPrice>500.000000000</ListPrice>
-                        <MaxQuantity>100.000000000</MaxQuantity>
-                        <MinQuantity>1.000000000</MinQuantity>
-                        <OrderFormId>4035</OrderFormId>
-                        <OrderGroupId>4035</OrderGroupId>
-                        <OrderLevelDiscountAmount>0.000000000</OrderLevelDiscountAmount><OrigLineItemId/>
-                        <ParentCatalogEntryId>EEI-739</ParentCatalogEntryId>
-                        <PlacedPrice>500.000000000</PlacedPrice>
-                        <PreorderQuantity>0.000000000</PreorderQuantity><ProviderId/>
-                        <Quantity>1.000000000</Quantity>
-                        <ReturnQuantity>0.000000000</ReturnQuantity><ReturnReason/><ShippingAddressId/>
-                        <ShippingMethodId>00000000-0000-0000-0000-000000000000</ShippingMethodId><ShippingMethodName/><Status/>
-                        <WarehouseCode>default</WarehouseCode>
-                        <AllowBackordersAndPreorders>True</AllowBackordersAndPreorders>
-                        <BackorderQuantity>0.000000000</BackorderQuantity>
-                        <Catalog>LexMod</Catalog>
-                        <CatalogEntryId>MOD-5333-BLK-BRN-SET</CatalogEntryId><CatalogNode/><ConfigurationId/>
-                        <Description>Broad and luxurious, the Bethany Bedroom Set is an instant centerpiece for any modern bedroom. Complete with a gracefully tapered padded foam headboard and sturdy rubberwood legs, Bethany is a site to behold for both its class and
-                            comfort. The Bethany que</Description>
-                        <DisplayName>Bethany 2 Piece Queen Bedroom Set in Black Brown</DisplayName>
-                        <ExtendedPrice>500.000000000</ExtendedPrice>
-                        <InStockQuantity>1.000000000</InStockQuantity>
-                        <InventoryStatus>1</InventoryStatus>
-                        <IsInventoryAllocated>False</IsInventoryAllocated>
-                        <LineItemDiscountAmount>0.000000000</LineItemDiscountAmount><Discounts/></LineItem>
-                </LineItems>
-                <Shipments>
-                    <Shipment>
-                        <__MetaClass>ShipmentEx</__MetaClass><CreatorId/><ModifierId/>
-                        <Created>2016-06-10T13:29:28.1930000Z</Created>
-                        <Modified>2016-06-10T13:29:34.1630000Z</Modified><PrevStatus/>
-                        <ShipmentId>4056</ShipmentId>
-                        <ShipmentTotal>0.000000000</ShipmentTotal><ShipmentTrackingNumber/>
-                        <ShippingAddressId>18352f5d-99f2-4110-94c6-ed305d8c7542</ShippingAddressId>
-                        <ShippingDiscountAmount>0.000000000</ShippingDiscountAmount>
-                        <ShippingMethodId>dade7f46-646b-4a16-9226-4e574c8c79e6</ShippingMethodId>
-                        <ShippingMethodName>In Store Pickup</ShippingMethodName><Status/>
-                        <SubTotal>500.000000000</SubTotal><WarehouseCode/>
-                        <Epi_ShippingTax>0.000000000</Epi_ShippingTax>
-                        <LineItemIds>0:1.000000000</LineItemIds><OperationKeys/>
-                        <OrderFormId>4035</OrderFormId>
-                        <OrderGroupId>4035</OrderGroupId><PickListId/><Discounts/></Shipment>
-                </Shipments>
-                <Payments>
-                    <Payment xsi:type="CreditCardPayment">
-                        <__MetaClass>CreditCardPayment</__MetaClass><CreatorId/><ModifierId/>
-                        <Created>2016-06-10T13:29:28.3700000Z</Created>
-                        <Modified>2016-06-10T13:29:34.1630000Z</Modified>
-                        <CardType>Generic</CardType>
-                        <CreditCardNumber>4007000000027</CreditCardNumber>
-                        <CreditCardSecurityCode>123</CreditCardSecurityCode>
-                        <ExpirationMonth>6</ExpirationMonth>
-                        <ExpirationYear>2016</ExpirationYear><ProviderPaymentId/><ProviderProfileId/>
-                        <PaymentId>3022</PaymentId>
-                        <PaymentMethodId>4b6e692f-d6fb-4552-9439-3a39d2251316</PaymentMethodId>
-                        <PaymentMethodName>Authorize</PaymentMethodName>
-                        <PaymentType>0</PaymentType><ProviderTransactionID/>
-                        <Status>Processed</Status><TransactionID/>
-                        <TransactionType>Authorization</TransactionType><ValidationCode/>
-                        <Amount>500.000000000</Amount><AuthorizationCode/>
-                        <BillingAddressId>b963f88a-9827-410b-a345-d30f8ba91803</BillingAddressId>
-                        <CustomerName>Marvin Good</CustomerName>
-                        <ImplementationClass>Mediachase.Commerce.Orders.CreditCardPayment, Mediachase.Commerce</ImplementationClass>
-                        <OrderFormId>4035</OrderFormId>
-                        <OrderGroupId>4035</OrderGroupId>
-                    </Payment>
-                </Payments><Discounts/><Promotions/></OrderForm>
-        </OrderForms>
-        <OrderAddresses>
-            <OrderAddress>
-                <__MetaClass>OrderGroupAddressEx</__MetaClass><CreatorId/><ModifierId/>
-                <Created>2016-06-10T13:29:28.1800000Z</Created>
-                <Modified>2016-06-10T13:29:34.1630000Z</Modified>
-                <OrderGroupAddressId>3043</OrderGroupAddressId>
-                <OrderGroupId>4035</OrderGroupId><Organization/>
-                <PostalCode>99018</PostalCode><RegionCode/>
-                <RegionName></RegionName>
-                <State></State>
-                <City>Sed</City>
-                <CountryCode>USA</CountryCode><CountryName/>
-                <DaytimePhoneNumber>+999-16-9931814</DaytimePhoneNumber>
-                <Email>sisajusak@sample.com</Email><EveningPhoneNumber/><FaxNumber/>
-                <FirstName>Marvin</FirstName>
-                <LastName>Good</LastName>
-                <Line1>Consectetur</Line1><Line2/>
-                <Name>18352f5d-99f2-4110-94c6-ed305d8c7542</Name>
-            </OrderAddress>
-        </OrderAddresses><OrderNotes/><ReturnOrderForms/></PurchaseOrder>
-    <PurchaseOrder xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-        <__MetaClass>PurchaseOrder</__MetaClass><CreatorId/><ModifierId/>
-        <Created>2016-06-07T13:04:50.8700000Z</Created>
-        <Modified>2016-06-07T13:04:51.2400000Z</Modified>
-        <AdditionalDiscountPercent>0</AdditionalDiscountPercent><ExpirationDate/>
-        <ParentOrderGroupId>0</ParentOrderGroupId><TrackingNumber/>
-        <OrderGroupId>3</OrderGroupId><Owner/><OwnerOrg/><ProviderId/>
-        <ShippingTotal>0.000000000</ShippingTotal><SiteId/>
-        <Status>OnHold</Status>
-        <SubTotal>0.000000000</SubTotal>
-        <TaxTotal>0.000000000</TaxTotal>
-        <Total>0.000000000</Total><AddressId/><AffiliateId/>
-        <ApplicationId>201490ff-22cc-436a-bc37-750e7393a803</ApplicationId>
-        <BillingCurrency>USD</BillingCurrency>
-        <CustomerId>2a40754d-86d5-460b-a5a4-32bc87703567</CustomerId><CustomerName/>
-        <HandlingTotal>0.000000000</HandlingTotal>
-        <InstanceId>0989912b-33c2-4c26-ace8-8b0583495162</InstanceId>
-        <MarketId>DEFAULT</MarketId><Name/>
-        <OrderForms>
-            <OrderForm>
-                <__MetaClass>OrderFormEx</__MetaClass><CreatorId/><ModifierId/>
-                <Created>2016-06-07T13:04:51.0070000Z</Created>
-                <Modified>2016-06-07T13:04:51.2400000Z</Modified><Epi_CouponCodes/><RMANumber/>
-                <OrderFormId>3</OrderFormId>
-                <OrderGroupId>3</OrderGroupId><OrigOrderFormId/><ProviderId/><ReturnAuthCode/><ReturnComment/><ReturnType/>
-                <ShippingTotal>0.000000000</ShippingTotal><Status/>
-                <SubTotal>0.000000000</SubTotal>
-                <TaxTotal>0.000000000</TaxTotal>
-                <Total>0.000000000</Total>
-                <AuthorizedPaymentTotal>0.000000000</AuthorizedPaymentTotal><BillingAddressId/>
-                <CapturedPaymentTotal>0.000000000</CapturedPaymentTotal>
-                <DiscountAmount>0.000000000</DiscountAmount><ExchangeOrderGroupId/>
-                <HandlingTotal>0.000000000</HandlingTotal>
-                <Name>default</Name><LineItems/>
-                <Shipments>
-                    <Shipment>
-                        <__MetaClass>ShipmentEx</__MetaClass><CreatorId/><ModifierId/>
-                        <Created>2016-06-07T13:04:51.0230000Z</Created>
-                        <Modified>2016-06-07T13:04:51.2400000Z</Modified><PrevStatus/>
-                        <ShipmentId>8</ShipmentId>
-                        <ShipmentTotal>0.000000000</ShipmentTotal><ShipmentTrackingNumber/><ShippingAddressId/>
-                        <ShippingDiscountAmount>0.000000000</ShippingDiscountAmount>
-                        <ShippingMethodId>00000000-0000-0000-0000-000000000000</ShippingMethodId><ShippingMethodName/><Status/>
-                        <SubTotal>0.000000000</SubTotal><WarehouseCode/>
-                        <Epi_ShippingTax>0.000000000</Epi_ShippingTax><LineItemIds/><OperationKeys/>
-                        <OrderFormId>3</OrderFormId>
-                        <OrderGroupId>3</OrderGroupId><PickListId/><Discounts/></Shipment>
-                </Shipments><Payments/><Discounts/><Promotions/></OrderForm>
-        </OrderForms><OrderAddresses/><OrderNotes/><ReturnOrderForms/></PurchaseOrder>
+<ArrayOfPurchaseOrder xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<PurchaseOrder>
+		<AddressId />
+		<AffiliateId>00000000-0000-0000-0000-000000000000</AffiliateId>
+		<BillingCurrency>USD</BillingCurrency>
+		<CustomerId>1b240e62-8c0d-4c79-9f16-692f226c231c</CustomerId>
+		<CustomerName>Mira</CustomerName>
+		<HandlingTotal>0.000000000</HandlingTotal>
+		<InstanceId>394bdc56-f838-4e3a-8c8e-3115d8ab6830</InstanceId>
+		<MarketId />
+		<Name>Default</Name>
+		<OrderAddresses>
+			<OrderAddress>
+				<OrderGroupAddressId>0</OrderGroupAddressId>
+				<Name>f457bada-57b4-4654-ad5c-1fad82f15beb</Name>
+				<FirstName>Mira</FirstName>
+				<LastName>Neal</LastName>
+				<Organization />
+				<Line1>Est ea et sint qui et</Line1>
+				<Line2 />
+				<City>Et tempora</City>
+				<State>Indiana</State>
+				<CountryCode>TUR</CountryCode>
+				<CountryName>Turkey</CountryName>
+				<PostalCode>85953</PostalCode>
+				<RegionCode />
+				<RegionName>Indiana</RegionName>
+				<DaytimePhoneNumber />
+				<EveningPhoneNumber />
+				<FaxNumber />
+				<Email>meziqydijo@yahoo.com</Email>
+			</OrderAddress>
+			<OrderAddress>
+				<OrderGroupAddressId>0</OrderGroupAddressId>
+				<Name>362519fa-cbe0-42f2-8fd3-0dd1a28ed86b</Name>
+				<FirstName>Mira</FirstName>
+				<LastName>Neal</LastName>
+				<Organization />
+				<Line1>Est ea et sint qui et</Line1>
+				<Line2 />
+				<City>Et tempora</City>
+				<State>Indiana</State>
+				<CountryCode>TUR</CountryCode>
+				<CountryName>Turkey</CountryName>
+				<PostalCode>85953</PostalCode>
+				<RegionCode />
+				<RegionName>Indiana</RegionName>
+				<DaytimePhoneNumber />
+				<EveningPhoneNumber />
+				<FaxNumber />
+				<Email>meziqydijo@yahoo.com</Email>
+			</OrderAddress>
+		</OrderAddresses>
+		<OrderForms>
+			<OrderForm>
+				<Shipments>
+					<Shipment>
+						<Discounts />
+						<ShipmentId>11</ShipmentId>
+						<ShippingMethodId>1e4c1a0f-d6b9-448a-95fd-3ab0b9c53951</ShippingMethodId>
+						<ShippingMethodName>Regular USD (4-7 days)(en)</ShippingMethodName>
+						<ShippingTax>0.000000000</ShippingTax>
+						<ShippingAddressId>362519fa-cbe0-42f2-8fd3-0dd1a28ed86b</ShippingAddressId>
+						<ShipmentTrackingNumber />
+						<ShippingDiscountAmount>0.000000000</ShippingDiscountAmount>
+						<ShippingSubTotal>5.000000000</ShippingSubTotal>
+						<ShippingTotal>5.000000000</ShippingTotal>
+						<Status />
+						<PrevStatus />
+						<PickListId xsi:nil="true" />
+						<SubTotal>22.870000000</SubTotal>
+						<WarehouseCode />
+						<LineItems>
+							<LineItem>
+								<LineItemId>2</LineItemId>
+								<Code>SKU-39813617</Code>
+								<PlacedPrice>30.500000000</PlacedPrice>
+								<Quantity>1.000000000</Quantity>
+								<LineItemDiscountAmount>7.63</LineItemDiscountAmount>
+								<OrderLevelDiscountAmount>0.000000000</OrderLevelDiscountAmount>
+							</LineItem>
+						</LineItems>
+					</Shipment>
+				</Shipments>
+				<LineItems>
+					<LineItem>
+						<LineItemId>2</LineItemId>
+						<Code>SKU-39813617</Code>
+						<PlacedPrice>30.500000000</PlacedPrice>
+						<Quantity>1.000000000</Quantity>
+						<LineItemDiscountAmount>7.63</LineItemDiscountAmount>
+						<OrderLevelDiscountAmount>0.000000000</OrderLevelDiscountAmount>
+					</LineItem>
+				</LineItems>
+				<Discounts />
+				<ReturnComment />
+				<ReturnType />
+				<ReturnAuthCode />
+				<OrderFormId>2</OrderFormId>
+				<Name>Default</Name>
+				<BillingAddressId>f457bada-57b4-4654-ad5c-1fad82f15beb</BillingAddressId>
+				<ShippingTotal>5.000000000</ShippingTotal>
+				<HandlingTotal>0.000000000</HandlingTotal>
+				<TaxTotal>0.000000000</TaxTotal>
+				<DiscountAmount>7.630000000</DiscountAmount>
+				<SubTotal>22.870000000</SubTotal>
+				<Total>27.870000000</Total>
+				<Status />
+				<RmaNumber />
+				<AuthorizedPaymentTotal>27.870000000</AuthorizedPaymentTotal>
+				<CapturedPaymentTotal>0.000000000</CapturedPaymentTotal>
+			</OrderForm>
+		</OrderForms>
+		<OrderGroupId>2</OrderGroupId>
+    <OrderNotes>
+      <OrderNote>
+        <OrderNoteId xsi:nil="true" />
+        <Created>0001-01-01T00:00:00</Created>
+        <CustomerId>00000000-0000-0000-0000-000000000000</CustomerId>
+        <Detail>There are some details.</Detail>
+        <Title>The note</Title>
+        <LineItemId xsi:nil="true" />
+      </OrderNote>
+    </OrderNotes>
+		<Owner />
+		<OwnerOrg />
+		<ProviderId>frontend</ProviderId>
+		<ShippingTotal>5.000000000</ShippingTotal>
+		<Status>InProgress</Status>
+		<SubTotal>22.870000000</SubTotal>
+		<TaxTotal>0.000000000</TaxTotal>
+		<Total>27.870000000</Total>
+		<Modified>2016-05-25T08:11:15.263Z</Modified>
+		<Created>2016-05-25T08:11:15.19Z</Created>
+	</PurchaseOrder>
 </ArrayOfPurchaseOrder>
 ```
 
@@ -239,54 +189,80 @@ X-UA-Compatible: IE=Edge,chrome=1
 Date: Tue, 07 Jun 2016 13:24:13 GMT
 
 <PurchaseOrder xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <__MetaClass>PurchaseOrder</__MetaClass><CreatorId/><ModifierId/>
-    <Created>2016-06-07T13:07:05.7730000Z</Created>
-    <Modified>2016-06-07T13:20:14.4630000Z</Modified>
-    <AdditionalDiscountPercent>0</AdditionalDiscountPercent><ExpirationDate/>
-    <ParentOrderGroupId>0</ParentOrderGroupId><TrackingNumber/>
-    <OrderGroupId>4</OrderGroupId><Owner/><OwnerOrg/><ProviderId/>
-    <ShippingTotal>0.000000000</ShippingTotal><SiteId/>
-    <Status>InProgress</Status>
-    <SubTotal>0.000000000</SubTotal>
-    <TaxTotal>0.000000000</TaxTotal>
-    <Total>0.000000000</Total><AddressId/><AffiliateId/>
-    <ApplicationId>201490ff-22cc-436a-bc37-750e7393a803</ApplicationId>
-    <BillingCurrency>USD</BillingCurrency>
-    <CustomerId>2a40754d-86d5-460b-a5a4-32bc87703567</CustomerId><CustomerName/>
-    <HandlingTotal>0.000000000</HandlingTotal>
-    <InstanceId>cd64c67b-e600-4dc4-8cda-060013efb251</InstanceId>
-    <MarketId>DEFAULT</MarketId><Name/>
-    <OrderForms>
-        <OrderForm>
-            <__MetaClass>OrderFormEx</__MetaClass><CreatorId/><ModifierId/>
-            <Created>2016-06-07T13:07:05.7730000Z</Created>
-            <Modified>2016-06-07T13:20:14.4630000Z</Modified><Epi_CouponCodes/><RMANumber/>
-            <OrderFormId>4</OrderFormId>
-            <OrderGroupId>4</OrderGroupId><OrigOrderFormId/><ProviderId/><ReturnAuthCode/><ReturnComment/><ReturnType/>
-            <ShippingTotal>0.000000000</ShippingTotal><Status/>
-            <SubTotal>0.000000000</SubTotal>
-            <TaxTotal>0.000000000</TaxTotal>
-            <Total>0.000000000</Total>
-            <AuthorizedPaymentTotal>0.000000000</AuthorizedPaymentTotal><BillingAddressId/>
-            <CapturedPaymentTotal>0.000000000</CapturedPaymentTotal>
-            <DiscountAmount>0.000000000</DiscountAmount><ExchangeOrderGroupId/>
-            <HandlingTotal>0.000000000</HandlingTotal>
-            <Name>default</Name><LineItems/>
-            <Shipments>
-                <Shipment>
-                    <__MetaClass>ShipmentEx</__MetaClass><CreatorId/><ModifierId/>
-                    <Created>2016-06-07T13:07:05.7730000Z</Created>
-                    <Modified>2016-06-07T13:20:14.4630000Z</Modified><PrevStatus/>
-                    <ShipmentId>9</ShipmentId>
-                    <ShipmentTotal>0.000000000</ShipmentTotal><ShipmentTrackingNumber/><ShippingAddressId/>
-                    <ShippingDiscountAmount>0.000000000</ShippingDiscountAmount>
-                    <ShippingMethodId>00000000-0000-0000-0000-000000000000</ShippingMethodId><ShippingMethodName/><Status/>
-                    <SubTotal>0.000000000</SubTotal><WarehouseCode/>
-                    <Epi_ShippingTax>0.000000000</Epi_ShippingTax><LineItemIds/><OperationKeys/>
-                    <OrderFormId>4</OrderFormId>
-                    <OrderGroupId>4</OrderGroupId><PickListId/><Discounts/></Shipment>
-            </Shipments><Payments/><Discounts/><Promotions/></OrderForm>
-    </OrderForms><OrderAddresses/><OrderNotes/><ReturnOrderForms/></PurchaseOrder>
+	<AddressId />
+	<AffiliateId>00000000-0000-0000-0000-000000000000</AffiliateId>
+	<BillingCurrency>USD</BillingCurrency>
+	<CustomerId>2a40754d-86d5-460b-a5a4-32bc87703567</CustomerId>
+	<CustomerName />
+	<HandlingTotal>0.000000000</HandlingTotal>
+	<InstanceId>fb3665e0-2ab7-4c6f-b723-38f7c9fa995e</InstanceId>
+	<MarketId />
+	<Name />
+	<OrderAddresses />
+	<OrderForms>
+		<OrderForm>
+			<Shipments>
+				<Shipment>
+					<Discounts />
+					<ShipmentId>2120</ShipmentId>
+					<ShippingMethodId>00000000-0000-0000-0000-000000000000</ShippingMethodId>
+					<ShippingMethodName />
+					<ShippingTax>0.000000000</ShippingTax>
+					<ShippingAddressId />
+					<ShipmentTrackingNumber />
+					<ShippingDiscountAmount>0.000000000</ShippingDiscountAmount>
+					<ShippingSubTotal>0.000000000</ShippingSubTotal>
+					<ShippingTotal>0.000000000</ShippingTotal>
+					<Status />
+					<PrevStatus />
+					<PickListId xsi:nil="true" />
+					<SubTotal>0.000000000</SubTotal>
+					<WarehouseCode />
+					<LineItems />
+				</Shipment>
+			</Shipments>
+			<LineItems />
+			<Discounts />
+			<ReturnComment />
+			<ReturnType />
+			<ReturnAuthCode />
+			<OrderFormId>2117</OrderFormId>
+			<Name>Default</Name>
+			<BillingAddressId />
+			<ShippingTotal>0.000000000</ShippingTotal>
+			<HandlingTotal>0.000000000</HandlingTotal>
+			<TaxTotal>0.000000000</TaxTotal>
+			<DiscountAmount>0.000000000</DiscountAmount>
+			<SubTotal>0.000000000</SubTotal>
+			<Total>0.000000000</Total>
+			<Status />
+			<RmaNumber />
+			<AuthorizedPaymentTotal>0.000000000</AuthorizedPaymentTotal>
+			<CapturedPaymentTotal>0.000000000</CapturedPaymentTotal>
+		</OrderForm>
+	</OrderForms>
+	<OrderGroupId>2111</OrderGroupId>
+  <OrderNotes>
+    <OrderNote>
+      <OrderNoteId xsi:nil="true" />
+      <Created>0001-01-01T00:00:00</Created>
+      <CustomerId>00000000-0000-0000-0000-000000000000</CustomerId>
+      <Detail>There are some details.</Detail>
+      <Title>The note</Title>
+      <LineItemId xsi:nil="true" />
+    </OrderNote>
+  </OrderNotes>
+	<Owner />
+	<OwnerOrg />
+	<ProviderId />
+	<ShippingTotal>0.000000000</ShippingTotal>
+	<Status />
+	<SubTotal>0.000000000</SubTotal>
+	<TaxTotal>0.000000000</TaxTotal>
+	<Total>0.000000000</Total>
+	<Modified>2016-07-06T15:16:33.813Z</Modified>
+	<Created>2016-07-06T15:16:33.773Z</Created>
+</PurchaseOrder>
 ```
 
 ### Post Order (add new order)
@@ -301,24 +277,73 @@ Accept: text/xml
 Authorization: Bearer TVAjPbenWwYJ59_c-X1kXUqnRbVp9EJGQ2mQwE7JfcycIAkgx-Ajl45_Go2iOddIWmlysvH9fQMNh-mxFNNZ9HguaMg6WJw9h8newA4BZ7wJ2NwpwTJVurPRomJegDFXbJY4gzP_TKI3QMoXcq1QefcyDO1SwX7letntB90f4HEwNm1lhPT8IDgUbj3UsO1g1rU3tBOGfOlbzSpw13_82Q_7h7aoO62_bMrT6fwfCMra41ZcoQlwtvVfXyk_pt2eL7pMwJZU3egUkxNdkhME1rZ-VcnvlACUwtnLzUnTy1T8z3Snepab8l7V7DgGBPCA
 Content-Type: text/xml
 
-<?xml version="1.0" encoding="UTF-8" ?>
-<OrderGroup  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<AddressId />
-	<AffiliateId>00000000-0000-0000-0000-000000000000</AffiliateId>
-	<BillingCurrency />
-	<CustomerId>2a40754d-86d5-460b-a5a4-32bc87703567</CustomerId>
-	<CustomerName />
-	<HandlingTotal>0</HandlingTotal>
-	<InstanceId>00000000-0000-0000-0000-000000000000</InstanceId>
-	<Name>default</Name>
-	<Owner />
-	<OwnerOrg />
-	<ProviderId />
-	<ShippingTotal>0</ShippingTotal>
-	<Status />
-	<SubTotal>0</SubTotal>
-	<TaxTotal>0</TaxTotal>
-	<Total>0</Total>
+<?xml version="1.0" encoding="utf-16"?>
+<OrderGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <AffiliateId>00000000-0000-0000-0000-000000000000</AffiliateId>
+  <CustomerId>2a40754d-86d5-460b-a5a4-32bc87703567</CustomerId>
+  <HandlingTotal>0</HandlingTotal>
+  <InstanceId>00000000-0000-0000-0000-000000000000</InstanceId>
+  <MarketId />
+  <Name>default</Name>
+  <OrderAddresses>
+    <OrderAddress>
+      <OrderGroupAddressId>0</OrderGroupAddressId>
+      <Name>f457bada-57b4-4654-ad5c-1fad82f15beb</Name>
+      <FirstName>Mira</FirstName>
+      <LastName>Neal</LastName>
+      <Organization />
+      <Line1>Est ea et sint qui et</Line1>
+      <Line2 />
+      <City>Et tempora</City>
+      <State>Indiana</State>
+      <CountryCode>TUR</CountryCode>
+      <CountryName>Turkey</CountryName>
+      <PostalCode>85953</PostalCode>
+      <RegionCode />
+      <RegionName>Indiana</RegionName>
+      <DaytimePhoneNumber />
+      <EveningPhoneNumber />
+      <FaxNumber />
+      <Email>meziqydijo@yahoo.com</Email>
+    </OrderAddress>
+  </OrderAddresses>
+  <OrderForms>
+		<OrderForm>
+			<ReturnComment />
+			<ReturnType />
+			<ReturnAuthCode />
+			<OrderFormId>2118</OrderFormId>
+			<Name>Default</Name>
+			<BillingAddressId />
+			<ShippingTotal>0</ShippingTotal>
+			<HandlingTotal>0</HandlingTotal>
+			<TaxTotal>0</TaxTotal>
+			<DiscountAmount>0</DiscountAmount>
+			<SubTotal>0</SubTotal>
+			<Total>0</Total>
+			<Status />
+			<RmaNumber />
+			<AuthorizedPaymentTotal>0</AuthorizedPaymentTotal>
+			<CapturedPaymentTotal>0</CapturedPaymentTotal>
+		</OrderForm>
+	</OrderForms>
+  <OrderGroupId>0</OrderGroupId>
+  <OrderNotes>
+    <OrderNote>
+      <OrderNoteId xsi:nil="true" />
+      <Created>0001-01-01T00:00:00</Created>
+      <CustomerId>00000000-0000-0000-0000-000000000000</CustomerId>
+      <Detail>There are some details.</Detail>
+      <Title>The note</Title>
+      <LineItemId xsi:nil="true" />
+    </OrderNote>
+  </OrderNotes>
+  <ShippingTotal>0</ShippingTotal>
+  <SubTotal>0</SubTotal>
+  <TaxTotal>0</TaxTotal>
+  <Total>0</Total>
+  <Modified>0001-01-01T00:00:00</Modified>
+  <Created>0001-01-01T00:00:00</Created>
 </OrderGroup>
 ```
 
@@ -336,52 +361,101 @@ X-UA-Compatible: IE=Edge,chrome=1
 Date: Tue, 07 Jun 2016 13:07:05 GMT
 
 <PurchaseOrder xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <__MetaClass>PurchaseOrder</__MetaClass><CreatorId/><ModifierId/>
-    <Created>2016-06-07T13:07:05.7722253Z</Created>
-    <Modified>2016-06-07T13:07:05.8018136Z</Modified><AdditionalDiscountPercent/><ExpirationDate/>
-    <ParentOrderGroupId>0</ParentOrderGroupId><TrackingNumber/>
-    <OrderGroupId>4</OrderGroupId><Owner/><OwnerOrg/><ProviderId/>
-    <ShippingTotal>0</ShippingTotal><SiteId/><Status/>
-    <SubTotal>0</SubTotal>
-    <TaxTotal>0</TaxTotal>
-    <Total>0</Total><AddressId/><AffiliateId/>
-    <ApplicationId>201490ff-22cc-436a-bc37-750e7393a803</ApplicationId>
-    <BillingCurrency>USD</BillingCurrency>
-    <CustomerId>2a40754d-86d5-460b-a5a4-32bc87703567</CustomerId><CustomerName/>
-    <HandlingTotal>0</HandlingTotal>
-    <InstanceId>cd64c67b-e600-4dc4-8cda-060013efb251</InstanceId>
-    <MarketId>DEFAULT</MarketId><Name/>
-    <OrderForms>
-        <OrderForm>
-            <__MetaClass>OrderFormEx</__MetaClass><CreatorId/><ModifierId/>
-            <Created>2016-06-07T13:07:05.7722253Z</Created>
-            <Modified>2016-06-07T13:07:05.8018136Z</Modified><Epi_CouponCodes/><RMANumber/>
-            <OrderFormId>4</OrderFormId>
-            <OrderGroupId>4</OrderGroupId><OrigOrderFormId/><ProviderId/><ReturnAuthCode/><ReturnComment/><ReturnType/>
-            <ShippingTotal>0</ShippingTotal><Status/>
-            <SubTotal>0</SubTotal>
-            <TaxTotal>0</TaxTotal>
-            <Total>0</Total>
-            <AuthorizedPaymentTotal>0</AuthorizedPaymentTotal><BillingAddressId/>
-            <CapturedPaymentTotal>0</CapturedPaymentTotal>
-            <DiscountAmount>0</DiscountAmount><ExchangeOrderGroupId/>
-            <HandlingTotal>0</HandlingTotal>
-            <Name>default</Name><LineItems/>
-            <Shipments>
-                <Shipment>
-                    <__MetaClass>ShipmentEx</__MetaClass><CreatorId/><ModifierId/>
-                    <Created>2016-06-07T13:07:05.7722253Z</Created>
-                    <Modified>2016-06-07T13:07:05.8018136Z</Modified><PrevStatus/>
-                    <ShipmentId>9</ShipmentId>
-                    <ShipmentTotal>0</ShipmentTotal><ShipmentTrackingNumber/><ShippingAddressId/>
-                    <ShippingDiscountAmount>0</ShippingDiscountAmount>
-                    <ShippingMethodId>00000000-0000-0000-0000-000000000000</ShippingMethodId><ShippingMethodName/><Status/>
-                    <SubTotal>0.00</SubTotal><WarehouseCode/>
-                    <Epi_ShippingTax>0</Epi_ShippingTax><LineItemIds/><OperationKeys/>
-                    <OrderFormId>4</OrderFormId>
-                    <OrderGroupId>4</OrderGroupId><PickListId/><Discounts/></Shipment>
-            </Shipments><Payments/><Discounts/><Promotions/></OrderForm>
-    </OrderForms><OrderAddresses/><OrderNotes/><ReturnOrderForms/></PurchaseOrder>
+	<AddressId />
+	<AffiliateId>00000000-0000-0000-0000-000000000000</AffiliateId>
+	<BillingCurrency>USD</BillingCurrency>
+	<CustomerId>2a40754d-86d5-460b-a5a4-32bc87703567</CustomerId>
+	<CustomerName />
+	<HandlingTotal>0.0</HandlingTotal>
+	<InstanceId>316cc65c-820a-405c-bab4-2bd93c0e220a</InstanceId>
+	<MarketId />
+	<Name />
+  <OrderAddresses>
+    <OrderAddress>
+      <OrderGroupAddressId>0</OrderGroupAddressId>
+      <Name>f457bada-57b4-4654-ad5c-1fad82f15beb</Name>
+      <FirstName>Mira</FirstName>
+      <LastName>Neal</LastName>
+      <Organization />
+      <Line1>Est ea et sint qui et</Line1>
+      <Line2 />
+      <City>Et tempora</City>
+      <State>Indiana</State>
+      <CountryCode>TUR</CountryCode>
+      <CountryName>Turkey</CountryName>
+      <PostalCode>85953</PostalCode>
+      <RegionCode />
+      <RegionName>Indiana</RegionName>
+      <DaytimePhoneNumber />
+      <EveningPhoneNumber />
+      <FaxNumber />
+      <Email>meziqydijo@yahoo.com</Email>
+    </OrderAddress>
+  </OrderAddresses>
+	<OrderForms>
+		<OrderForm>
+			<Shipments>
+				<Shipment>
+					<Discounts />
+					<ShipmentId>2121</ShipmentId>
+					<ShippingMethodId>00000000-0000-0000-0000-000000000000</ShippingMethodId>
+					<ShippingMethodName />
+					<ShippingTax>0</ShippingTax>
+					<ShippingAddressId />
+					<ShipmentTrackingNumber />
+					<ShippingDiscountAmount>0</ShippingDiscountAmount>
+					<ShippingSubTotal>0</ShippingSubTotal>
+					<ShippingTotal>0</ShippingTotal>
+					<Status />
+					<PrevStatus />
+					<PickListId xsi:nil="true" />
+					<SubTotal>0.00</SubTotal>
+					<WarehouseCode />
+					<LineItems />
+				</Shipment>
+			</Shipments>
+			<LineItems />
+			<Discounts />
+			<ReturnComment />
+			<ReturnType />
+			<ReturnAuthCode />
+			<OrderFormId>2118</OrderFormId>
+			<Name>Default</Name>
+			<BillingAddressId />
+			<ShippingTotal>0</ShippingTotal>
+			<HandlingTotal>0</HandlingTotal>
+			<TaxTotal>0</TaxTotal>
+			<DiscountAmount>0</DiscountAmount>
+			<SubTotal>0</SubTotal>
+			<Total>0</Total>
+			<Status />
+			<RmaNumber />
+			<AuthorizedPaymentTotal>0</AuthorizedPaymentTotal>
+			<CapturedPaymentTotal>0</CapturedPaymentTotal>
+		</OrderForm>
+	</OrderForms>
+	<OrderGroupId>2112</OrderGroupId>
+  <OrderNotes>
+    <OrderNote>
+      <OrderNoteId xsi:nil="true" />
+      <Created>0001-01-01T00:00:00</Created>
+      <CustomerId>00000000-0000-0000-0000-000000000000</CustomerId>
+      <Detail>There are some details.</Detail>
+      <Title>The note</Title>
+      <LineItemId xsi:nil="true" />
+    </OrderNote>
+  </OrderNotes>
+	<Owner />
+	<OwnerOrg />
+	<ProviderId />
+	<ShippingTotal>0</ShippingTotal>
+	<Status />
+	<SubTotal>0</SubTotal>
+	<TaxTotal>0</TaxTotal>
+	<Total>0</Total>
+	<Modified>2016-07-06T15:19:12.099191Z</Modified>
+	<Created>2016-07-06T15:19:12.0685319Z</Created>
+</PurchaseOrder>
 ```
 
 ### Put Order (update order)
@@ -397,24 +471,73 @@ Authorization: Bearer TVAjPbenWwYJ59_c-X1kXUqnRbVp9EJGQ2mQwE7JfcycIAkgx-Ajl45_Go
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36
 Content-Type: text/xml
 
-<?xml version="1.0" encoding="UTF-8" ?>
-<OrderGroup  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<AddressId />
-	<AffiliateId>00000000-0000-0000-0000-000000000000</AffiliateId>
-	<BillingCurrency />
-	<CustomerId>2a40754d-86d5-460b-a5a4-32bc87703567</CustomerId>
-	<CustomerName />
-	<HandlingTotal>0</HandlingTotal>
-	<InstanceId>00000000-0000-0000-0000-000000000000</InstanceId>
-	<Name>default</Name>
-	<Owner />
-	<OwnerOrg />
-	<ProviderId />
-	<ShippingTotal>0</ShippingTotal>
-	<Status>InProgress</Status>
-	<SubTotal>0</SubTotal>
-	<TaxTotal>0</TaxTotal>
-	<Total>0</Total>
+<?xml version="1.0" encoding="utf-16"?>
+<OrderGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <AffiliateId>00000000-0000-0000-0000-000000000000</AffiliateId>
+  <CustomerId>2a40754d-86d5-460b-a5a4-32bc87703567</CustomerId>
+  <HandlingTotal>0</HandlingTotal>
+  <InstanceId>00000000-0000-0000-0000-000000000000</InstanceId>
+  <MarketId />
+  <Name>default</Name>
+  <OrderAddresses>
+    <OrderAddress>
+      <OrderGroupAddressId>0</OrderGroupAddressId>
+      <Name>f457bada-57b4-4654-ad5c-1fad82f15beb</Name>
+      <FirstName>Mira</FirstName>
+      <LastName>Neal</LastName>
+      <Organization />
+      <Line1>Est ea et sint qui et</Line1>
+      <Line2 />
+      <City>Et tempora</City>
+      <State>Indiana</State>
+      <CountryCode>TUR</CountryCode>
+      <CountryName>Turkey</CountryName>
+      <PostalCode>85953</PostalCode>
+      <RegionCode />
+      <RegionName>Indiana</RegionName>
+      <DaytimePhoneNumber />
+      <EveningPhoneNumber />
+      <FaxNumber />
+      <Email>meziqydijo@yahoo.com</Email>
+    </OrderAddress>
+  </OrderAddresses>
+  <OrderForms>
+		<OrderForm>
+			<ReturnComment />
+			<ReturnType />
+			<ReturnAuthCode />
+			<OrderFormId>2118</OrderFormId>
+			<Name>Default</Name>
+			<BillingAddressId />
+			<ShippingTotal>0</ShippingTotal>
+			<HandlingTotal>0</HandlingTotal>
+			<TaxTotal>0</TaxTotal>
+			<DiscountAmount>0</DiscountAmount>
+			<SubTotal>0</SubTotal>
+			<Total>0</Total>
+			<Status />
+			<RmaNumber />
+			<AuthorizedPaymentTotal>0</AuthorizedPaymentTotal>
+			<CapturedPaymentTotal>0</CapturedPaymentTotal>
+		</OrderForm>
+	</OrderForms>
+  <OrderGroupId>0</OrderGroupId>
+  <OrderNotes>
+    <OrderNote>
+      <OrderNoteId xsi:nil="true" />
+      <Created>0001-01-01T00:00:00</Created>
+      <CustomerId>00000000-0000-0000-0000-000000000000</CustomerId>
+      <Detail>There are some details.</Detail>
+      <Title>The note</Title>
+      <LineItemId xsi:nil="true" />
+    </OrderNote>
+  </OrderNotes>
+  <ShippingTotal>0</ShippingTotal>
+  <SubTotal>0</SubTotal>
+  <TaxTotal>0</TaxTotal>
+  <Total>0</Total>
+  <Modified>0001-01-01T00:00:00</Modified>
+  <Created>0001-01-01T00:00:00</Created>
 </OrderGroup>
 ```
 
