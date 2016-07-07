@@ -88,6 +88,8 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 config.Formatters.XmlFormatter.UseXmlSerializer = true;
                 config.DependencyResolver = new StructureMapResolver(context.Container);
                 config.MapHttpAttributeRoutes();
+                config.InitializeCustomWebHooks();
+                config.InitializeReceiveCustomWebHooks();
             });
         }
 
