@@ -1,8 +1,10 @@
-﻿using EPiServer.Framework;
+﻿using System.Collections.Generic;
+using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
 using Mediachase.Commerce.Engine.Events;
 using Mediachase.Commerce.Orders;
+using Mediachase.Commerce.Pricing;
 using Microsoft.AspNet.WebHooks;
 
 namespace Geta.ServiceApi.Commerce.WebHooks
@@ -45,7 +47,8 @@ namespace Geta.ServiceApi.Commerce.WebHooks
 
         private void OnPriceUpdated(object sender, PriceUpdateEventArgs e)
         {
-            WebHookManager.NotifyAllAsync(EventNames.PriceUpdated, new { e.CatalogKeys });
+            var priceDetailValues = sender as List<IPriceDetailValue>;
+            WebHookManager.NotifyAllAsync(EventNames.PriceUpdated, new { PriceDetailValues = priceDetailValues, e.CatalogKeys });
         }
 
         private void OnInventoryUpdated(object sender, InventoryUpdateEventArgs e)
