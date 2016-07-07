@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Geta.ServiceApi.Commerce.WebHooks")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Geta's Service API Web Hooks for EPiServer Commerce")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Geta")]
 [assembly: AssemblyProduct("Geta.ServiceApi.Commerce.WebHooks")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("Copyright © Geta 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
