@@ -27,6 +27,8 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.WebPages;
+using Microsoft.AspNet.WebHooks;
+using Microsoft.AspNet.WebHooks.Diagnostics;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure
 {
@@ -78,6 +80,11 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 c.For<IOwinContext>().Use(() => owinContextFunc());
                 c.For<IModelBinderProvider>().Use<ModelBinderProvider>();
                 c.For<SiteContext>().HybridHttpOrThreadLocalScoped().Use<CustomCurrencySiteContext>();
+
+                c.For<ILogger>().Use<TraceLogger>().Singleton();
+                c.For<IWebHookSender>().Use<DataflowWebHookSender>().Singleton();
+                c.For<IWebHookStore>().Use<MemoryWebHookStore>().Singleton();
+                c.For<IWebHookManager>().Use<WebHookManager>().Singleton();
             });
 
             DependencyResolver.SetResolver(new StructureMapDependencyResolver(context.Container));
@@ -88,6 +95,9 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
                 config.Formatters.XmlFormatter.UseXmlSerializer = true;
                 config.DependencyResolver = new StructureMapResolver(context.Container);
                 config.MapHttpAttributeRoutes();
+                config.InitializeCustomWebHooks();
+                config.InitializeCustomWebHooksApis();
+                config.InitializeReceiveCustomWebHooks();
             });
         }
 
