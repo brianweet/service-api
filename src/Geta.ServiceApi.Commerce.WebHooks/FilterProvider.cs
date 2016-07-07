@@ -8,10 +8,10 @@ namespace Geta.ServiceApi.Commerce.WebHooks
     {
         private readonly Collection<WebHookFilter> _filters = new Collection<WebHookFilter>
         {
-            new WebHookFilter { Name = "InventoryUpdated", Description = "Event raised when an inventory has been updated."},
-            new WebHookFilter { Name = "PriceUpdated", Description = "Event raised when one or many prices have been updated."},
-            new WebHookFilter { Name = "OrderGroupUpdated", Description = "Event raised when order group updated."},
-            new WebHookFilter { Name = "OrderGroupDeleted", Description = "Event raised when order group deleted."},
+            new WebHookFilter { Name = EventNames.InventoryUpdated, Description = "Event raised when an inventory has been updated."},
+            new WebHookFilter { Name = EventNames.PriceUpdated, Description = "Event raised when one or many prices have been updated."},
+            new WebHookFilter { Name = EventNames.OrderGroupUpdated, Description = "Event raised when order group updated."},
+            new WebHookFilter { Name = EventNames.OrderGroupDeleted, Description = "Event raised when order group deleted."},
         };
 
         public Task<Collection<WebHookFilter>> GetFiltersAsync()
