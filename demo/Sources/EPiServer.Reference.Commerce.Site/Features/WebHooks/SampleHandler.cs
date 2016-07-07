@@ -5,6 +5,11 @@ namespace EPiServer.Reference.Commerce.Site.Features.WebHooks
 {
     public class SampleHandler : WebHookHandler
     {
+        public SampleHandler()
+        {
+            Receiver = CustomWebHookReceiver.ReceiverName;
+        }
+
         public override Task ExecuteAsync(string receiver, WebHookHandlerContext context)
         {
 
