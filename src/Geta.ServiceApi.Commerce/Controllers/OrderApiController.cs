@@ -11,6 +11,8 @@ using Geta.ServiceApi.Commerce.Models;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Search;
 using Cart = Mediachase.Commerce.Orders.Cart;
+using PurchaseOrder = Mediachase.Commerce.Orders.PurchaseOrder;
+using PaymentPlan = Mediachase.Commerce.Orders.PaymentPlan;
 
 namespace Geta.ServiceApi.Commerce.Controllers
 {
@@ -41,29 +43,26 @@ namespace Geta.ServiceApi.Commerce.Controllers
         /// <param name="orderGroupId">Order group ID</param>
         /// <returns>Order</returns>
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{orderGroupId}")]
-        [ResponseType(typeof(PurchaseOrder))]
+        [ResponseType(typeof(Models.PurchaseOrder))]
         public virtual IHttpActionResult GetOrder(int orderGroupId)
         {
             Logger.LogGet("GetOrders", Request, new[] { orderGroupId.ToString() });
 
-            PurchaseOrder order;
-
             try
             {
-                order = _orderRepository.Load<PurchaseOrder>(orderGroupId);
+                var order = _orderRepository.Load<PurchaseOrder>(orderGroupId);
+                if (order == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(order.ConvertToPurchaseOrder());
             }
             catch (Exception exception)
             {
                 Logger.Error(exception.Message, exception);
                 return InternalServerError(exception);
             }
-
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(order);
         }
 
         /// <summary>
@@ -77,19 +76,16 @@ namespace Geta.ServiceApi.Commerce.Controllers
         {
             Logger.LogGet("GetOrders", Request, new[] { customerId.ToString() });
 
-            IEnumerable<IOrderGroup> orders;
-
             try
             {
-                orders = _orderRepository.Load(customerId, _defaultName);
+                var orders = _orderRepository.Load(customerId, _defaultName);
+                return Ok(orders);
             }
             catch (Exception exception)
             {
                 Logger.Error(exception.Message, exception);
                 return InternalServerError(exception);
             }
-
-            return Ok(orders);
         }
 
         /// <summary>
@@ -100,7 +96,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
         /// <param name="request">Orders search parameters model</param>
         /// <returns>Array of orders</returns>
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{start}/{maxCount}/search")]
-        [ResponseType(typeof(PurchaseOrder[]))]
+        [ResponseType(typeof(Models.PurchaseOrder[]))]
         public virtual IHttpActionResult SearchOrders(int start, int maxCount, [FromUri] SearchOrdersRequest request)
         {
             Logger.LogGet("GetOrders", Request, new[] {start.ToString(), maxCount.ToString(), $"{request?.OrderShipmentStatus}", $"{request?.ShippingMethodId}"});
@@ -109,8 +105,6 @@ namespace Geta.ServiceApi.Commerce.Controllers
             {
                 maxCount = 10;
             }
-
-            PurchaseOrder[] orders;
 
             try
             {
@@ -156,15 +150,14 @@ namespace Geta.ServiceApi.Commerce.Controllers
                     parameters.SqlWhereClause += $"Status IN ({statusesParam})";
                 }
 
-                orders = OrderContext.Current.FindPurchaseOrders(parameters, searchOptions);
+                var orders = OrderContext.Current.FindPurchaseOrders(parameters, searchOptions);
+                return Ok(orders.Select(x => x.ConvertToPurchaseOrder()).ToArray());
             }
             catch (Exception exception)
             {
                 Logger.Error(exception.Message, exception);
                 return InternalServerError(exception);
             }
-
-            return Ok(orders);
         }
 
         /// <summary>
@@ -174,7 +167,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
         /// <param name="maxCount">Max number of records to return</param>
         /// <returns>Array of orders</returns>
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{start}/{maxCount}/all")]
-        [ResponseType(typeof(PurchaseOrder[]))]
+        [ResponseType(typeof(Models.PurchaseOrder[]))]
         public virtual IHttpActionResult GetOrders(int start, int maxCount)
         {
             Logger.LogGet("GetOrders", Request, new []{start.ToString(), maxCount.ToString()});
@@ -184,12 +177,10 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 maxCount = 10;
             }
 
-            PurchaseOrder[] orders;
-
             try
             {
                 // http://world.episerver.com/documentation/Items/Developers-Guide/EPiServer-Commerce/9/Orders/Searching-for-orders/
-                OrderSearchOptions searchOptions = new OrderSearchOptions
+                var searchOptions = new OrderSearchOptions
                 {
                     CacheResults = false,
                     StartingRecord = start,
@@ -197,20 +188,19 @@ namespace Geta.ServiceApi.Commerce.Controllers
                     Namespace = "Mediachase.Commerce.Orders"
                 };
 
-                OrderSearchParameters parameters = new OrderSearchParameters();
+                var parameters = new OrderSearchParameters();
                 searchOptions.Classes.Add("PurchaseOrder");
                 parameters.SqlMetaWhereClause = "META.TrackingNumber LIKE '%PO%'";
                 parameters.SqlWhereClause = "OrderGroupId IN (SELECT OrdergroupId FROM Shipment WHERE NOT ShipmentTrackingNumber IS NULL)";
 
-                orders = OrderContext.Current.FindPurchaseOrders(parameters, searchOptions);
+                var orders = OrderContext.Current.FindPurchaseOrders(parameters, searchOptions);
+                return Ok(orders.Select(x => x.ConvertToPurchaseOrder()).ToArray());
             }
             catch (Exception exception)
             {
                 Logger.Error(exception.Message, exception);
                 return InternalServerError(exception);
             }
-
-            return Ok(orders);
         }
 
         /// <summary>
@@ -226,14 +216,13 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 var order = _orderRepository.Load<PurchaseOrder>(orderGroupId);
                 order = orderGroup.ConvertToPurchaseOrder(order);
                 _orderRepository.Save(order);
+                return Ok();
             }
             catch (Exception exception)
             {
                 Logger.Error(exception.Message, exception);
                 return InternalServerError(exception);
             }
-
-            return Ok();
         }
 
         /// <summary>
@@ -258,14 +247,13 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 var orderReference = new OrderReference(orderGroupId, existingOrder.Name, existingOrder.CustomerId, typeof (PurchaseOrder));
 
                 _orderRepository.Delete(orderReference);
+                return Ok();
             }
             catch (Exception exception)
             {
                 Logger.Error(exception.Message, exception);
                 return InternalServerError(exception);
             }
-
-            return Ok();
         }
 
         /// <summary>
@@ -274,7 +262,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
         /// <param name="orderGroup">Order group model</param>
         /// <returns>Order</returns>
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route]
-        [ResponseType(typeof(PurchaseOrder))]
+        [ResponseType(typeof(Models.PurchaseOrder))]
         public virtual IHttpActionResult PostOrder([FromBody] Models.OrderGroup orderGroup)
         {
             Logger.LogPost("PostOrder", Request);
@@ -285,7 +273,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 purchaseOrder = orderGroup.ConvertToPurchaseOrder(purchaseOrder);
                 _orderRepository.SaveAsPurchaseOrder(purchaseOrder);
 
-                return Ok(purchaseOrder);
+                return Ok(purchaseOrder.ConvertToPurchaseOrder());
             }
             catch(Exception exception)
             {
@@ -300,7 +288,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
         /// <param name="orderGroup">Order group model</param>
         /// <returns>Payment plan</returns>
         [AuthorizePermission("EPiServerServiceApi", "WriteAccess"), HttpPost, Route("PaymentPlan")]
-        [ResponseType(typeof(PaymentPlan))]
+        [ResponseType(typeof(Models.PaymentPlan))]
         public virtual IHttpActionResult PostPaymentPlan([FromBody] Models.OrderGroup orderGroup)
         {
             Logger.LogPost("PostPaymentPlan", Request);
@@ -309,8 +297,9 @@ namespace Geta.ServiceApi.Commerce.Controllers
             {
                 var paymentPlan = _orderRepository.Create<PaymentPlan>(orderGroup.CustomerId, orderGroup.Name);
                 paymentPlan = orderGroup.ConvertToPaymentPlan(paymentPlan);
+                _orderRepository.SaveAsPaymentPlan(paymentPlan);
 
-                return Ok(paymentPlan);
+                return Ok(paymentPlan.ConvertToPaymentPlan());
             }
             catch (Exception exception)
             {

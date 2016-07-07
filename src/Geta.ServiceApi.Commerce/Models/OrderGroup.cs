@@ -1,7 +1,5 @@
 ﻿using System;
 using Mediachase.Commerce;
-using Mediachase.Commerce.Marketing;
-using Mediachase.Commerce.Orders;
 
 namespace Geta.ServiceApi.Commerce.Models
 {
@@ -11,6 +9,16 @@ namespace Geta.ServiceApi.Commerce.Models
     [Serializable]
     public class OrderGroup
     {
+        /// <summary>
+        /// Initializes new instance of the OrderGroup class.
+        /// </summary>
+        public OrderGroup()
+        {
+            OrderAddresses = new OrderAddress[0];
+            OrderForms = new OrderForm[0];
+            OrderNotes = new OrderNote[0];
+        }
+
         /// <summary>
         /// Address ID.
         /// </summary>
@@ -52,24 +60,19 @@ namespace Geta.ServiceApi.Commerce.Models
         public MarketId MarketId { get; set; }
 
         /// <summary>
-        /// Array of promotion information.
-        /// </summary>
-        public PromotionInformation[] Promotions { get; set; }
-
-        /// <summary>
         /// Order name.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Collection of addresses.
+        /// Array of addresses.
         /// </summary>
-        public OrderAddressCollection OrderAddresses { get; set; }
+        public OrderAddress[] OrderAddresses { get; set; }
 
         /// <summary>
-        /// Collection of order forms.
+        /// Array of order forms.
         /// </summary>
-        public OrderFormCollection OrderForms { get; set; }
+        public OrderForm[] OrderForms { get; set; }
 
         /// <summary>
         /// Order group ID.
@@ -77,9 +80,9 @@ namespace Geta.ServiceApi.Commerce.Models
         public int OrderGroupId { get; set; }
 
         /// <summary>
-        /// Collection of order notes.
+        /// Array of order notes.
         /// </summary>
-        public OrderNoteCollection OrderNotes { get; set; }
+        public OrderNote[] OrderNotes { get; set; }
 
         /// <summary>
         /// Owner name.
@@ -127,5 +130,15 @@ namespace Geta.ServiceApi.Commerce.Models
         /// Total.
         /// </summary>
         public decimal Total { get; set; }
+
+        /// <summary>
+        /// Modified date.
+        /// </summary>
+        public DateTime Modified { get; set; }
+
+        /// <summary>
+        /// Created date.
+        /// </summary>
+        public DateTime Created { get; set; }
     }
 }
