@@ -1,4 +1,7 @@
-﻿namespace Geta.ServiceApi.Commerce.Models
+﻿using System.Collections;
+using Mediachase.Commerce.Inventory;
+
+namespace Geta.ServiceApi.Commerce.Models
 {
     /// <summary>
     ///     Represents a line item in the system, the actual item that is bought.
@@ -13,6 +16,9 @@
         /// </summary>
         public string Code { get; set; }
 
+        /// <summary>Gets or sets the display name.</summary>
+        public string DisplayName { get; set; }
+
         /// <summary>
         /// Gets the price for one item that this line item represent. This property don't take any discounts in consideration.
         /// </summary>
@@ -23,15 +29,25 @@
         /// </summary>
         public decimal Quantity { get; set; }
 
-        /// <summary>
-        /// Gets or sets the discount amount set for this specific line item. This property are normally set by the promotion system.
-        /// </summary>
-        public decimal LineItemDiscountAmount { get; set; }
+        /// <summary>Gets or sets the returned in stock quantity.</summary>
+        public decimal ReturnQuantity { get; set; }
 
         /// <summary>
-        /// Gets or sets the discount amount not specifically set for this line item. This property will contain the total order level discount for the whole order divided by the number of line items the order contains.
+        /// Gets or sets the inventory tracking status on whether to check inventory.
         /// </summary>
-        /// <value>The order level discount amount.</value>
-        public decimal OrderLevelDiscountAmount { get; set; }
+        public InventoryTrackingStatus InventoryTrackingStatus { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance has allocated inventory for the <see cref="P:EPiServer.Commerce.Order.ILineItem.Quantity" />.
+        /// </summary>
+        public bool IsInventoryAllocated { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the line item is a gift item.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the line item is a gift item; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsGift { get; set; }
     }
 }

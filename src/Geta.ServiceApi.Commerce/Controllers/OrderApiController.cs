@@ -271,7 +271,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
             {
                 var purchaseOrder = _orderRepository.Create<PurchaseOrder>(orderGroup.CustomerId, orderGroup.Name);
                 purchaseOrder = orderGroup.ConvertToPurchaseOrder(purchaseOrder);
-                _orderRepository.SaveAsPurchaseOrder(purchaseOrder);
+                _orderRepository.Save(purchaseOrder);
 
                 return Ok(purchaseOrder.ConvertToPurchaseOrder());
             }
