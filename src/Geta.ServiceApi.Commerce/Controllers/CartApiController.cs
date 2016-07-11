@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
 using EPiServer.Commerce.Marketing;
@@ -52,19 +53,17 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 name = _defaultName;
             }
 
-            IOrderGroup cart;
-
             try
             {
-                cart = _orderRepository.LoadOrCreate<Cart>(customerId, name);
+                var cart = _orderRepository.Load<Cart>(customerId, name).FirstOrDefault()
+                            ?? _orderRepository.Create<Cart>(customerId, name);
+                return Ok(cart);
             }
             catch (Exception exception)
             {
                 Logger.Error(exception.Message, exception);
                 return InternalServerError(exception);
             }
-
-            return Ok(cart);
         }
 
         /// <summary>
@@ -149,7 +148,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 name = _defaultName;
             }
 
-            var existingCart = _orderRepository.LoadOrCreate<Cart>(customerId, name);
+            var existingCart = _orderRepository.Load<Cart>(customerId, name).FirstOrDefault();
 
             if (existingCart == null)
             {
