@@ -169,7 +169,10 @@ namespace Geta.ServiceApi.Commerce.Mappings
                 PostalCode = address.PostalCode,
                 Region = address.RegionName,
                 Email = address.Email,
-                AddressId = address.AddressId
+                AddressId = address.AddressId,
+                ShippingDefault = address.AddressType.HasFlag(CustomerAddressTypeEnum.Shipping),
+                BillingDefault = address.AddressType.HasFlag(CustomerAddressTypeEnum.Billing),
+                Modified = address.Modified
             };
         }
 

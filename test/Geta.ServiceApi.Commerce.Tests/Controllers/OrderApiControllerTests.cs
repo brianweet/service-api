@@ -406,7 +406,9 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
                 Client.PostAsync($"/episerverapi/commerce/order",
                     new StringContent(json, Encoding.UTF8, "application/json")).Result;
 
+            AcceptXml();
             var message = response.Content.ReadAsStringAsync().Result;
+            RemoveAcceptXml();
 
             if (!response.IsSuccessStatusCode)
             {
