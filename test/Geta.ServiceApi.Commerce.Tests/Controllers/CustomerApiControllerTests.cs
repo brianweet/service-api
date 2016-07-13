@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using Geta.ServiceApi.Commerce.Models;
@@ -60,8 +61,15 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
                 Addresses = addresses.ToArray()
             };
 
-            Post(userId, model);
+            var contact = Post(userId, model);
+
             Delete(userId);
+
+            Assert.NotNull(contact);
+            Assert.NotNull(contact.Addresses);
+            Assert.NotNull(contact.Addresses.FirstOrDefault());
+            var resultAddress = contact.Addresses.First();
+            Assert.Equal(true, resultAddress.ShippingDefault);
         }
 
         [Fact]
