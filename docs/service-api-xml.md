@@ -616,7 +616,8 @@ Date: Tue, 07 Jun 2016 15:01:50 GMT
                 <PostalCode>l4k 3e7</PostalCode>
                 <Line1>201 drumlin circle</Line1>
                 <Line2>suite 1</Line2>
-                <Region>Armed Forces Canada</Region>
+                <RegionName>Armed Forces Canada</RegionName>
+								<RegionCode />
                 <Email>support@magicinfosys.com</Email>
                 <ShippingDefault>false</ShippingDefault>
                 <BillingDefault>false</BillingDefault>
