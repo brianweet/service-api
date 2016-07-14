@@ -63,9 +63,14 @@ namespace Geta.ServiceApi.Commerce.Models
         public string Line2 { get; set; }
 
         /// <summary>
-        /// Region.
+        /// Region name.
         /// </summary>
-        public string Region { get; set; }
+        public string RegionName { get; set; }
+
+        /// <summary>
+        /// Region code.
+        /// </summary>
+        public string RegionCode { get; set; }
 
         /// <summary>
         /// Email.

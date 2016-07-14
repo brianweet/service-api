@@ -137,10 +137,11 @@ namespace Geta.ServiceApi.Commerce.Mappings
             customerAddress.DaytimePhoneNumber = address.DaytimePhoneNumber;
             customerAddress.EveningPhoneNumber = address.EveningPhoneNumber;
             customerAddress.PostalCode = address.PostalCode;
-            customerAddress.RegionName = address.Region;
+            customerAddress.RegionName = address.RegionName;
+            customerAddress.RegionCode = address.RegionCode;
             // Commerce Manager expects State to be set for addresses in order management. Set it to be same as
             // RegionName to avoid issues.
-            customerAddress.State = address.Region;
+            customerAddress.State = address.RegionName;
             customerAddress.Email = address.Email;
             customerAddress.AddressType = CustomerAddressTypeEnum.Public | (address.ShippingDefault ? CustomerAddressTypeEnum.Shipping : 0) | (address.BillingDefault ? CustomerAddressTypeEnum.Billing : 0);
 
@@ -167,7 +168,8 @@ namespace Geta.ServiceApi.Commerce.Mappings
                 DaytimePhoneNumber = address.DaytimePhoneNumber,
                 EveningPhoneNumber = address.EveningPhoneNumber,
                 PostalCode = address.PostalCode,
-                Region = address.RegionName,
+                RegionName = address.RegionName,
+                RegionCode = address.RegionCode,
                 Email = address.Email,
                 AddressId = address.AddressId,
                 ShippingDefault = address.AddressType.HasFlag(CustomerAddressTypeEnum.Shipping),
