@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Mediachase.Commerce.Inventory;
+﻿using Mediachase.Commerce.Inventory;
 
 namespace Geta.ServiceApi.Commerce.Models
 {
@@ -23,6 +22,16 @@ namespace Geta.ServiceApi.Commerce.Models
         /// Gets the price for one item that this line item represent. This property don't take any discounts in consideration.
         /// </summary>
         public decimal PlacedPrice { get; set; }
+
+        /// <summary>
+        /// Gets the extended price for the lineitem. Includes order-level discount amount (which is spread over all line items in the shipment) and the line item discount amount.
+        /// </summary>
+        public decimal ExtendedPrice { get; set; }
+
+        /// <summary>
+        /// Gets the line item discounted price. Only calculates the price with the "line item discount amount," that is, the discount for a specific item.
+        /// </summary>
+        public decimal DiscountedPrice { get; set; }
 
         /// <summary>
         /// Gets or sets the number of items this line item contains
