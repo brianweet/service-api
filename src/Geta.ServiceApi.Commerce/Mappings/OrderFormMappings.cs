@@ -74,7 +74,7 @@ namespace Geta.ServiceApi.Commerce.Mappings
 
         private static Models.LineItem ConvertToLineItem(ILineItem lineItem)
         {
-            var defaultCurrency = Money.DefaultCurrencyFunction(); // Using default currency as it doesn't matter - correct currency already set on OrderGroup
+            var defaultCurrency = Currency.USD; // Using USD as currency doesn't matter - calculation result will not use currency only amount.
             return new Models.LineItem
             {
                 LineItemId = lineItem.LineItemId,
