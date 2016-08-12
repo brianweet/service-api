@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using EPiServer.Commerce.Order;
+using Mediachase.Commerce;
 using Mediachase.Commerce.Orders;
 using OrderForm = Mediachase.Commerce.Orders.OrderForm;
 using Shipment = Mediachase.Commerce.Orders.Shipment;
@@ -79,6 +80,8 @@ namespace Geta.ServiceApi.Commerce.Mappings
                 Code = lineItem.Code,
                 DisplayName = lineItem.DisplayName,
                 PlacedPrice = lineItem.PlacedPrice,
+                ExtendedPrice = lineItem.GetExtendedPrice(Currency.Empty).Amount,
+                DiscountedPrice = lineItem.GetDiscountedPrice(Currency.Empty).Amount,
                 Quantity = lineItem.Quantity,
                 ReturnQuantity = lineItem.ReturnQuantity,
                 InventoryTrackingStatus = lineItem.InventoryTrackingStatus,
