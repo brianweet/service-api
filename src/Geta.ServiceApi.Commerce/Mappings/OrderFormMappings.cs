@@ -74,14 +74,15 @@ namespace Geta.ServiceApi.Commerce.Mappings
 
         private static Models.LineItem ConvertToLineItem(ILineItem lineItem)
         {
+            var defaultCurrency = Money.DefaultCurrencyFunction(); // Using default currency as it doesn't matter - correct currency already set on OrderGroup
             return new Models.LineItem
             {
                 LineItemId = lineItem.LineItemId,
                 Code = lineItem.Code,
                 DisplayName = lineItem.DisplayName,
                 PlacedPrice = lineItem.PlacedPrice,
-                ExtendedPrice = lineItem.GetExtendedPrice(Currency.Empty).Amount,
-                DiscountedPrice = lineItem.GetDiscountedPrice(Currency.Empty).Amount,
+                ExtendedPrice = lineItem.GetExtendedPrice(defaultCurrency).Amount,
+                DiscountedPrice = lineItem.GetDiscountedPrice(defaultCurrency).Amount,
                 Quantity = lineItem.Quantity,
                 ReturnQuantity = lineItem.ReturnQuantity,
                 InventoryTrackingStatus = lineItem.InventoryTrackingStatus,
