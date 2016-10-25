@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using EPiServer.Commerce.Order;
 using Mediachase.Commerce.Orders;
 using OrderGroup = Geta.ServiceApi.Commerce.Models.OrderGroup;
 
@@ -292,7 +293,8 @@ namespace Geta.ServiceApi.Commerce.Mappings
 
         public static Models.PurchaseOrder ConvertToPurchaseOrder(this PurchaseOrder purchaseOrder)
         {
-            var po = new Models.PurchaseOrder();
+            var ipo = (IPurchaseOrder) purchaseOrder;
+            var po = new Models.PurchaseOrder {OrderNumber = ipo.OrderNumber};
             return purchaseOrder.ConvertToOrderGroup(po);
         }
 
