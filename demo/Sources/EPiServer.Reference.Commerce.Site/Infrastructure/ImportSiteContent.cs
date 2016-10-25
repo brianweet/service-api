@@ -34,6 +34,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Hosting;
+using EPiServer.DataAbstraction.RuntimeModel.Internal;
 
 namespace EPiServer.Reference.Commerce.Site.Infrastructure
 {
@@ -265,17 +266,21 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         
         private void ImportAssets(string path)
         {
-            var importer = new DataImporter { DestinationRoot = ContentReference.GlobalBlockFolder };
-            importer.Stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var importer = ServiceLocator.Current.GetInstance<IDataImporter>();
+            var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
 
             // Clear the cache to ensure setup is running in a controlled environment, if perhaps we're developing and have just cleared the database.
             CacheManager.Clear();
-            importer.KeepIdentity = true;
-            importer.Import();
-
-            if (importer.Log.Errors.Count > 0)
+            var options = new ImportOptions
             {
-                throw new Exception("Content could not be imported. " + GetStatus(importer));
+                KeepIdentity = true,
+                AutoCloseStream = true
+            };
+
+            var result = importer.Import(stream, ContentReference.GlobalBlockFolder, options);
+            if (result.Errors.Any())
+            {
+                throw new Exception("Content could not be imported. " + GetStatus(result));
             }
         }
 
@@ -350,22 +355,22 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
         }
 
 
-        private string GetStatus(ITransferContext importer)
+        private string GetStatus(ITransferLog log)
         {
             var logMessage = new StringBuilder();
             var lineBreak = "<br>";
 
-            if (importer.Log.Errors.Count > 0)
+            if (log.Errors.Any())
             {
-                foreach (string err in importer.Log.Errors)
+                foreach (string err in log.Errors)
                 {
                     logMessage.Append(err).Append(lineBreak);
                 }
             }
 
-            if (importer.Log.Warnings.Count > 0)
+            if (log.Warnings.Any())
             {
-                foreach (string err in importer.Log.Warnings)
+                foreach (string err in log.Warnings)
                 {
                     logMessage.Append(err).Append(lineBreak);
                 }

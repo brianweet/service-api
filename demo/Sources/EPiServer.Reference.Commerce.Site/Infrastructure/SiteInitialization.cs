@@ -27,6 +27,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.WebPages;
+using EPiServer.Globalization.Internal;
 using Microsoft.AspNet.WebHooks;
 using Microsoft.AspNet.WebHooks.Diagnostics;
 
@@ -63,7 +64,7 @@ namespace EPiServer.Reference.Commerce.Site.Infrastructure
 
                 //Register for auto injection of edit mode check, should be default life cycle (per request)
                 c.For<Func<bool>>()
-                .Use(() => new Func<bool>(() => PageEditing.PageIsInEditMode));                 
+                .Use(() => new Func<bool>(() => PageEditing.PageIsInEditMode));
 
                 c.For<IUpdateCurrentLanguage>()
                     .Singleton()

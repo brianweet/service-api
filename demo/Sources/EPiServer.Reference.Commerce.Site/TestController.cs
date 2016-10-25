@@ -74,11 +74,10 @@ namespace EPiServer.Reference.Commerce.Site
             {
                 Quantity = 1,
                 ExtendedPrice = 10,
-                WarehouseCode = "default",
                 InventoryStatus = 1,
                 Code = entryCode,
                 ListPrice = 10,
-                DisplayName = "SKU-35278811 test",
+                DisplayName = "SKU-35278811 test"
             });
 
 
@@ -90,7 +89,8 @@ namespace EPiServer.Reference.Commerce.Site
             {
                 ShippingMethodId = Guid.Parse("BBF8FE44-9EB2-40A8-B69C-709A1A27ED5C"),
                 ShippingMethodName = "Fast-USD",
-                ShippingAddressId = "fake address"
+                ShippingAddressId = "fake address",
+                WarehouseCode = "default"
             });
 
             var json = JsonConvert.SerializeObject(model);
