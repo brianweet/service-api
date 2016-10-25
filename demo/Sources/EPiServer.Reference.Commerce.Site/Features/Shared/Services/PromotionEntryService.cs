@@ -7,6 +7,7 @@ using EPiServer.ServiceLocation;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Inventory;
+using Mediachase.Commerce.InventoryService;
 using Mediachase.Commerce.Marketing;
 using Mediachase.Commerce.Marketing.Objects;
 using Mediachase.Commerce.Pricing;
@@ -19,14 +20,14 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
         private readonly ILinksRepository _linksRepository;
         private readonly ICatalogSystem _catalogSystem;
         private readonly IContentLoader _contentLoader;
-        private readonly IWarehouseInventoryService _inventoryService;
+        private readonly IInventoryService _inventoryService;
         private readonly IWarehouseRepository _warehouseRepository;
 
         public PromotionEntryService(
             ILinksRepository linksRepository,
             ICatalogSystem catalogSystem,
             IContentLoader contentLoader,
-            IWarehouseInventoryService inventoryService,
+            IInventoryService inventoryService,
             IWarehouseRepository warehouseRepository)
         {
             _contentLoader = contentLoader;
@@ -121,17 +122,16 @@ namespace EPiServer.Reference.Commerce.Site.Features.Shared.Services
             }
 
             entry["ExtendedPrice"] = price.UnitPrice.Amount;
-            var inventories = _inventoryService.List(price.CatalogKey, _warehouseRepository.List()).ToList();
+            var inventories = _inventoryService.QueryByEntry(new [] {price.CatalogKey.CatalogEntryCode}).ToList();
             if (!inventories.Any())
             {
                 return;
             }
 
-            entry["AllowBackordersAndPreorders"] = inventories.Any(i => i.AllowBackorder) && inventories.Any(i => i.AllowPreorder);
-            entry["InStockQuantity"] = inventories.Sum(i => i.InStockQuantity - i.ReservedQuantity);
-            entry["PreorderQuantity"] = inventories.Sum(i => i.PreorderQuantity);
-            entry["BackorderQuantity"] = inventories.Sum(i => i.BackorderQuantity);
-            entry["InventoryStatus"] = inventories.First().InventoryStatus;
+            entry["AllowBackordersAndPreorders"] = inventories.Any(i => i.CanBackorder(DateTime.UtcNow)) && inventories.Any(i => i.CanPreorder(DateTime.UtcNow));
+            entry["InStockQuantity"] = inventories.Sum(i => i.BackorderAvailableQuantity);
+            entry["PreorderQuantity"] = inventories.Sum(i => i.PreorderAvailableQuantity);
+            entry["BackorderQuantity"] = inventories.Sum(i => i.BackorderAvailableQuantity);
         }
     }
 }
