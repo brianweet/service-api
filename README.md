@@ -72,7 +72,7 @@ private static string GetServiceApiXmlCommentsPath()
 
 ### WebHooks
 
-_Geta.ServiceApi.Commerce.WebHooks_ adds [_ASP.NET WebHooks_](https://github.com/aspnet/WebHooks) to your project and rises these _EPiServer Commerce_ events:
+_Geta.ServiceApi.Commerce.WebHooks_ adds [_ASP.NET WebHooks_](https://github.com/aspnet/WebHooks) to your project and raises these _EPiServer Commerce_ events:
 - [InventoryUpdated](http://world.episerver.com/documentation/Items/Developers-Guide/Episerver-Commerce/9/events/inventory-events/) - raised on inventory update. Sends collection of _CatalogKeys_ affected.
 - [PriceUpdated](http://world.episerver.com/documentation/Items/Developers-Guide/Episerver-Commerce/9/events/pricing-events/) - raised on price update. Sends collection of _CatalogKeys_ affected and _PriceDetailValues_ affected.
 - [OrderGroupUpdated](http://world.episerver.com/documentation/Items/Developers-Guide/Episerver-Commerce/9/Orders/order-events/) - raised on order group update. Sends _OrderGroupId_, _OrderGroupType_ and _OrderGroup_ affected.
