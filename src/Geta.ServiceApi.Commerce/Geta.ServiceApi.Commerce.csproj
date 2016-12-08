@@ -317,6 +317,7 @@
     <Compile Include="Mappings\OrderFormMappings.cs" />
     <Compile Include="Mappings\OrderGroupMappings.cs" />
     <Compile Include="Mappings\OrderNoteMappings.cs" />
+    <Compile Include="Mappings\ShipmentMappings.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Contact.cs" />

@@ -28,7 +28,19 @@ namespace Geta.ServiceApi.Commerce.Mappings
             orderForm.AuthorizedPaymentTotal = orderFormDto.AuthorizedPaymentTotal;
             orderForm.CapturedPaymentTotal = orderFormDto.CapturedPaymentTotal;
 
+            MapShipments(orderFormDto, orderForm);
+
             return orderForm;
+        }
+
+        private static void MapShipments(Models.OrderForm orderFormDto, OrderForm orderForm)
+        {
+            orderForm.Shipments.Clear();
+            foreach (var shipmentDto in orderFormDto.Shipments)
+            {
+                var shipment = orderForm.Shipments.AddNew();
+                shipmentDto.ConvertToShipment(shipment);
+            }
         }
 
         public static Models.OrderForm ConvertToOrderForm(this OrderForm orderForm)
