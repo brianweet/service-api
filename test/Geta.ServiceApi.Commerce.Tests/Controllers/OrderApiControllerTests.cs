@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Xml.Linq;
+using Geta.ServiceApi.Commerce.Models;
 using Geta.ServiceApi.Commerce.Tests.Base;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Orders;
@@ -33,6 +34,7 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
         {
             var contactId = Guid.Parse("2A40754D-86D5-460B-A5A4-32BC87703567"); // admin contact
             var cartName = Cart.DefaultName;
+            var now = DateTime.UtcNow;
 
             var model = new OrderGroup
             {
@@ -43,7 +45,27 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
                     new Models.OrderForm
                     {
                         Name = "Default",
-                        Total = 500
+                        Total = 500,
+                        Shipments = new []
+                        {
+                            new Models.Shipment
+                            {
+                                ShipmentTrackingNumber = "Track-123",
+                                ShippingMethodName = "FedEx",
+                                Status = $"Shipped on {now}",
+
+                                LineItems = new []
+                                {
+                                    new Models.LineItem
+                                    {
+                                        Code = "XYZ",
+                                        DisplayName = "XYZ Shirt",
+                                        Quantity = 1,
+                                        PlacedPrice = 150
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 OrderAddresses = new[]
