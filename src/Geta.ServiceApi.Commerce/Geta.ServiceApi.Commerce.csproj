@@ -317,11 +317,13 @@
     <Compile Include="Mappings\OrderFormMappings.cs" />
     <Compile Include="Mappings\OrderGroupMappings.cs" />
     <Compile Include="Mappings\OrderNoteMappings.cs" />
+    <Compile Include="Mappings\PropertiesMappings.cs" />
     <Compile Include="Mappings\ShipmentMappings.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Cart.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\Discount.cs" />
+    <Compile Include="Models\IHaveProperties.cs" />
     <Compile Include="Models\LineItem.cs" />
     <Compile Include="Models\OrderAddress.cs" />
     <Compile Include="Models\OrderForm.cs" />

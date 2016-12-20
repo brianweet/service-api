@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Geta.ServiceApi.Commerce.Models
 {
@@ -6,7 +7,7 @@ namespace Geta.ServiceApi.Commerce.Models
     /// Shipment contains information about the particular shipment. Line Items will reference the shipment object they belong to.
     /// </summary>
     [Serializable]
-    public class Shipment
+    public class Shipment : IHaveProperties
     {
         /// <summary>
         /// Initializes new instance of the Shipment class.
@@ -82,5 +83,10 @@ namespace Geta.ServiceApi.Commerce.Models
         /// <summary>Gets the collection of line items</summary>
         /// <value>The line items.</value>
         public LineItem[] LineItems { get; set; }
+
+        /// <summary>
+        /// Gets the list of key value pairs for dealing with custom properties.
+        /// </summary>
+        public List<KeyValuePair<string, string>> Properties { get; set; }
     }
 }
