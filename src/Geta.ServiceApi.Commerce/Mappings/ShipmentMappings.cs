@@ -19,6 +19,7 @@ namespace Geta.ServiceApi.Commerce.Mappings
             shipment.PrevStatus = shipmentDto.PrevStatus;
             shipment.PickListId = shipmentDto.PickListId;
 
+            shipmentDto.MapPropertiesToModel(shipment);
             MapLineItems(shipmentDto, shipment);
         }
 

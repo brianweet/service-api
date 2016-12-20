@@ -122,7 +122,8 @@ namespace Geta.ServiceApi.Commerce.Mappings
                 ShippingAddressId = shipment.ShippingAddressId,
                 ShippingMethodName = shipment.ShippingMethodName,
                 PrevStatus = shipment.PrevStatus,
-                PickListId = shipment.PickListId
+                PickListId = shipment.PickListId,
+                Properties = shipment.ToPropertyList()
             };
         }
     }
