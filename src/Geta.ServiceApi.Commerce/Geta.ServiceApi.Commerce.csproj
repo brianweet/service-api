@@ -332,6 +332,7 @@
     <Compile Include="Models\Organization.cs" />
     <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\PaymentPlan.cs" />
+    <Compile Include="Models\PropertyItem.cs" />
     <Compile Include="Models\PurchaseOrder.cs" />
     <Compile Include="Models\SearchOrdersRequest.cs" />
     <Compile Include="Models\Shipment.cs" />

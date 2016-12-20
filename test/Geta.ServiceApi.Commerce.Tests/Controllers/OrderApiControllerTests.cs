@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Xml.Linq;
+using Geta.ServiceApi.Commerce.Models;
 using Geta.ServiceApi.Commerce.Tests.Base;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Orders;
@@ -63,10 +64,10 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
                                         PlacedPrice = 150
                                     }
                                 },
-                                Properties = new List<KeyValuePair<string, string>> // Requires properties created in commerce DB through API or CM
+                                Properties = new List<PropertyItem> // Requires properties created in commerce DB through API or CM
                                 {
-                                    new KeyValuePair<string, string>("Carrier", "FedEx"),
-                                    new KeyValuePair<string, string>("CarrierTrackingUrl", "http://fedex.com/track/{0}")
+                                    new PropertyItem { Key = "Carrier", Value = "FedEx" },
+                                    new PropertyItem { Key = "CarrierTrackingUrl", Value = "http://fedex.com/track/{0}" }
                                 }
                             }
                         }

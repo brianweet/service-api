@@ -24,14 +24,14 @@ namespace Geta.ServiceApi.Commerce.Mappings
             dto.Properties = model.ToPropertyList();
         }
 
-        public static List<KeyValuePair<string, string>> ToPropertyList(this IExtendedProperties extendedProperties)
+        public static List<PropertyItem> ToPropertyList(this IExtendedProperties extendedProperties)
         {
-            var result = new List<KeyValuePair<string, string>>();
+            var result = new List<PropertyItem>();
             foreach (var key in extendedProperties.Properties.Keys)
             {
                 var k = key.ToString();
                 var v = extendedProperties.Properties[key]?.ToString();
-                var item = new KeyValuePair<string, string>(k, v);
+                var item = new PropertyItem {Key = k, Value = v};
                 result.Add(item);
             }
 
