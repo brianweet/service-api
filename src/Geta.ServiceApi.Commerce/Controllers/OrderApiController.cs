@@ -120,8 +120,9 @@ namespace Geta.ServiceApi.Commerce.Controllers
                 searchOptions.Classes.Add("PurchaseOrder");
                 parameters.SqlMetaWhereClause = string.Empty;
 
-                if (request?.ModifiedFrom.HasValue ?? false)
+                if (request?.ModifiedFrom != string.Empty)
                 {
+                    //var dtModifiedFrom = DateTime.Parse(request.ModifiedFrom);
                     parameters.SqlMetaWhereClause = $"META.Modified >= '{request.ModifiedFrom}'";
                 }
 

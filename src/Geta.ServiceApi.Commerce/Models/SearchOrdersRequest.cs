@@ -29,7 +29,7 @@ namespace Geta.ServiceApi.Commerce.Models
         /// <summary>
         /// Modified from date to filter.
         /// </summary>
-        public DateTime? ModifiedFrom { get; set; }
+        public string ModifiedFrom { get; set; }
 
         /// <summary>
         /// Array of statuses to filter.
