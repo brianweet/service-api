@@ -14,12 +14,12 @@
 
 Web API:
 ```
-Install-Package Geta.ServiceApi.Commerce -Prerelease
+Install-Package Geta.ServiceApi.Commerce
 ```
 
 WebHooks:
 ```
-Install-Package Geta.ServiceApi.Commerce.WebHooks -Prerelease
+Install-Package Geta.ServiceApi.Commerce.WebHooks
 ```
 
 ## Demo
