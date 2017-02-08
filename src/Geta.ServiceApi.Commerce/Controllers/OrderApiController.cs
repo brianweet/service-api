@@ -97,7 +97,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
         /// <returns>Array of orders</returns>
         [AuthorizePermission("EPiServerServiceApi", "ReadAccess"), HttpGet, Route("{start}/{maxCount}/search")]
         [ResponseType(typeof(Models.PurchaseOrder[]))]
-        public virtual IHttpActionResult SearchOrders(int start, int maxCount, [FromUri] SearchOrdersRequest request)
+        public virtual IHttpActionResult SearchOrders(int start, int maxCount, [FromUri(Name = "")] SearchOrdersRequest request)
         {
             Logger.LogGet("GetOrders", Request, new[] {start.ToString(), maxCount.ToString(), $"{request?.OrderShipmentStatus}", $"{request?.ShippingMethodId}"});
 
