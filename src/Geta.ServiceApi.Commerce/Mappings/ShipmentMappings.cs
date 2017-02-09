@@ -1,11 +1,12 @@
-﻿using EPiServer.Commerce.Order;
+﻿using System.Linq;
+using EPiServer.Commerce.Order;
 using Mediachase.Commerce.Orders;
 
 namespace Geta.ServiceApi.Commerce.Mappings
 {
     internal static class ShipmentMappings
     {
-        public static void ConvertToShipment(this Models.Shipment shipmentDto, Shipment shipment)
+        public static void ConvertToShipment(this Models.Shipment shipmentDto, Shipment shipment, OrderForm orderForm)
         {
             shipment.Status = shipmentDto.Status;
             shipment.ShippingMethodId = shipmentDto.ShippingMethodId;
@@ -20,25 +21,24 @@ namespace Geta.ServiceApi.Commerce.Mappings
             shipment.PickListId = shipmentDto.PickListId;
 
             shipmentDto.MapPropertiesToModel(shipment);
-            MapLineItems(shipmentDto, shipment);
+            MapLineItems(shipmentDto, shipment, orderForm);
         }
 
-        private static void MapLineItems(Models.Shipment shipmentDto, Shipment shipment)
+        private static void MapLineItems(Models.Shipment shipmentDto, Shipment shipment, OrderForm orderForm)
         {
             shipment.LineItems.Clear();
             foreach (var lineItemDto in shipmentDto.LineItems)
             {
-                var lineItem = new LineItem();
+                var lineItem = orderForm.LineItems.FirstOrDefault(x => x.Code == lineItemDto.Code);
+                if (lineItem == null) continue;
                 lineItemDto.ConvertToLineItem(lineItem);
                 shipment.LineItems.Add(lineItem);
             }
         }
 
-        private static void ConvertToLineItem(this Models.LineItem lineItemDto, LineItem lineItem)
+        private static void ConvertToLineItem(this Models.LineItem lineItemDto, ILineItem lineItem)
         {
-            lineItem.Code = lineItemDto.Code;
-
-            ILineItem li = lineItem;
+            var li = lineItem;
             li.DisplayName = lineItemDto.DisplayName;
             li.PlacedPrice = lineItemDto.PlacedPrice;
             li.Quantity = lineItemDto.Quantity;

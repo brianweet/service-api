@@ -40,7 +40,7 @@ namespace Geta.ServiceApi.Commerce.Mappings
             foreach (var shipmentDto in orderFormDto.Shipments)
             {
                 var shipment = orderForm.Shipments.AddNew();
-                shipmentDto.ConvertToShipment(shipment);
+                shipmentDto.ConvertToShipment(shipment, orderForm);
             }
         }
 

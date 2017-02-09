@@ -16,6 +16,7 @@ namespace Geta.ServiceApi.Commerce.Models
         {
             Discounts = new Discount[0];
             LineItems = new LineItem[0];
+            Properties = new List<PropertyItem>();
         }
 
         /// <summary>Gets the discounts.</summary>

@@ -15,6 +15,7 @@ namespace Geta.ServiceApi.Commerce.Models
             Shipments = new Shipment[0];
             LineItems = new LineItem[0];
             Discounts = new Discount[0];
+            Properties = new List<PropertyItem>();
         }
 
         /// <summary>Gets the shipments.</summary>
@@ -103,6 +104,9 @@ namespace Geta.ServiceApi.Commerce.Models
         /// <value>The captured payment total.</value>
         public decimal CapturedPaymentTotal { get; set; }
 
+        /// <summary>
+        /// Gets the list of key value pairs for dealing with custom properties.
+        /// </summary>
         public List<PropertyItem> Properties { get; set; }
     }
 }
