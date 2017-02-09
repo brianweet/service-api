@@ -122,7 +122,7 @@ namespace Geta.ServiceApi.Commerce.Controllers
 
                 if (request?.ModifiedFrom.HasValue ?? false)
                 {
-                    parameters.SqlMetaWhereClause = $"META.Modified >= '{request.ModifiedFrom}'";
+                    parameters.SqlMetaWhereClause = $"META.Modified >= '{request.ModifiedFrom.Value:s}'";
                 }
 
                 if (request?.OrderShipmentStatus != null && request.ShippingMethodId != null && request.ShippingMethodId != Guid.Empty)
