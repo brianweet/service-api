@@ -28,6 +28,7 @@ namespace Geta.ServiceApi.Commerce.Mappings
             orderForm.AuthorizedPaymentTotal = orderFormDto.AuthorizedPaymentTotal;
             orderForm.CapturedPaymentTotal = orderFormDto.CapturedPaymentTotal;
 
+            orderFormDto.MapPropertiesToModel(orderForm);
             MapShipments(orderFormDto, orderForm);
 
             return orderForm;
@@ -67,7 +68,8 @@ namespace Geta.ServiceApi.Commerce.Mappings
                 LineItems = orderForm.LineItems.Select(ConvertToLineItem).ToArray(),
                 Discounts = orderForm.Discounts.Select(ConvertToDiscount).ToArray(),
 
-                OrderFormId = orderForm.OrderFormId
+                OrderFormId = orderForm.OrderFormId,
+                Properties = orderForm.ToPropertyList()
             };
         }
 
