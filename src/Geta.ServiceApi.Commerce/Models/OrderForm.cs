@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Geta.ServiceApi.Commerce.Models
 {
     /// <summary>Contains the order information.</summary>
     [Serializable]
-    public class OrderForm
+    public class OrderForm : IHaveProperties
     {
         /// <summary>
         /// Initializes new instance of the OrderForm class.
@@ -101,5 +102,7 @@ namespace Geta.ServiceApi.Commerce.Models
         /// <summary>Gets or sets the captured payment total.</summary>
         /// <value>The captured payment total.</value>
         public decimal CapturedPaymentTotal { get; set; }
+
+        public List<PropertyItem> Properties { get; set; }
     }
 }
