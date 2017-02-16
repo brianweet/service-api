@@ -85,6 +85,7 @@ namespace Geta.ServiceApi.Commerce.Mappings
                 cart.Total = orderGroup.Total;
             }
 
+            orderGroup.MapPropertiesToModel(cart);
             MapOrderAddresses(orderGroup, cart);
             MapOrderNotes(orderGroup, cart);
             MapOrderForms(orderGroup, cart);
@@ -169,6 +170,7 @@ namespace Geta.ServiceApi.Commerce.Mappings
                 paymentPlan.Total = orderGroup.Total;
             }
 
+            orderGroup.MapPropertiesToModel(paymentPlan);
             MapOrderAddresses(orderGroup, paymentPlan);
             MapOrderNotes(orderGroup, paymentPlan);
             MapOrderForms(orderGroup, paymentPlan);
@@ -253,6 +255,7 @@ namespace Geta.ServiceApi.Commerce.Mappings
                 purchaseOrder.Total = orderGroup.Total;
             }
 
+            orderGroup.MapPropertiesToModel(purchaseOrder);
             MapOrderAddresses(orderGroup, purchaseOrder);
             MapOrderNotes(orderGroup, purchaseOrder);
             MapOrderForms(orderGroup, purchaseOrder);
@@ -287,6 +290,7 @@ namespace Geta.ServiceApi.Commerce.Mappings
             outOrderGroup.ProviderId = orderGroup.ProviderId;
             outOrderGroup.Modified = orderGroup.Modified;
             outOrderGroup.Created = orderGroup.Created;
+            outOrderGroup.Properties = orderGroup.ToPropertyList();
 
             return outOrderGroup;
         }
