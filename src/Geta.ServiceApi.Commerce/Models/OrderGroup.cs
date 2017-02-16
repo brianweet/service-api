@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Mediachase.Commerce;
 
 namespace Geta.ServiceApi.Commerce.Models
@@ -7,7 +8,7 @@ namespace Geta.ServiceApi.Commerce.Models
     /// Order group model.
     /// </summary>
     [Serializable]
-    public class OrderGroup
+    public class OrderGroup : IHaveProperties
     {
         /// <summary>
         /// Initializes new instance of the OrderGroup class.
@@ -17,6 +18,7 @@ namespace Geta.ServiceApi.Commerce.Models
             OrderAddresses = new OrderAddress[0];
             OrderForms = new OrderForm[0];
             OrderNotes = new OrderNote[0];
+            Properties = new List<PropertyItem>();
         }
 
         /// <summary>
@@ -140,5 +142,10 @@ namespace Geta.ServiceApi.Commerce.Models
         /// Created date.
         /// </summary>
         public DateTime Created { get; set; }
+
+        /// <summary>
+        /// Gets the list of key value pairs for dealing with custom properties.
+        /// </summary>
+        public List<PropertyItem> Properties { get; set; }
     }
 }
