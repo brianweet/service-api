@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using EPiServer.Commerce.Storage;
 using Geta.ServiceApi.Commerce.Models;
 
@@ -14,7 +15,10 @@ namespace Geta.ServiceApi.Commerce.Mappings
                 IExtendedProperties p = model;
                 if (p.Properties.ContainsKey(property.Key))
                 {
-                    model[property.Key] = property.Value;
+                    var type = model[property.Key]?.GetType();
+                    if(type == null) continue;
+                    var converter = TypeDescriptor.GetConverter(type);
+                    model[property.Key] = converter.ConvertFromString(property.Value);
                 }
             }
         }
