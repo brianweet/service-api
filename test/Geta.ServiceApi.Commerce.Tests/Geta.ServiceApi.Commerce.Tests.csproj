@@ -328,6 +328,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Controllers\order_3487.xml" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
@@ -337,6 +338,7 @@
     <Compile Include="Controllers\CartApiControllerTests.cs" />
     <Compile Include="Controllers\CustomerApiControllerTests.cs" />
     <Compile Include="Controllers\OrderApiControllerTests.cs" />
+    <Compile Include="Controllers\OrderRegressionTests.cs" />
     <Compile Include="Controllers\WarehouseInventoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebHooks\RegistrationTests.cs" />

@@ -1,0 +1,225 @@
+<OrderGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <AddressId/>
+
+  <AffiliateId>00000000-0000-0000-0000-000000000000</AffiliateId>
+
+  <BillingCurrency>USD</BillingCurrency>
+
+  <CustomerId>fc89355c-4bfc-4859-8369-536cd1b224f3</CustomerId>
+
+  <CustomerName>Test Tester</CustomerName>
+
+  <HandlingTotal>0.000000000</HandlingTotal>
+
+  <InstanceId>0151c702-2e63-4712-acd9-731708c750b6</InstanceId>
+
+  <MarketId/>
+
+  <Name>Default</Name>
+
+  <OrderAddresses>
+    <OrderAddress>
+      <OrderGroupAddressId>0</OrderGroupAddressId>
+      <Name>fec2ba52-269c-4f04-9a96-5ac071c698fd</Name>
+      <FirstName>Test</FirstName>
+      <LastName>Tester</LastName>
+      <Organization/>
+      <Line1>Testing street 1</Line1>
+      <Line2/>
+      <City>Dayton</City>
+      <State>New Jersey</State>
+      <CountryCode>USA</CountryCode>
+      <CountryName/>
+      <PostalCode>08810</PostalCode>
+      <RegionCode>NJ</RegionCode>
+      <RegionName>New Jersey</RegionName>
+      <DaytimePhoneNumber>987654321</DaytimePhoneNumber>
+      <EveningPhoneNumber/>
+      <FaxNumber/>
+      <Email>test@tester.com</Email>
+    </OrderAddress>
+    <OrderAddress>
+      <OrderGroupAddressId>0</OrderGroupAddressId>
+      <Name>b9f7506e-37a0-41b3-9651-46abb6d7b0c4</Name>
+      <FirstName>Test</FirstName>
+      <LastName>Tester</LastName>
+      <Organization/>
+      <Line1>Testing street 1</Line1>
+      <Line2/>
+      <City>Dayton</City>
+      <State>New Jersey</State>
+      <CountryCode>USA</CountryCode>
+      <CountryName/>
+      <PostalCode>08810</PostalCode>
+      <RegionCode>NJ</RegionCode>
+      <RegionName>New Jersey</RegionName>
+      <DaytimePhoneNumber>987654321</DaytimePhoneNumber>
+      <EveningPhoneNumber/>
+      <FaxNumber/>
+      <Email>test@tester.com</Email>
+    </OrderAddress>
+  </OrderAddresses>
+
+  <OrderForms>
+    <OrderForm>
+      <Shipments>
+        <Shipment>
+          <Discounts/>
+          <ShipmentId>3511</ShipmentId>
+          <ShippingMethodId>dade7f46-646b-4a16-9226-4e574c8c79e6</ShippingMethodId>
+          <ShippingMethodName>In Store Pickup</ShippingMethodName>
+          <ShippingTax>0.000000000</ShippingTax>
+          <ShippingAddressId>fec2ba52-269c-4f04-9a96-5ac071c698fd</ShippingAddressId>
+          <ShipmentTrackingNumber/>
+          <ShippingDiscountAmount>0.000000000</ShippingDiscountAmount>
+          <ShippingSubTotal>0.000000000</ShippingSubTotal>
+          <ShippingTotal>0.000000000</ShippingTotal>
+          <Status>AwaitingInventory</Status>
+          <PrevStatus/>
+          <SubTotal>0.00</SubTotal>
+          <WarehouseCode>default</WarehouseCode>
+          <LineItems></LineItems>
+          <Properties>
+            <PropertyItem>
+              <Key>CarrierName</Key>
+            </PropertyItem>
+            <PropertyItem>
+              <Key>CarrierTrackingUrl</Key>
+            </PropertyItem>
+            <PropertyItem>
+              <Key>PrevStatus</Key>
+            </PropertyItem>
+          </Properties>
+        </Shipment>
+        <Shipment>
+          <ShipmentId>3511</ShipmentId>
+          <ShippingMethodId>dade7f46-646b-4a16-9226-4e574c8c79e6</ShippingMethodId>
+          <ShippingMethodName>In Store Pickup</ShippingMethodName>
+          <ShippingTax>0.00</ShippingTax>
+          <ShippingAddressId>fec2ba52-269c-4f04-9a96-5ac071c698fd</ShippingAddressId>
+          <ShipmentTrackingNumber>123test</ShipmentTrackingNumber>
+          <ShippingDiscountAmount>0.00</ShippingDiscountAmount>
+          <ShippingSubTotal>0.00</ShippingSubTotal>
+          <ShippingTotal>0.00</ShippingTotal>
+          <Status>Shipped</Status>
+          <PrevStatus>Shipped</PrevStatus>
+          <SubTotal>128.25</SubTotal>
+          <WarehouseCode>default</WarehouseCode>
+          <LineItems>
+            <LineItem>
+              <LineItemId>95</LineItemId>
+              <Code>SKU-36063043</Code>
+              <DisplayName>Short Sleeve Polo</DisplayName>
+              <PlacedPrice>128.25</PlacedPrice>
+              <ExtendedPrice>128.25</ExtendedPrice>
+              <DiscountedPrice>128.25</DiscountedPrice>
+              <Quantity>1.00</Quantity>
+              <ReturnQuantity>0.00</ReturnQuantity>
+              <InventoryTrackingStatus>Disabled</InventoryTrackingStatus>
+              <IsInventoryAllocated>0</IsInventoryAllocated>
+              <IsGift>0</IsGift>
+            </LineItem>
+          </LineItems>
+          <Properties>
+            <PropertyItem>
+              <Key>CarrierName</Key>
+              <Value>FedEx</Value>
+            </PropertyItem>
+            <PropertyItem>
+              <Key>CarrierTrackingUrl</Key>
+              <Value>http://www.fedex.com/Tracking?tracknumbers=123test</Value>
+            </PropertyItem>
+          </Properties>
+        </Shipment>
+      </Shipments>
+      <LineItems>
+        <LineItem>
+          <LineItemId>95</LineItemId>
+          <Code>SKU-36063043</Code>
+          <DisplayName>Short Sleeve Polo</DisplayName>
+          <PlacedPrice>128.250000000</PlacedPrice>
+          <ExtendedPrice>128.250000000000000000</ExtendedPrice>
+          <DiscountedPrice>128.250000000000000000</DiscountedPrice>
+          <Quantity>1.000000000</Quantity>
+          <ReturnQuantity>0.000000000</ReturnQuantity>
+          <InventoryTrackingStatus>Disabled</InventoryTrackingStatus>
+          <IsInventoryAllocated>false</IsInventoryAllocated>
+          <IsGift>false</IsGift>
+        </LineItem>
+      </LineItems>
+      <Discounts/>
+      <ReturnComment/>
+      <ReturnType/>
+      <ReturnAuthCode/>
+      <OrderFormId>3487</OrderFormId>
+      <Name>Default</Name>
+      <BillingAddressId>b9f7506e-37a0-41b3-9651-46abb6d7b0c4</BillingAddressId>
+      <ShippingTotal>0.000000000</ShippingTotal>
+      <HandlingTotal>0.000000000</HandlingTotal>
+      <TaxTotal>0.000000000</TaxTotal>
+      <DiscountAmount>0.000000000</DiscountAmount>
+      <SubTotal>128.250000000</SubTotal>
+      <Total>128.250000000</Total>
+      <Status/>
+      <RmaNumber/>
+      <AuthorizedPaymentTotal>0.000000000</AuthorizedPaymentTotal>
+      <CapturedPaymentTotal>128.250000000</CapturedPaymentTotal>
+      <Properties>
+        <PropertyItem>
+          <Key>Epi_CouponCodes</Key>
+        </PropertyItem>
+        <PropertyItem>
+          <Key>RMANumber</Key>
+        </PropertyItem>
+      </Properties>
+    </OrderForm>
+  </OrderForms>
+
+  <OrderGroupId>3487</OrderGroupId>
+
+  <OrderNotes/>
+
+  <Owner/>
+
+  <OwnerOrg/>
+
+  <ProviderId/>
+
+  <ShippingTotal>0.000000000</ShippingTotal>
+
+  <Status>Completed</Status>
+
+  <SubTotal>128.250000000</SubTotal>
+
+  <TaxTotal>0.000000000</TaxTotal>
+
+  <Total>128.250000000</Total>
+
+  <Modified>2017-02-21T15:27:49.45Z</Modified>
+
+  <Created>2017-02-21T15:27:49.34Z</Created>
+
+  <Properties>
+    <PropertyItem>
+      <Key>ParentOrderGroupId</Key>
+      <Value>0</Value>
+    </PropertyItem>
+    <PropertyItem>
+      <Key>TrackingNumber</Key>
+      <Value>PO3485682</Value>
+    </PropertyItem>
+    <PropertyItem>
+      <Key>ExpirationDate</Key>
+    </PropertyItem>
+    <PropertyItem>
+      <Key>AdditionalDiscountPercent</Key>
+    </PropertyItem>
+    <PropertyItem>
+      <Key>PhoneOrderSessionId</Key>
+    </PropertyItem>
+  </Properties>
+
+  <OrderNumber>PO3485682</OrderNumber>
+
+</OrderGroup>
