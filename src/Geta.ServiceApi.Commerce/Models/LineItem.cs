@@ -68,6 +68,9 @@ namespace Geta.ServiceApi.Commerce.Models
         /// </value>
         public bool IsGift { get; set; }
 
+        /// <summary>
+        /// Gets the list of key value pairs for dealing with custom properties.
+        /// </summary>
         public List<PropertyItem> Properties { get; set; }
     }
 }

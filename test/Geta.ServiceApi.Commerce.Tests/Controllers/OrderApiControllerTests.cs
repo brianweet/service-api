@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Xml.Linq;
+using EPiServer.Core;
 using Geta.ServiceApi.Commerce.Models;
 using Geta.ServiceApi.Commerce.Tests.Base;
 using Mediachase.Commerce;
@@ -61,7 +62,11 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
                                         Code = "XYZ",
                                         DisplayName = "XYZ Shirt",
                                         Quantity = 1,
-                                        PlacedPrice = 150
+                                        PlacedPrice = 150,
+                                        Properties = new List<PropertyItem> // Requires properties created in commerce DB through API or CM
+                                        {
+                                            new PropertyItem { Key = "CustomLineItemProperty", Value = "Shipped" }
+                                        }
                                     }
                                 },
                                 Properties = new List<PropertyItem> // Requires properties created in commerce DB through API or CM
@@ -245,6 +250,66 @@ namespace Geta.ServiceApi.Commerce.Tests.Controllers
             Delete(orderGroupId);
 
             Assert.True(IsXml(xmlString));
+        }
+
+        [Fact]
+        public void it_stores_lineitem_custom_property()
+        {
+            var contactId = Guid.Parse("2A40754D-86D5-460B-A5A4-32BC87703567"); // admin contact
+            var cartName = Cart.DefaultName;
+            var now = DateTime.UtcNow;
+            var lineItemPropertyKey = "CustomLineItemProperty";
+            var lineItemPropertyValue = "TestSucceeded";
+
+            var model = new OrderGroup
+            {
+                CustomerId = contactId,
+                Name = cartName,
+                OrderForms = new[]
+                {
+                    new Models.OrderForm
+                    {
+                        Name = "Default",
+                        Total = 500,
+                        Shipments = new []
+                        {
+                            new Models.Shipment
+                            {
+                                ShipmentTrackingNumber = "Track-123",
+                                ShippingMethodName = "FedEx",
+                                Status = $"Shipped on {now}",
+
+                                LineItems = new []
+                                {
+                                    new Models.LineItem
+                                    {
+                                        Code = "XYZ",
+                                        DisplayName = "XYZ Shirt",
+                                        Quantity = 1,
+                                        PlacedPrice = 150,
+                                        Properties = new List<PropertyItem> // Requires properties created in commerce DB through API or CM
+                                        {
+                                            new PropertyItem { Key = lineItemPropertyKey, Value = lineItemPropertyValue }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            var order = ((JObject)Post(model)).ToObject<Models.PurchaseOrder>();
+            
+            var firstLineItem = order?.OrderForms[0]?.LineItems?.FirstOrDefault();
+            Assert.NotNull(firstLineItem?.Properties);
+
+            var customProperty = order.OrderForms[0]?.LineItems?.FirstOrDefault()
+                ?.Properties.FirstOrDefault(x => x.Key.Equals(lineItemPropertyKey));
+            Assert.NotNull(customProperty);
+            Assert.Equal(lineItemPropertyValue, customProperty.Value);
+
+            Delete((int)order.OrderGroupId);
         }
 
         private OrderGroup ToOrderGroup(dynamic order)
