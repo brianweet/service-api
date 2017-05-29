@@ -1,12 +1,21 @@
-﻿using Mediachase.Commerce.Inventory;
+﻿using System.Collections.Generic;
+using Mediachase.Commerce.Inventory;
 
 namespace Geta.ServiceApi.Commerce.Models
 {
     /// <summary>
     ///     Represents a line item in the system, the actual item that is bought.
     /// </summary>
-    public class LineItem
+    public class LineItem : IHaveProperties
     {
+        /// <summary>
+        /// Initializes new instance of the LineItem class.
+        /// </summary>
+        public LineItem()
+        {
+            Properties = new List<PropertyItem>();
+        }
+
         /// <summary>Gets the identity of the line item.</summary>
         public int LineItemId { get; set; }
 
@@ -58,5 +67,7 @@ namespace Geta.ServiceApi.Commerce.Models
         ///   <c>true</c> if the line item is a gift item; otherwise, <c>false</c>.
         /// </value>
         public bool IsGift { get; set; }
+
+        public List<PropertyItem> Properties { get; set; }
     }
 }

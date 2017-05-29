@@ -84,6 +84,7 @@ namespace Geta.ServiceApi.Commerce.Mappings
             li.InventoryTrackingStatus = lineItemDto.InventoryTrackingStatus;
             li.IsInventoryAllocated = lineItemDto.IsInventoryAllocated;
             li.IsGift = lineItemDto.IsGift;
+            lineItemDto.MapPropertiesToModel(li);
         }
     }
 }

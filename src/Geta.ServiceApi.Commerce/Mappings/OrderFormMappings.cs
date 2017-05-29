@@ -101,7 +101,8 @@ namespace Geta.ServiceApi.Commerce.Mappings
                 ReturnQuantity = lineItem.ReturnQuantity,
                 InventoryTrackingStatus = lineItem.InventoryTrackingStatus,
                 IsInventoryAllocated = lineItem.IsInventoryAllocated,
-                IsGift = lineItem.IsGift
+                IsGift = lineItem.IsGift,
+                Properties = lineItem.ToPropertyList()
             };
         }
 
