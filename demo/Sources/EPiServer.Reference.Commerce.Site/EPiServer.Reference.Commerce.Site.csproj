@@ -553,6 +553,7 @@
     <Compile Include="Features\Shared\Services\PromotionEntryService.cs" />
     <Compile Include="Features\Shared\ViewModels\PageViewModel.cs" />
     <Compile Include="Features\WebHooks\SampleHandler.cs" />
+    <Compile Include="Infrastructure\CommerceMetaDataInitialization.cs" />
     <Compile Include="Infrastructure\Facades\AppContextFacade.cs" />
     <Compile Include="Features\Payment\Services\IPaymentService.cs" />
     <Compile Include="Features\Payment\Exceptions\PreProcessException.cs" />
