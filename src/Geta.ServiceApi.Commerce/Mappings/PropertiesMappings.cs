@@ -17,13 +17,39 @@ namespace Geta.ServiceApi.Commerce.Mappings
             {
                 if (model.Properties.ContainsKey(property.Key))
                 {
-                    var type = GetMetaFieldType(property.Key);
-                    if (type == null) continue;
+                    var type = GetMetaFieldType(property.Key, out MetaField metaField);
+                    if (type == null || metaField == null) continue;
                     if (property.Value == null && !IsNullable(type)) continue;
                     var converter = TypeDescriptor.GetConverter(type);
-                    model.Properties[property.Key] = converter.ConvertFromString(property.Value);
+
+                    var parsedValue = GetValue(metaField.AllowNulls, property, converter);
+                    model.Properties[property.Key] = parsedValue;
                 }
             }
+        }
+
+        private static object GetValue(bool allowNulls, PropertyItem property, TypeConverter converter)
+        {
+            // Check if we can convert the input, or allow nulls
+            if (TryParse(converter, property, out object value) || allowNulls)
+            {
+                return value;
+            }
+
+            return value ?? throw new ArgumentException(
+                       $"PropertiesMappings: Value '{property.Value}' for property '{property.Key}' is not valid - Converter: {converter.GetType()}");
+        }
+
+        private static bool TryParse(TypeConverter converter, PropertyItem property, out object value)
+        {
+            if (converter.IsValid(property.Value))
+            {
+                value = converter.ConvertFromString(property.Value);
+                return true;
+            }
+
+            value = null;
+            return false;
         }
 
         public static void MapPropertiesToDto(this IExtendedProperties model, IHaveProperties dto)
@@ -52,10 +78,10 @@ namespace Geta.ServiceApi.Commerce.Mappings
             return false; // value-type
         }
 
-        private static Type GetMetaFieldType(string fieldName)
+        private static Type GetMetaFieldType(string fieldName, out MetaField field)
         {
             var metaContext = OrderContext.MetaDataContext;
-            var field = MetaField.GetList(metaContext).FirstOrDefault(x => x.Name == fieldName);
+            field = MetaField.GetList(metaContext).FirstOrDefault(x => x.Name == fieldName);
             if(field == null)
             {
                 return null;
